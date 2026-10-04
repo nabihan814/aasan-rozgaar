@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aasan Rozgaar - Secure Login Portal</title>
+
     <style>
         * {
             margin: 0;
@@ -11,12 +12,14 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
             background: linear-gradient(135deg, #f0fdf4 0%, #e2f8eb 100%);
             color: #1e293b;
             padding-bottom: 40px;
             min-height: 100vh;
         }
+
         .top-header {
             background: linear-gradient(135deg, #064e3b 0%, #0b6623 50%, #15803d 100%);
             color: white;
@@ -28,6 +31,7 @@
             border-bottom-right-radius: 25px;
             box-shadow: 0 6px 20px rgba(11, 102, 35, 0.25);
         }
+
         .back-link {
             color: white;
             text-decoration: none;
@@ -42,9 +46,11 @@
             border-radius: 50%;
             transition: 0.2s;
         }
+
         .back-link:active {
             transform: scale(0.9);
         }
+
         .header-title-link {
             color: white;
             text-decoration: none;
@@ -55,16 +61,19 @@
             align-items: center;
             gap: 6px;
         }
+
         .container {
             padding: 25px 20px;
             max-width: 500px;
             margin: 0 auto;
         }
+
         .brand-logo-box {
             text-align: center;
             margin-bottom: 25px;
             margin-top: 10px;
         }
+
         .app-avatar {
             width: 75px;
             height: 75px;
@@ -80,17 +89,20 @@
             box-shadow: 0 8px 20px rgba(11, 102, 35, 0.25);
             border: 3px solid #bbf7d0;
         }
+
         .brand-logo-box h1 {
             font-size: 24px;
             color: #064e3b;
             font-weight: 900;
             margin-bottom: 4px;
         }
+
         .brand-logo-box p {
             font-size: 13px;
             color: #64748b;
             font-weight: 500;
         }
+
         .saved-accounts-box {
             background: white;
             border: 1.5px solid #bbf7d0;
@@ -99,6 +111,7 @@
             margin-bottom: 22px;
             box-shadow: 0 6px 20px rgba(0, 100, 0, 0.05);
         }
+
         .saved-accounts-box h4 {
             font-size: 14px;
             color: #0b6623;
@@ -108,12 +121,14 @@
             align-items: center;
             gap: 6px;
         }
+
         .saved-accounts-box p {
             font-size: 12px;
             color: #64748b;
             margin-bottom: 12px;
             line-height: 1.5;
         }
+
         .no-account-badge {
             background: #f8fafc;
             padding: 10px 12px;
@@ -125,6 +140,7 @@
             text-align: center;
             font-weight: 500;
         }
+
         .btn-choose-saved {
             display: block;
             width: 100%;
@@ -139,9 +155,11 @@
             font-size: 13px;
             transition: 0.2s;
         }
+
         .btn-choose-saved:active {
             background: #dcfce7;
         }
+
         .login-card {
             background: white;
             padding: 22px;
@@ -149,10 +167,12 @@
             box-shadow: 0 10px 25px rgba(0, 100, 0, 0.06);
             border: 1.5px solid #d4ebd9;
         }
+
         .input-group {
             position: relative;
             margin-bottom: 18px;
         }
+
         .input-group input {
             width: 100%;
             padding: 15px 15px 15px 48px;
@@ -165,9 +185,11 @@
             color: #1e293b;
             font-weight: 600;
         }
+
         .phone-group input {
             padding-left: 80px;
         }
+
         .phone-prefix {
             position: absolute;
             left: 15px;
@@ -180,11 +202,13 @@
             padding: 4px 8px;
             border-radius: 8px;
         }
+
         .input-group input:focus {
             border-color: #0b6623;
             background: white;
             box-shadow: 0 0 0 4px rgba(11, 102, 35, 0.1);
         }
+
         .input-icon {
             position: absolute;
             left: 15px;
@@ -193,6 +217,7 @@
             color: #0b6623;
             font-size: 18px;
         }
+
         .btn-login-now {
             background: linear-gradient(135deg, #0b6623, #15803d);
             color: white;
@@ -211,9 +236,16 @@
             margin-top: 10px;
             transition: 0.2s;
         }
+
         .btn-login-now:active {
             transform: scale(0.98);
         }
+
+        .btn-login-now:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
         .error-msg {
             color: #dc2626;
             font-size: 12px;
@@ -221,11 +253,13 @@
             display: block;
             font-weight: 600;
         }
+
         .divider-or {
             text-align: center;
             margin: 22px 0;
             position: relative;
         }
+
         .divider-or span {
             background: white;
             padding: 0 12px;
@@ -236,6 +270,7 @@
             font-weight: 700;
             letter-spacing: 1px;
         }
+
         .divider-or::before {
             content: "";
             position: absolute;
@@ -246,6 +281,7 @@
             background: #e2e8f0;
             z-index: 0;
         }
+
         .register-redirect {
             text-align: center;
             font-size: 13px;
@@ -253,11 +289,13 @@
             margin-top: 5px;
             font-weight: 500;
         }
+
         .register-redirect a {
             color: #0b6623;
             text-decoration: none;
             font-weight: 800;
         }
+
         .footer-features {
             display: flex;
             justify-content: space-around;
@@ -269,25 +307,30 @@
             margin-top: 20px;
             border: 1.5px solid #d4ebd9;
         }
+
         .feature-item {
             flex: 1;
             cursor: pointer;
             padding: 4px;
             transition: 0.2s;
         }
+
         .feature-item:active {
             transform: scale(0.95);
         }
+
         .feature-icon {
             font-size: 20px;
             margin-bottom: 4px;
         }
+
         .feature-item h5 {
             font-size: 11px;
             color: #1e293b;
             font-weight: 700;
             margin-top: 2px;
         }
+
         .feature-item p {
             font-size: 9px;
             color: #64748b;
@@ -299,13 +342,18 @@
 <body>
 
     <div class="top-header">
-        <a href="index.html" class="back-link">&#8592;</a>
+
+        <a href="index.html" class="back-link">
+            &#8592;
+        </a>
 
         <a href="index.html" class="header-title-link">
-            <span>🛡️</span> Aasan Rozgaar
+            <span>🛡️</span>
+            Aasan Rozgaar
         </a>
 
         <div style="width: 35px;"></div>
+
     </div>
 
 
@@ -371,6 +419,8 @@
                         id="loginPhone"
                         placeholder="3001234567"
                         maxlength="10"
+                        inputmode="numeric"
+                        autocomplete="tel"
                         required
                     >
 
@@ -387,6 +437,7 @@
                         type="password"
                         id="loginPass"
                         placeholder="Enter your password"
+                        autocomplete="current-password"
                         required
                     >
 
@@ -401,6 +452,7 @@
                 <button
                     type="submit"
                     class="btn-login-now"
+                    id="loginButton"
                 >
                     Login Now <span>&rarr;</span>
                 </button>
@@ -489,151 +541,295 @@
 <script>
 
 /* =========================
-   LOGIN
+   BACKEND URL
+========================= */
+
+const BACKEND_URL =
+    "https://aasan-rozgaar-backend.onrender.com";
+
+
+/* =========================
+   LOGIN FORM
 ========================= */
 
 document
-.getElementById('loginForm')
-.addEventListener('submit', function(e){
+.getElementById("loginForm")
+.addEventListener("submit", async function(e) {
 
     e.preventDefault();
 
 
-    let phoneInput =
+    const phoneInput =
         document
-        .getElementById('loginPhone')
+        .getElementById("loginPhone")
         .value
         .trim();
 
 
-    let passInput =
+    const passInput =
         document
-        .getElementById('loginPass')
-        .value
-        .trim();
+        .getElementById("loginPass")
+        .value;
 
 
-    let loginError =
+    const loginError =
         document
-        .getElementById('loginError');
+        .getElementById("loginError");
 
 
-    loginError.textContent = '';
+    const loginButton =
+        document
+        .getElementById("loginButton");
+
+
+    loginError.textContent = "";
 
 
     /* =========================
        PHONE VALIDATION
     ========================= */
 
-    let phoneRegex = /^[0-9]{10}$/;
+    const phoneRegex =
+        /^[0-9]{10}$/;
 
 
-    if(!phoneRegex.test(phoneInput)){
+    if (!phoneRegex.test(phoneInput)) {
 
         loginError.textContent =
-            'Please enter valid 10 digits after +92';
+            "Please enter valid 10 digits after +92";
 
         return;
 
     }
 
 
-    let fullPhone =
-        '+92' + phoneInput;
+    if (!passInput) {
 
+        loginError.textContent =
+            "Please enter your password";
 
-    /* =========================
-       GET USERS
-    ========================= */
-
-    let users = [];
-
-
-    try{
-
-        users =
-            JSON.parse(
-                localStorage.getItem(
-                    'aasanRozgaarUsers'
-                )
-            ) || [];
-
-    }catch(e){
-
-        users = [];
+        return;
 
     }
 
 
+    const fullPhone =
+        "+92" + phoneInput;
+
+
     /* =========================
-       FIND USER
+       LOADING
     ========================= */
 
-    let foundUser =
-        users.find(function(u){
+    loginButton.disabled = true;
 
-            return (
-                u.phone === fullPhone &&
-                u.password === passInput
+    loginButton.innerHTML =
+        "Logging in...";
+
+
+    try {
+
+        /* =========================
+           SEND LOGIN TO BACKEND
+        ========================= */
+
+        const response =
+            await fetch(
+                BACKEND_URL + "/api/login",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        phone:
+                            fullPhone,
+
+                        password:
+                            passInput
+
+                    })
+                }
             );
 
-        });
+
+        let data = null;
 
 
-    /* =========================
-       INVALID LOGIN
-    ========================= */
+        try {
 
-    if(!foundUser){
+            data =
+                await response.json();
+
+        } catch (jsonError) {
+
+            data = null;
+
+        }
+
+
+        /* =========================
+           LOGIN ERROR
+        ========================= */
+
+        if (!response.ok) {
+
+            loginError.textContent =
+                data?.message ||
+                "Invalid phone number or password!";
+
+            loginButton.disabled = false;
+
+            loginButton.innerHTML =
+                'Login Now <span>&rarr;</span>';
+
+            return;
+
+        }
+
+
+        /* =========================
+           SUCCESS
+        ========================= */
+
+        if (
+            !data ||
+            data.success !== true ||
+            !data.user
+        ) {
+
+            loginError.textContent =
+                "Login failed. Please try again.";
+
+            loginButton.disabled = false;
+
+            loginButton.innerHTML =
+                'Login Now <span>&rarr;</span>';
+
+            return;
+
+        }
+
+
+        const username =
+            data.user.username;
+
+
+        /* =========================
+           SAVE LOGIN SESSION
+        ========================= */
+
+        localStorage.setItem(
+            "currentUser",
+            username
+        );
+
+
+        localStorage.setItem(
+            "isLoggedIn",
+            "true"
+        );
+
+
+        /* =========================
+           SAVE BACKEND USER
+        ========================= */
+
+        localStorage.setItem(
+            "backendUser",
+            JSON.stringify(
+                data.user
+            )
+        );
+
+
+        /* =========================
+           KEEP LOCAL USER DATA
+        ========================= */
+
+        let users = [];
+
+
+        try {
+
+            users =
+                JSON.parse(
+                    localStorage.getItem(
+                        "aasanRozgaarUsers"
+                    )
+                ) || [];
+
+        } catch (error) {
+
+            users = [];
+
+        }
+
+
+        const localUser =
+            users.find(function(user) {
+
+                return (
+                    user.username ===
+                    username
+                );
+
+            });
+
+
+        if (localUser) {
+
+            localStorage.setItem(
+                "currentUser",
+                localUser.username
+            );
+
+        }
+
+
+        /* =========================
+           SUCCESS MESSAGE
+        ========================= */
+
+        alert(
+            "Login successful!"
+        );
+
+
+        /* =========================
+           GO HOME
+        ========================= */
+
+        window.location.href =
+            "home.html";
+
+
+    } catch (error) {
+
+        console.error(
+            "Login error:",
+            error
+        );
+
 
         loginError.textContent =
-            'Invalid phone number or password!';
-
-        return;
+            "Unable to connect to server. Please try again.";
 
     }
 
 
     /* =========================
-       BLOCK CHECK
+       RESET BUTTON
     ========================= */
 
-    if(
-        foundUser.blocked === true ||
-        foundUser.status === "Blocked"
-    ){
+    loginButton.disabled = false;
 
-        loginError.textContent =
-            'Your account is blocked. Please contact support.';
-
-        return;
-
-    }
-
-
-    /* =========================
-       ACTIVE LOGIN
-    ========================= */
-
-    localStorage.setItem(
-        'currentUser',
-        foundUser.username
-    );
-
-
-    localStorage.setItem(
-        'isLoggedIn',
-        'true'
-    );
-
-
-    alert(
-        'Login successful!'
-    );
-
-
-    window.location.href =
-        'home.html';
+    loginButton.innerHTML =
+        'Login Now <span>&rarr;</span>';
 
 });
 
