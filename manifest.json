@@ -1,0 +1,10 @@
+{
+  "name": "Aasan Rozgaar",
+  "short_name": "Aasan Rozgaar",
+  "start_url": "./home.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2f7f3",
+  "theme_color": "#0b6623",
+  "description": "Aasan Rozgaar Dashboard"
+}

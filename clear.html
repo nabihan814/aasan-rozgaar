@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset Test Data</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    font-family:Arial,sans-serif;
+    background:#f3f7f5;
+}
+
+.box{
+    width:100%;
+    max-width:430px;
+    background:white;
+    padding:28px 22px;
+    border-radius:18px;
+    text-align:center;
+    box-shadow:0 5px 25px rgba(0,0,0,.08);
+}
+
+.icon{
+    width:70px;
+    height:70px;
+    margin:0 auto 15px;
+    border-radius:50%;
+    background:#fff0f0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+}
+
+h2{
+    margin:0 0 10px;
+    color:#222;
+}
+
+p{
+    color:#666;
+    line-height:1.6;
+    font-size:14px;
+}
+
+.warning{
+    background:#fff8df;
+    border-left:4px solid #e0b000;
+    padding:12px;
+    text-align:left;
+    border-radius:8px;
+    color:#665400;
+    font-size:13px;
+    line-height:1.5;
+    margin:18px 0;
+}
+
+button{
+    width:100%;
+    border:0;
+    padding:14px;
+    border-radius:10px;
+    background:#d62828;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:active{
+    transform:scale(.98);
+}
+
+.success{
+    display:none;
+    margin-top:15px;
+    padding:12px;
+    background:#e8f8ef;
+    color:#087f3d;
+    border-radius:9px;
+    font-weight:bold;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <div class="icon">🗑️</div>
+
+    <h2>Reset Test Data</h2>
+
+    <p>
+        Is button se is browser mein Aasan Rozgaar
+        ki testing ke liye saved data completely clear ho jayega.
+    </p>
+
+    <div class="warning">
+        ⚠️ <b>Warning:</b><br><br>
+
+        Active plans, balances, referral IDs, team data,
+        deposits, withdrawals, history, login/current user
+        aur doosra localStorage test data delete ho jayega.
+        Ye action undo nahi hoga.
+    </div>
+
+    <button onclick="clearAllData()">
+        Clear All Test Data
+    </button>
+
+    <div class="success" id="success">
+        ✅ Sab test data clear ho gaya. Ab new ID se testing kar sakte ho.
+    </div>
+
+</div>
+
+<script>
+
+function clearAllData(){
+
+    const confirmReset = confirm(
+        "Kya aap waqai ALL Aasan Rozgaar test data clear karna chahte hain?"
+    );
+
+    if(!confirmReset){
+        return;
+    }
+
+    /*
+      Complete localStorage reset.
+      Is browser/origin ka sara local test data clear hoga.
+    */
+
+    localStorage.clear();
+
+    document.getElementById("success").style.display = "block";
+
+}
+
+</script>
+
+</body>
+</html>

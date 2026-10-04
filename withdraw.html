@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Withdraw - Aasan Rozgaar</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#f4f7f5;
+  color:#222;
+}
+
+/* HEADER */
+.header{
+  position:relative;
+  background:#0b8f55;
+  color:white;
+  padding:18px 16px;
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.back-btn{
+  position:absolute;
+  left:14px;
+  top:13px;
+  background:rgba(255,255,255,.15);
+  color:white;
+  border:1px solid rgba(255,255,255,.4);
+  border-radius:8px;
+  padding:8px 12px;
+  font-size:14px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.back-btn:active{
+  transform:scale(.96);
+}
+
+/* CONTAINER */
+.container{
+  max-width:520px;
+  margin:auto;
+  padding:18px 14px 30px;
+}
+
+/* BALANCE */
+.balance-box{
+  background:linear-gradient(135deg,#087f4d,#0ca866);
+  color:white;
+  border-radius:16px;
+  padding:22px 18px;
+  margin-bottom:18px;
+  box-shadow:0 5px 18px rgba(0,0,0,.12);
+}
+
+.balance-label{
+  font-size:14px;
+  opacity:.9;
+  margin-bottom:8px;
+}
+
+.balance{
+  font-size:30px;
+  font-weight:bold;
+}
+
+.currency{
+  font-size:15px;
+  margin-left:4px;
+}
+
+/* CARD */
+.card{
+  background:white;
+  border-radius:16px;
+  padding:20px 16px;
+  box-shadow:0 3px 14px rgba(0,0,0,.08);
+}
+
+.card-title{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:18px;
+  color:#087f4d;
+}
+
+label{
+  display:block;
+  font-size:14px;
+  font-weight:bold;
+  margin:14px 0 7px;
+}
+
+select,
+input{
+  width:100%;
+  height:48px;
+  border:1px solid #d8d8d8;
+  border-radius:10px;
+  padding:0 13px;
+  font-size:15px;
+  outline:none;
+  background:white;
+}
+
+select:focus,
+input:focus{
+  border-color:#0b995b;
+}
+
+/* BUTTON */
+.withdraw-btn{
+  width:100%;
+  border:0;
+  background:#0b8f55;
+  color:white;
+  height:50px;
+  border-radius:11px;
+  margin-top:20px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.withdraw-btn:disabled{
+  background:#9aa5a0;
+  cursor:not-allowed;
+}
+
+/* COOLDOWN */
+.cooldown-box{
+  background:#fff7e6;
+  color:#8a5a00;
+  border:1px solid #f0d49a;
+  border-radius:10px;
+  padding:12px;
+  margin-top:15px;
+  text-align:center;
+  font-size:14px;
+  display:none;
+}
+
+/* MESSAGE */
+.message{
+  margin-top:15px;
+  padding:13px;
+  border-radius:10px;
+  display:none;
+  font-size:14px;
+  line-height:1.5;
+  font-weight:600;
+}
+
+.message.success{
+  background:#e8f8ef;
+  color:#087f4d;
+  border:1px solid #b9e8ce;
+}
+
+.message.error{
+  background:#ffeaea;
+  color:#b42318;
+  border:1px solid #f1b7b7;
+}
+
+/* NOTE */
+.note{
+  margin-top:15px;
+  background:#f1f8f4;
+  border-radius:10px;
+  padding:12px;
+  font-size:13px;
+  line-height:1.5;
+  color:#555;
+}
+
+/* POPUP */
+.popup-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:20px;
+}
+
+.popup-overlay.show{
+  display:flex;
+}
+
+.popup{
+  width:100%;
+  max-width:380px;
+  background:white;
+  border-radius:16px;
+  padding:22px 18px;
+  text-align:center;
+  box-shadow:0 10px 35px rgba(0,0,0,.25);
+  animation:popupIn .2s ease;
+}
+
+@keyframes popupIn{
+  from{
+    opacity:0;
+    transform:scale(.92);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+.popup-icon{
+  width:55px;
+  height:55px;
+  margin:0 auto 12px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+  font-weight:bold;
+}
+
+.popup.success .popup-icon{
+  background:#e8f8ef;
+  color:#087f4d;
+}
+
+.popup.error .popup-icon{
+  background:#ffeaea;
+  color:#b42318;
+}
+
+.popup h3{
+  margin-bottom:8px;
+  font-size:20px;
+}
+
+.popup p{
+  color:#666;
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:18px;
+}
+
+.popup-btn{
+  width:100%;
+  height:45px;
+  border:0;
+  border-radius:9px;
+  background:#0b8f55;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.popup.error .popup-btn{
+  background:#b42318;
+}
+
+/* TEST MODE LABEL */
+.test-mode{
+  margin-top:10px;
+  text-align:center;
+  font-size:11px;
+  color:#999;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+
+  <button
+    type="button"
+    class="back-btn"
+    onclick="goBack()"
+  >
+    ← Back
+  </button>
+
+  <div>Withdraw Funds</div>
+
+</div>
+
+
+<div class="container">
+
+  <!-- CURRENT BALANCE -->
+  <div class="balance-box">
+
+    <div class="balance-label">
+      Your Current Balance
+    </div>
+
+    <div class="balance">
+
+      <span id="balanceAmount">
+        0.00
+      </span>
+
+      <span class="currency">
+        PKR
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <!-- WITHDRAW CARD -->
+  <div class="card">
+
+    <div class="card-title">
+      Withdraw Details
+    </div>
+
+
+    <label for="withdrawMethod">
+      Payment Method
+    </label>
+
+    <select id="withdrawMethod">
+
+      <option value="">
+        Select Method
+      </option>
+
+      <option value="JazzCash">
+        JazzCash
+      </option>
+
+      <option value="EasyPaisa">
+        EasyPaisa
+      </option>
+
+    </select>
+
+
+    <label for="accountName">
+      Account Holder Name
+    </label>
+
+    <input
+      type="text"
+      id="accountName"
+      placeholder="Enter account holder name"
+      autocomplete="name"
+    >
+
+
+    <label for="accountNumber">
+      Account / Mobile Number
+    </label>
+
+    <input
+      type="tel"
+      id="accountNumber"
+      placeholder="03XXXXXXXXX"
+      inputmode="numeric"
+    >
+
+
+    <label for="withdrawAmount">
+      Withdraw Amount
+    </label>
+
+    <input
+      type="number"
+      id="withdrawAmount"
+      placeholder="Minimum 500 PKR"
+      min="500"
+      max="50000"
+      step="0.01"
+    >
+
+
+    <button
+      type="button"
+      class="withdraw-btn"
+      id="withdrawBtn"
+      onclick="submitWithdraw()"
+    >
+      WITHDRAW
+    </button>
+
+
+    <div
+      id="cooldownBox"
+      class="cooldown-box">
+    </div>
+
+
+    <div
+      id="message"
+      class="message">
+    </div>
+
+
+    <div class="note">
+
+      Minimum withdrawal:
+      <b>500 PKR</b>
+      <br>
+
+      Maximum withdrawal:
+      <b>50,000 PKR</b>
+      <br>
+
+      Withdrawal requests are sent to Admin for processing.
+
+    </div>
+
+
+    <div class="test-mode" id="testModeText"></div>
+
+  </div>
+
+</div>
+
+
+<!-- POPUP -->
+<div
+  class="popup-overlay"
+  id="popupOverlay"
+>
+
+  <div
+    class="popup"
+    id="popupBox"
+  >
+
+    <div
+      class="popup-icon"
+      id="popupIcon"
+    >
+      ✓
+    </div>
+
+    <h3 id="popupTitle">
+      Success
+    </h3>
+
+    <p id="popupText">
+      Done
+    </p>
+
+    <button
+      type="button"
+      class="popup-btn"
+      onclick="closePopup()"
+    >
+      OK
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   TEST MODE
+===================================================== */
+
+/*
+   true  = 1 minute cooldown for testing
+   false = real 24 hour cooldown
+*/
+
+const TEST_MODE = true;
+
+const DAY =
+  24 * 60 * 60 * 1000;
+
+const COOLDOWN =
+  TEST_MODE
+    ? 60 * 1000
+    : DAY;
+
+
+/* =====================================================
+   CURRENT USER
+===================================================== */
+
+function getCurrentUser(){
+
+  return (
+    localStorage.getItem("currentUser") || ""
+  ).trim();
+
+}
+
+
+/* =====================================================
+   BALANCE
+===================================================== */
+
+function getBalanceKey(username){
+
+  return "userBalance_" + username;
+
+}
+
+
+function getUserBalance(username){
+
+  const value =
+    parseFloat(
+      localStorage.getItem(
+        getBalanceKey(username)
+      )
+    );
+
+  return (
+    Number.isFinite(value) &&
+    value >= 0
+  )
+    ? value
+    : 0;
+
+}
+
+
+function updateBalanceDisplay(){
+
+  const username =
+    getCurrentUser();
+
+
+  if(!username){
+
+    document
+      .getElementById("balanceAmount")
+      .textContent = "0.00";
+
+    return;
+  }
+
+
+  const balance =
+    getUserBalance(username);
+
+
+  document
+    .getElementById("balanceAmount")
+    .textContent =
+      balance.toLocaleString(
+        "en-PK",
+        {
+          minimumFractionDigits:2,
+          maximumFractionDigits:2
+        }
+      );
+
+}
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+function showPopup(title,text,type){
+
+  const overlay =
+    document.getElementById(
+      "popupOverlay"
+    );
+
+  const box =
+    document.getElementById(
+      "popupBox"
+    );
+
+  const icon =
+    document.getElementById(
+      "popupIcon"
+    );
+
+  document.getElementById(
+    "popupTitle"
+  ).textContent = title;
+
+  document.getElementById(
+    "popupText"
+  ).textContent = text;
+
+
+  box.className =
+    "popup " + type;
+
+
+  if(type === "success"){
+
+    icon.textContent = "✓";
+
+  }else{
+
+    icon.textContent = "!";
+
+  }
+
+
+  overlay.classList.add("show");
+
+}
+
+
+function closePopup(){
+
+  document
+    .getElementById("popupOverlay")
+    .classList.remove("show");
+
+}
+
+
+/* Close popup by clicking outside */
+
+document.addEventListener(
+  "click",
+  function(e){
+
+    const overlay =
+      document.getElementById(
+        "popupOverlay"
+      );
+
+    if(e.target === overlay){
+
+      closePopup();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(text,type){
+
+  const box =
+    document.getElementById(
+      "message"
+    );
+
+  box.textContent = text;
+
+  box.className =
+    "message " + type;
+
+  box.style.display =
+    "block";
+
+}
+
+
+/* =====================================================
+   SAVED ACCOUNT DETAILS
+===================================================== */
+
+function loadSavedAccount(){
+
+  const username =
+    getCurrentUser();
+
+
+  if(!username){
+    return;
+  }
+
+
+  const name =
+    localStorage.getItem(
+      "withdraw_account_name_" +
+      username
+    ) || "";
+
+
+  const number =
+    localStorage.getItem(
+      "withdraw_account_number_" +
+      username
+    ) || "";
+
+
+  const method =
+    localStorage.getItem(
+      "withdraw_method_" +
+      username
+    ) || "";
+
+
+  document.getElementById(
+    "accountName"
+  ).value = name;
+
+
+  document.getElementById(
+    "accountNumber"
+  ).value = number;
+
+
+  if(method){
+
+    document.getElementById(
+      "withdrawMethod"
+    ).value = method;
+
+  }
+
+}
+
+
+/* =====================================================
+   COOLDOWN
+===================================================== */
+
+function getLastWithdrawTime(username){
+
+  return parseInt(
+    localStorage.getItem(
+      "last_withdraw_time_" +
+      username
+    )
+  ) || 0;
+
+}
+
+
+function updateCooldown(){
+
+  const username =
+    getCurrentUser();
+
+
+  if(!username){
+    return;
+  }
+
+
+  const lastTime =
+    getLastWithdrawTime(
+      username
+    );
+
+
+  const now =
+    Date.now();
+
+
+  const remaining =
+    (lastTime + COOLDOWN) -
+    now;
+
+
+  const button =
+    document.getElementById(
+      "withdrawBtn"
+    );
+
+
+  const box =
+    document.getElementById(
+      "cooldownBox"
+    );
+
+
+  if(remaining > 0){
+
+    button.disabled = true;
+
+    box.style.display =
+      "block";
+
+
+    const totalSeconds =
+      Math.ceil(
+        remaining / 1000
+      );
+
+
+    const hours =
+      Math.floor(
+        totalSeconds / 3600
+      );
+
+
+    const minutes =
+      Math.floor(
+        (totalSeconds % 3600) / 60
+      );
+
+
+    const seconds =
+      totalSeconds % 60;
+
+
+    let timeText;
+
+
+    if(TEST_MODE){
+
+      timeText =
+        String(minutes).padStart(2,"0") +
+        ":" +
+        String(seconds).padStart(2,"0");
+
+    }else{
+
+      timeText =
+        String(hours).padStart(2,"0") +
+        ":" +
+        String(minutes).padStart(2,"0") +
+        ":" +
+        String(seconds).padStart(2,"0");
+
+    }
+
+
+    box.innerHTML =
+      "Next withdrawal available in <b>" +
+      timeText +
+      "</b>";
+
+  }else{
+
+    button.disabled = false;
+
+    box.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* =====================================================
+   SUBMIT WITHDRAW
+===================================================== */
+
+function submitWithdraw(){
+
+  const username =
+    getCurrentUser();
+
+
+  if(!username){
+
+    showPopup(
+      "Login Required",
+      "Please login first before making a withdrawal request.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  /* COOLDOWN */
+
+  const lastTime =
+    getLastWithdrawTime(
+      username
+    );
+
+
+  if(
+    lastTime &&
+    Date.now() <
+    lastTime + COOLDOWN
+  ){
+
+    showPopup(
+      "Withdrawal Locked",
+      TEST_MODE
+        ? "For testing, you can make the next withdrawal after 1 minute."
+        : "You can make another withdrawal after 24 hours.",
+      "error"
+    );
+
+    updateCooldown();
+
+    return;
+  }
+
+
+  /* VALUES */
+
+  const method =
+    document.getElementById(
+      "withdrawMethod"
+    ).value.trim();
+
+
+  const accountName =
+    document.getElementById(
+      "accountName"
+    ).value.trim();
+
+
+  const accountNumber =
+    document.getElementById(
+      "accountNumber"
+    ).value.trim();
+
+
+  const amount =
+    parseFloat(
+      document.getElementById(
+        "withdrawAmount"
+      ).value
+    );
+
+
+  /* VALIDATION */
+
+  if(!method){
+
+    showPopup(
+      "Payment Method",
+      "Please select JazzCash or EasyPaisa.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!accountName){
+
+    showPopup(
+      "Account Name",
+      "Please enter account holder name.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!accountNumber){
+
+    showPopup(
+      "Account Number",
+      "Please enter account/mobile number.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!Number.isFinite(amount)){
+
+    showPopup(
+      "Amount Required",
+      "Please enter withdrawal amount.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(amount < 500){
+
+    showPopup(
+      "Minimum Amount",
+      "Minimum withdrawal amount is 500 PKR.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(amount > 50000){
+
+    showPopup(
+      "Maximum Amount",
+      "Maximum withdrawal amount is 50,000 PKR.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  /* BALANCE */
+
+  const balanceKey =
+    getBalanceKey(
+      username
+    );
+
+
+  const currentBalance =
+    getUserBalance(
+      username
+    );
+
+
+  if(amount > currentBalance){
+
+    showPopup(
+      "Insufficient Balance",
+      "Your current balance is " +
+      currentBalance.toLocaleString(
+        "en-PK",
+        {
+          minimumFractionDigits:2,
+          maximumFractionDigits:2
+        }
+      ) +
+      " PKR.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  /* SAVE ACCOUNT */
+
+  localStorage.setItem(
+    "withdraw_account_name_" +
+    username,
+    accountName
+  );
+
+
+  localStorage.setItem(
+    "withdraw_account_number_" +
+    username,
+    accountNumber
+  );
+
+
+  localStorage.setItem(
+    "withdraw_method_" +
+    username,
+    method
+  );
+
+
+  /* DEDUCT BALANCE */
+
+  const newBalance =
+    Math.max(
+      0,
+      currentBalance - amount
+    );
+
+
+  localStorage.setItem(
+    balanceKey,
+    String(newBalance)
+  );
+
+
+  /* REQUEST */
+
+  const now =
+    Date.now();
+
+
+  const request = {
+
+    id:
+      "wd_" +
+      now +
+      "_" +
+      Math.random()
+        .toString(36)
+        .substring(2,8),
+
+    username:
+      username,
+
+    method:
+      method,
+
+    accountName:
+      accountName,
+
+    accountNumber:
+      accountNumber,
+
+    amount:
+      amount,
+
+    status:
+      "Pending",
+
+    date:
+      new Date(now).toLocaleString(
+        "en-PK"
+      ),
+
+    createdAt:
+      now,
+
+    updatedAt:
+      null,
+
+    approvedAt:
+      null,
+
+    refunded:
+      false
+
+  };
+
+
+  /* GET REQUESTS */
+
+  let requests = [];
+
+
+  try{
+
+    requests =
+      JSON.parse(
+        localStorage.getItem(
+          "withdrawRequests"
+        ) || "[]"
+      );
+
+
+    if(!Array.isArray(requests)){
+
+      requests = [];
+
+    }
+
+  }catch(e){
+
+    requests = [];
+
+  }
+
+
+  requests.push(
+    request
+  );
+
+
+  /* SAVE */
+
+  localStorage.setItem(
+    "withdrawRequests",
+    JSON.stringify(requests)
+  );
+
+
+  /* COOLDOWN */
+
+  localStorage.setItem(
+    "last_withdraw_time_" +
+    username,
+    String(now)
+  );
+
+
+  /* UPDATE */
+
+  updateBalanceDisplay();
+
+  updateCooldown();
+
+
+  document.getElementById(
+    "withdrawAmount"
+  ).value = "";
+
+
+  /* SUCCESS POPUP */
+
+  showPopup(
+    "Withdrawal Submitted",
+    "Your withdrawal request has been submitted successfully. It is now Pending and has been sent to Admin for processing.",
+    "success"
+  );
+
+}
+
+
+/* =====================================================
+   BACK BUTTON
+===================================================== */
+
+function goBack(){
+
+  if(
+    document.referrer &&
+    document.referrer !==
+    window.location.href
+  ){
+
+    history.back();
+
+  }else{
+
+    window.location.href =
+      "./home.html";
+
+  }
+
+}
+
+
+/* =====================================================
+   TEST MODE TEXT
+===================================================== */
+
+function updateTestModeText(){
+
+  const box =
+    document.getElementById(
+      "testModeText"
+    );
+
+
+  if(TEST_MODE){
+
+    box.textContent =
+      "TEST MODE: Withdrawal cooldown = 1 minute";
+
+  }else{
+
+    box.textContent =
+      "Withdrawal cooldown = 24 hours";
+
+  }
+
+}
+
+
+/* =====================================================
+   PAGE LOAD
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    updateBalanceDisplay();
+
+    loadSavedAccount();
+
+    updateCooldown();
+
+    updateTestModeText();
+
+  }
+);
+
+
+/* =====================================================
+   STORAGE UPDATE
+===================================================== */
+
+window.addEventListener(
+  "storage",
+  function(event){
+
+    const username =
+      getCurrentUser();
+
+
+    if(!username){
+      return;
+    }
+
+
+    if(
+      event.key ===
+      "userBalance_" +
+      username
+      ||
+      event.key ===
+      "withdrawRequests"
+    ){
+
+      updateBalanceDisplay();
+
+      updateCooldown();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   LIVE UPDATE
+===================================================== */
+
+setInterval(
+  function(){
+
+    updateBalanceDisplay();
+
+    updateCooldown();
+
+  },
+  1000
+);
+
+</script>
+
+</body>
+</html>

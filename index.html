@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aasan Rozgaar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            padding-bottom: 40px;
+        }
+        .header {
+            background: linear-gradient(135deg, #0b6623, #15803d);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .logo-box {
+            background: #fff;
+            color: #0b6623;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .title-text {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        .hero-banner {
+            background: white;
+            margin: 15px;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .hero-banner h2 {
+            color: #0b6623;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .hero-banner p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+        .auth-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 15px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            transition: 0.2s;
+        }
+        .btn-register {
+            background-color: #0b6623;
+            color: white;
+        }
+        .btn-login {
+            background-color: #ffffff;
+            color: #0b6623;
+            border: 2px solid #0b6623;
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        .features-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 0 15px;
+            margin-top: 15px;
+        }
+        .feature-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-top: 4px solid #0b6623;
+        }
+        .feature-card h3 {
+            font-size: 15px;
+            color: #222;
+            margin-bottom: 6px;
+        }
+        .feature-card p {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+        .footer-text {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo-area">
+            <div class="logo-box">AR</div>
+            <div class="title-text">Aasan Rozgaar</div>
+        </div>
+        <p style="font-size: 13px; opacity: 0.9;">Invest Today Bright Tomorrow</p>
+    </div>
+
+    <div class="hero-banner">
+        <h2>آج کی سرمایہ کاری، کل کا روشن مستقبل</h2>
+        <p>ہم آپ کے لیے ایک ایسا پلیٹ فارم لائے ہیں جہاں چھوٹے سرمایہ کاری سے بھی آپ اپنے مالی سفر کا آغاز کر سکتے ہیں۔ اپنے پسندیدہ پلان منتخب کریں اور اپنے اکاؤنٹ سے تمام تفصیلات دیکھیں۔</p>
+    </div>
+
+    <!-- Direct linked buttons -->
+    <div class="auth-buttons">
+        <a href="register.html" class="btn btn-register">Register</a>
+        <a href="login.html" class="btn btn-login">Login</a>
+    </div>
+
+    <div class="features-container">
+        <div class="feature-card">
+            <h3>روزانہ منافع</h3>
+            <p>اپنے منتخب پلان کے مطابق منافع کی تفصیلات دیکھیں۔</p>
+        </div>
+        <div class="feature-card">
+            <h3>ریفر انعام ات</h3>
+            <p>اپنے دوستوں کو مدعو کریں اور ریفرل انعامات حاصل کریں۔</p>
+        </div>
+        <div class="feature-card">
+            <h3>اکاؤنٹ کی حفاظت</h3>
+            <p>اپنا اکاؤنٹ اور لین دین کی تفصیلات ایک جگہ دیکھیں۔</p>
+        </div>
+        <div class="feature-card">
+            <h3>بہتر مستقبل</h3>
+            <p>آج شمولیت اختیار کریں اور اپنے سفر کا آغاز کریں۔</p>
+        </div>
+    </div>
+
+    <div class="footer-text">
+        AASAN ROZGAAR &copy; 2026 - All Rights Reserved
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- DEVELOPER UPDATE SECTION: Naye pages ka code yahan paste karein -->
+    <!-- ======================================================= -->
+    <!-- 
+        [UPDATE_SECTION_START]
+        
+        [UPDATE_SECTION_END]
+    -->
+
+</body>
+</html>

@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Withdrawal History</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#f4f7f5;
+  color:#222;
+}
+
+/* HEADER */
+.header{
+  position:relative;
+  background:#0b8f55;
+  color:white;
+  padding:18px 16px;
+  text-align:center;
+  font-size:21px;
+  font-weight:bold;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+
+.back-btn{
+  position:absolute;
+  left:14px;
+  top:12px;
+  background:rgba(255,255,255,.15);
+  color:white;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:8px;
+  padding:8px 12px;
+  font-size:14px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.back-btn:active{
+  transform:scale(.96);
+}
+
+/* CONTAINER */
+.container{
+  max-width:650px;
+  margin:auto;
+  padding:16px 12px 30px;
+}
+
+/* SUMMARY */
+.summary{
+  background:white;
+  border-radius:14px;
+  padding:17px;
+  margin-bottom:15px;
+  box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+
+.summary-title{
+  color:#666;
+  font-size:13px;
+  margin-bottom:7px;
+}
+
+.summary-amount{
+  color:#0b8f55;
+  font-size:25px;
+  font-weight:bold;
+}
+
+.summary-count{
+  color:#777;
+  font-size:13px;
+  margin-top:6px;
+}
+
+/* EMPTY */
+.empty{
+  background:white;
+  border-radius:14px;
+  padding:40px 20px;
+  text-align:center;
+  color:#777;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
+
+.empty-icon{
+  font-size:42px;
+  margin-bottom:12px;
+}
+
+.empty h3{
+  color:#444;
+  margin-bottom:7px;
+}
+
+/* RECORD */
+.record{
+  background:white;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:13px;
+  box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+
+.record-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:13px;
+}
+
+.amount{
+  font-size:21px;
+  font-weight:bold;
+  color:#222;
+}
+
+.status{
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.status.pending{
+  background:#fff4d9;
+  color:#956500;
+}
+
+.status.inprocess{
+  background:#e7f1ff;
+  color:#1261a0;
+}
+
+.status.approved{
+  background:#e6f8ee;
+  color:#087f4d;
+}
+
+.status.rejected{
+  background:#ffe8e8;
+  color:#b42318;
+}
+
+.details{
+  border-top:1px solid #eee;
+  padding-top:11px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:6px 0;
+  font-size:13px;
+}
+
+.row .label{
+  color:#777;
+}
+
+.row .value{
+  color:#333;
+  text-align:right;
+  font-weight:600;
+  word-break:break-word;
+}
+
+/* ID */
+.request-id{
+  margin-top:10px;
+  padding:9px;
+  background:#f6f7f7;
+  border-radius:8px;
+  font-size:11px;
+  color:#777;
+  word-break:break-all;
+}
+
+/* REFUND */
+.refund{
+  margin-top:10px;
+  padding:9px;
+  border-radius:8px;
+  background:#e8f8ef;
+  color:#087f4d;
+  font-size:12px;
+  font-weight:bold;
+}
+
+/* REFRESH */
+.refresh-btn{
+  width:100%;
+  height:45px;
+  border:0;
+  border-radius:10px;
+  background:#0b8f55;
+  color:white;
+  font-size:14px;
+  font-weight:bold;
+  margin-bottom:15px;
+  cursor:pointer;
+}
+
+.refresh-btn:active{
+  transform:scale(.98);
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+  <button
+    class="back-btn"
+    onclick="goBack()"
+  >
+    ← Back
+  </button>
+
+  Withdrawal History
+
+</div>
+
+
+<div class="container">
+
+  <button
+    class="refresh-btn"
+    onclick="loadHistory()"
+  >
+    ↻ Refresh History
+  </button>
+
+
+  <div class="summary">
+
+    <div class="summary-title">
+      Total Withdrawal Requested
+    </div>
+
+    <div
+      class="summary-amount"
+      id="totalAmount"
+    >
+      PKR 0.00
+    </div>
+
+    <div
+      class="summary-count"
+      id="totalCount"
+    >
+      0 withdrawals
+    </div>
+
+  </div>
+
+
+  <div id="historyContainer"></div>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   CURRENT USER
+========================================= */
+
+function getCurrentUser(){
+
+  return (
+    localStorage.getItem(
+      "currentUser"
+    ) || ""
+  ).trim();
+
+}
+
+
+/* =========================================
+   BACK
+========================================= */
+
+function goBack(){
+
+  if(
+    document.referrer &&
+    document.referrer !==
+    window.location.href
+  ){
+
+    history.back();
+
+  }else{
+
+    window.location.href =
+      "./home.html";
+
+  }
+
+}
+
+
+/* =========================================
+   DATE FORMAT
+========================================= */
+
+function formatDate(value){
+
+  if(
+    value === undefined ||
+    value === null ||
+    value === ""
+  ){
+
+    return "—";
+
+  }
+
+
+  let date;
+
+
+  if(
+    typeof value === "number" ||
+    !isNaN(Number(value))
+  ){
+
+    date =
+      new Date(
+        Number(value)
+      );
+
+  }else{
+
+    date =
+      new Date(value);
+
+  }
+
+
+  if(
+    isNaN(
+      date.getTime()
+    )
+  ){
+
+    return String(value);
+
+  }
+
+
+  return date.toLocaleString(
+    "en-PK",
+    {
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit",
+      second:"2-digit"
+    }
+  );
+
+}
+
+
+/* =========================================
+   STATUS CLASS
+========================================= */
+
+function getStatusClass(status){
+
+  const s =
+    String(status || "")
+      .toLowerCase()
+      .replace(/\s+/g,"");
+
+
+  if(s === "approved"){
+    return "approved";
+  }
+
+  if(
+    s === "inprocess" ||
+    s === "processing"
+  ){
+
+    return "inprocess";
+
+  }
+
+  if(s === "rejected"){
+    return "rejected";
+  }
+
+  return "pending";
+
+}
+
+
+/* =========================================
+   LOAD HISTORY
+========================================= */
+
+function loadHistory(){
+
+  const username =
+    getCurrentUser();
+
+
+  const container =
+    document.getElementById(
+      "historyContainer"
+    );
+
+
+  /* LOGIN CHECK */
+
+  if(!username){
+
+    container.innerHTML = `
+      <div class="empty">
+
+        <div class="empty-icon">
+          🔐
+        </div>
+
+        <h3>Login Required</h3>
+
+        <p>
+          Please login to view your withdrawal history.
+        </p>
+
+      </div>
+    `;
+
+    document.getElementById(
+      "totalAmount"
+    ).textContent =
+      "PKR 0.00";
+
+    document.getElementById(
+      "totalCount"
+    ).textContent =
+      "0 withdrawals";
+
+    return;
+
+  }
+
+
+  /* GET ALL REQUESTS */
+
+  let requests = [];
+
+
+  try{
+
+    requests =
+      JSON.parse(
+        localStorage.getItem(
+          "withdrawRequests"
+        ) || "[]"
+      );
+
+
+    if(
+      !Array.isArray(requests)
+    ){
+
+      requests = [];
+
+    }
+
+  }catch(error){
+
+    requests = [];
+
+  }
+
+
+  /*
+    IMPORTANT:
+    Only current user's records
+  */
+
+  const userRequests =
+    requests.filter(
+      function(request){
+
+        return String(
+          request.username || ""
+        ).trim() === username;
+
+      }
+    );
+
+
+  /* NEWEST FIRST */
+
+  userRequests.sort(
+    function(a,b){
+
+      return (
+        Number(
+          b.createdAt || 0
+        ) -
+        Number(
+          a.createdAt || 0
+        )
+      );
+
+    }
+  );
+
+
+  /* TOTAL */
+
+  let total = 0;
+
+
+  userRequests.forEach(
+    function(request){
+
+      const amount =
+        parseFloat(
+          request.amount
+        ) || 0;
+
+      total += amount;
+
+    }
+  );
+
+
+  document.getElementById(
+    "totalAmount"
+  ).textContent =
+    "PKR " +
+    total.toLocaleString(
+      "en-PK",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
+
+
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    userRequests.length +
+    (
+      userRequests.length === 1
+        ? " withdrawal"
+        : " withdrawals"
+    );
+
+
+  /* EMPTY */
+
+  if(
+    userRequests.length === 0
+  ){
+
+    container.innerHTML = `
+      <div class="empty">
+
+        <div class="empty-icon">
+          💸
+        </div>
+
+        <h3>No Withdrawal History</h3>
+
+        <p>
+          Your withdrawal requests will appear here.
+        </p>
+
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  /* RECORDS */
+
+  container.innerHTML =
+    userRequests.map(
+      function(request){
+
+        const amount =
+          parseFloat(
+            request.amount
+          ) || 0;
+
+
+        const status =
+          request.status ||
+          "Pending";
+
+
+        const statusClass =
+          getStatusClass(
+            status
+          );
+
+
+        const createdDate =
+          formatDate(
+            request.createdAt ||
+            request.date
+          );
+
+
+        const updatedDate =
+          request.updatedAt
+            ? formatDate(
+                request.updatedAt
+              )
+            : "—";
+
+
+        const method =
+          request.method ||
+          "—";
+
+
+        const accountName =
+          request.accountName ||
+          "—";
+
+
+        const accountNumber =
+          request.accountNumber ||
+          "—";
+
+
+        const requestId =
+          request.id ||
+          "—";
+
+
+        const refundHTML =
+          request.refunded === true
+            ? `
+              <div class="refund">
+                ✓ Amount refunded to your balance
+              </div>
+            `
+            : "";
+
+
+        return `
+
+          <div class="record">
+
+            <div class="record-top">
+
+              <div class="amount">
+                PKR
+                ${amount.toLocaleString(
+                  "en-PK",
+                  {
+                    minimumFractionDigits:2,
+                    maximumFractionDigits:2
+                  }
+                )}
+              </div>
+
+              <div class="status ${statusClass}">
+                ${escapeHTML(status)}
+              </div>
+
+            </div>
+
+
+            <div class="details">
+
+              <div class="row">
+
+                <span class="label">
+                  Payment Method
+                </span>
+
+                <span class="value">
+                  ${escapeHTML(method)}
+                </span>
+
+              </div>
+
+
+              <div class="row">
+
+                <span class="label">
+                  Account Name
+                </span>
+
+                <span class="value">
+                  ${escapeHTML(accountName)}
+                </span>
+
+              </div>
+
+
+              <div class="row">
+
+                <span class="label">
+                  Account Number
+                </span>
+
+                <span class="value">
+                  ${escapeHTML(accountNumber)}
+                </span>
+
+              </div>
+
+
+              <div class="row">
+
+                <span class="label">
+                  Request Date
+                </span>
+
+                <span class="value">
+                  ${escapeHTML(createdDate)}
+                </span>
+
+              </div>
+
+
+              <div class="row">
+
+                <span class="label">
+                  Last Update
+                </span>
+
+                <span class="value">
+                  ${escapeHTML(updatedDate)}
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="request-id">
+
+              Request ID:
+              ${escapeHTML(requestId)}
+
+            </div>
+
+
+            ${refundHTML}
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+
+}
+
+
+/* =========================================
+   SECURITY / HTML ESCAPE
+========================================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   AUTO REFRESH
+========================================= */
+
+window.addEventListener(
+  "storage",
+  function(event){
+
+    if(
+      event.key ===
+      "withdrawRequests"
+      ||
+      event.key ===
+      "currentUser"
+    ){
+
+      loadHistory();
+
+    }
+
+  }
+);
+
+
+/* Refresh every 2 seconds */
+
+setInterval(
+  loadHistory,
+  2000
+);
+
+
+/* PAGE LOAD */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    loadHistory();
+
+  }
+);
+
+</script>
+
+</body>
+</html>

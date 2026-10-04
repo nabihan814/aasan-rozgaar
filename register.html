@@ -1,0 +1,1509 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aasan Rozgaar - Secure Registration Portal</title><style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f0fdf4 0%, #e2f8eb 100%);
+    color: #1e293b;
+    padding-bottom: 40px;
+    min-height: 100vh;
+}
+
+.top-header {
+    background: linear-gradient(135deg, #064e3b 0%, #0b6623 50%, #15803d 100%);
+    color: white;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 0 6px 20px rgba(11, 102, 35, 0.25);
+}
+
+.back-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.15);
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.header-title-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.container {
+    padding: 25px 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.brand-logo-box {
+    text-align: center;
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+
+.app-avatar {
+    width: 75px;
+    height: 75px;
+    background: linear-gradient(135deg, #0b6623, #15803d);
+    color: white;
+    font-size: 32px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 22px;
+    margin: 0 auto 15px auto;
+    box-shadow: 0 8px 20px rgba(11, 102, 35, 0.25);
+    border: 3px solid #bbf7d0;
+}
+
+.brand-logo-box h1 {
+    font-size: 24px;
+    color: #064e3b;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.brand-logo-box p {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.saved-accounts-box {
+    background: white;
+    border: 1.5px solid #bbf7d0;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 22px;
+    box-shadow: 0 6px 20px rgba(0, 100, 0, 0.05);
+}
+
+.saved-accounts-box h4 {
+    font-size: 14px;
+    color: #0b6623;
+    margin-bottom: 6px;
+    font-weight: 700;
+}
+
+.saved-accounts-box p {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.no-account-badge {
+    background: #f8fafc;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #475569;
+    margin-bottom: 12px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    font-weight: 500;
+}
+
+.btn-choose-saved {
+    display: block;
+    width: 100%;
+    background: #f0fdf4;
+    color: #0b6623;
+    border: 1.5px dashed #15803d;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.register-card {
+    background: white;
+    padding: 22px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 100, 0, 0.06);
+    border: 1.5px solid #d4ebd9;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 48px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 14px;
+    font-size: 14px;
+    background: #f8fafc;
+    outline: none;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.phone-group input {
+    padding-left: 80px;
+}
+
+.phone-prefix {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0b6623;
+    font-weight: 800;
+    font-size: 14px;
+    background: #dcfce7;
+    padding: 4px 8px;
+    border-radius: 8px;
+    z-index: 2;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0b6623;
+    font-size: 18px;
+}
+
+.phone-group .input-icon {
+    left: 55px;
+}
+
+.input-group input:focus {
+    border-color: #0b6623;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(11, 102, 35, 0.1);
+}
+
+.btn-register-now {
+    background: linear-gradient(135deg, #0b6623, #15803d);
+    color: white;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 6px 20px rgba(11, 102, 35, 0.3);
+    margin-top: 10px;
+}
+
+.error-msg {
+    color: #dc2626;
+    font-size: 12px;
+    margin-top: 6px;
+    display: block;
+    font-weight: 600;
+}
+
+.referral-info{
+    display:none;
+    background:#f0fdf4;
+    border:1px solid #bbf7d0;
+    color:#0b6623;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:18px;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.divider-or {
+    text-align: center;
+    margin: 22px 0;
+    position: relative;
+}
+
+.divider-or span {
+    background: white;
+    padding: 0 12px;
+    font-size: 12px;
+    color: #64748b;
+    position: relative;
+    z-index: 1;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.divider-or::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: #e2e8f0;
+}
+
+.login-redirect {
+    text-align: center;
+    font-size: 13px;
+    color: #475569;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+.login-redirect a {
+    color: #0b6623;
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.footer-features {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    background: white;
+    padding: 16px 10px;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 100, 0, 0.05);
+    margin-top: 20px;
+    border: 1.5px solid #d4ebd9;
+}
+
+.feature-item {
+    flex: 1;
+    cursor: pointer;
+    padding: 4px;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.feature-icon {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.feature-item h5 {
+    font-size: 11px;
+    color: #1e293b;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+.feature-item p {
+    font-size: 9px;
+    color: #64748b;
+    font-weight: 500;
+}
+</style></head><body><div class="top-header"><a href="index.html" class="back-link">
+    &#8592;
+</a>
+
+<a href="index.html" class="header-title-link">
+    <span>🛡️</span>
+    Aasan Rozgaar
+</a>
+
+<div style="width:35px;"></div>
+
+</div><div class="container"><div class="brand-logo-box">
+
+    <div class="app-avatar">
+        AR
+    </div>
+
+    <h1>Create Account</h1>
+
+    <p>
+        Join us today and start your journey
+    </p>
+
+</div>
+
+<div class="saved-accounts-box">
+
+    <h4>
+        🔑 Saved Accounts
+    </h4>
+
+    <p>
+        On this browser: Accounts are saved automatically
+        after successful registration or login.
+    </p>
+
+    <div class="no-account-badge" id="savedAccountText">
+        No saved account yet. Fill details below.
+    </div>
+
+    <a href="#" class="btn-choose-saved">
+        Choose Saved Account →
+    </a>
+
+</div>
+
+<div class="register-card">
+
+    <div id="referralInfo" class="referral-info"></div>
+
+    <form id="registerForm">
+
+        <div class="input-group">
+
+            <span class="input-icon">
+                👤
+            </span>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Username"
+                required
+            >
+
+            <span
+                id="userError"
+                class="error-msg">
+            </span>
+
+        </div>
+
+        <div class="input-group phone-group">
+
+            <span class="phone-prefix">
+                +92
+            </span>
+
+            <span class="input-icon">
+                📱
+            </span>
+
+            <input
+                type="tel"
+                id="phone"
+                placeholder="3001234567"
+                maxlength="10"
+                inputmode="numeric"
+                required
+            >
+
+            <span
+                id="phoneError"
+                class="error-msg">
+            </span>
+
+        </div>
+
+        <div class="input-group">
+
+            <span class="input-icon">
+                🔒
+            </span>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Create Password"
+                required
+            >
+
+        </div>
+
+        <button
+            type="submit"
+            class="btn-register-now">
+
+            Register Now
+            <span>→</span>
+
+        </button>
+
+    </form>
+
+    <div class="divider-or">
+
+        <span>
+            OR
+        </span>
+
+    </div>
+
+    <div class="login-redirect">
+
+        Already have an account?
+
+        <a href="login.html">
+            Login Now
+        </a>
+
+    </div>
+
+</div>
+
+<div class="footer-features">
+
+    <div class="feature-item">
+
+        <div class="feature-icon">
+            🛡️
+        </div>
+
+        <h5>
+            100% Secure
+        </h5>
+
+        <p>
+            Encrypted data
+        </p>
+
+    </div>
+
+    <div class="feature-item">
+
+        <div class="feature-icon">
+            ⚡
+        </div>
+
+        <h5>
+            Fast Hub
+        </h5>
+
+        <p>
+            Instant access
+        </p>
+
+    </div>
+
+    <a
+        href="tel:+447718486232"
+        class="feature-item">
+
+        <div class="feature-icon">
+            💬
+        </div>
+
+        <h5>
+            24/7 Support
+        </h5>
+
+        <p>
+            Live assistance
+        </p>
+
+    </a>
+
+</div>
+
+</div><script>
+
+/* =========================
+   GET USERS
+========================= */
+
+function getUsers(key){
+
+    let users = [];
+
+    try{
+
+        users =
+            JSON.parse(
+                localStorage.getItem(key)
+            ) || [];
+
+    }catch(error){
+
+        users = [];
+
+    }
+
+    return Array.isArray(users)
+        ? users
+        : [];
+}
+
+
+/* =========================
+   SAVE USERS
+========================= */
+
+function saveUsers(key,users){
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(users)
+    );
+
+}
+
+
+/* =========================
+   REFERRALS
+========================= */
+
+function getReferrals(){
+
+    let referrals = [];
+
+    try{
+
+        referrals =
+            JSON.parse(
+                localStorage.getItem("referrals")
+            ) || [];
+
+    }catch(error){
+
+        referrals = [];
+
+    }
+
+    return Array.isArray(referrals)
+        ? referrals
+        : [];
+}
+
+
+function saveReferrals(referrals){
+
+    localStorage.setItem(
+        "referrals",
+        JSON.stringify(referrals)
+    );
+
+}
+
+
+/* =========================
+   FIND USER BY REFERRAL ID
+========================= */
+
+function findUserByReferralId(
+    referralId,
+    appUsers,
+    adminUsers
+){
+
+    if(!referralId){
+        return null;
+    }
+
+    const target =
+        String(referralId)
+        .trim()
+        .toLowerCase();
+
+
+    let found =
+        appUsers.find(function(user){
+
+            return String(
+                user.referralId || ""
+            ).toLowerCase() === target;
+
+        });
+
+
+    if(found){
+        return found;
+    }
+
+
+    found =
+        adminUsers.find(function(user){
+
+            return String(
+                user.referralId || ""
+            ).toLowerCase() === target;
+
+        });
+
+
+    return found || null;
+}
+
+
+/* =========================
+   FIND USERNAME
+========================= */
+
+function findUserByUsername(
+    username,
+    appUsers,
+    adminUsers
+){
+
+    const target =
+        String(username).toLowerCase();
+
+
+    return (
+        appUsers.find(function(user){
+
+            return String(
+                user.username
+            ).toLowerCase() === target;
+
+        }) ||
+
+        adminUsers.find(function(user){
+
+            return String(
+                user.username
+            ).toLowerCase() === target;
+
+        }) ||
+
+        null
+    );
+}
+
+
+/* =========================
+   REFERRAL PARAMETER
+========================= */
+
+function getReferralParameter(){
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    return (
+        params.get("ref") ||
+        ""
+    ).trim();
+
+}
+
+
+/* =========================
+   REFERRAL INFO
+========================= */
+
+function showReferralInfo(){
+
+    const refCode =
+        getReferralParameter();
+
+    const box =
+        document.getElementById(
+            "referralInfo"
+        );
+
+
+    if(!refCode){
+        return;
+    }
+
+
+    const appUsers =
+        getUsers(
+            "aasanRozgaarUsers"
+        );
+
+    const adminUsers =
+        getUsers(
+            "users"
+        );
+
+
+    const referrer =
+        findUserByReferralId(
+            refCode,
+            appUsers,
+            adminUsers
+        );
+
+
+    if(!referrer){
+
+        box.style.display = "block";
+
+        box.innerHTML =
+            "❌ <b>Invalid referral link.</b><br>" +
+            "Is referral link se registration continue nahi ho sakti.";
+
+        return;
+    }
+
+
+    box.style.display = "block";
+
+    box.innerHTML =
+        "👤 <b>Referral by:</b> " +
+        escapeHtml(referrer.username) +
+        "<br>" +
+        "Aap is user ke direct referral ke taur par register honge.";
+
+}
+
+
+/* =========================
+   ESCAPE
+========================= */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   CREATE REFERRAL ID
+========================= */
+
+function createReferralId(username){
+
+    const key =
+        "referralId_" +
+        username;
+
+    let id =
+        localStorage.getItem(key);
+
+
+    if(!id){
+
+        const clean =
+            username
+            .replace(/[^a-zA-Z0-9]/g,"")
+            .toUpperCase()
+            .substring(0,12);
+
+
+        const random =
+            Math.random()
+            .toString(36)
+            .substring(2,7)
+            .toUpperCase();
+
+
+        id =
+            "AR-" +
+            clean +
+            "-" +
+            random;
+
+
+        localStorage.setItem(
+            key,
+            id
+        );
+
+    }
+
+
+    return id;
+
+}
+
+
+/* =========================
+   ADD REFERRAL RELATIONSHIPS
+========================= */
+
+function createReferralChain(
+    newUsername,
+    directReferrer,
+    appUsers,
+    adminUsers
+){
+
+    if(!directReferrer){
+        return;
+    }
+
+
+    let referrals =
+        getReferrals();
+
+
+    /*
+      LEVEL 1
+      New user -> direct referrer
+    */
+
+    const level1Exists =
+        referrals.some(function(item){
+
+            return (
+                String(item.username).toLowerCase() ===
+                String(newUsername).toLowerCase() &&
+
+                String(item.referrer).toLowerCase() ===
+                String(directReferrer.username).toLowerCase() &&
+
+                Number(item.level) === 1
+            );
+
+        });
+
+
+    if(!level1Exists){
+
+        referrals.push({
+
+            username: newUsername,
+
+            referrer: directReferrer.username,
+
+            level: 1,
+
+            date:
+                new Date().toISOString(),
+
+            packName: "",
+
+            packPrice: 0,
+
+            referralBonus: 0,
+
+            dailyProfitBonus: 0
+
+        });
+
+    }
+
+
+    /*
+      LEVEL 2
+      New user -> direct referrer's referrer
+    */
+
+    const directUsername =
+        String(
+            directReferrer.username
+        ).toLowerCase();
+
+
+    /*
+      Pehle direct referrer ka actual
+      referrer users list se nikalte hain.
+    */
+
+    let level2Username =
+        directReferrer.referredBy ||
+        "";
+
+
+    /*
+      Agar user object mein referredBy
+      nahi hai to referrals record se
+      Level 1 relation find karo.
+    */
+
+    if(!level2Username){
+
+        const parentRecord =
+            referrals.find(function(item){
+
+                return (
+                    String(item.username).toLowerCase() ===
+                    directUsername &&
+
+                    Number(item.level) === 1
+                );
+
+            });
+
+
+        if(parentRecord){
+
+            level2Username =
+                parentRecord.referrer;
+
+        }
+
+    }
+
+
+    /*
+      Level 2 mein khud ko nahi dalna.
+    */
+
+    if(
+        level2Username &&
+        String(level2Username).toLowerCase() !==
+        String(newUsername).toLowerCase() &&
+        String(level2Username).toLowerCase() !==
+        directUsername
+    ){
+
+        const level2Exists =
+            referrals.some(function(item){
+
+                return (
+                    String(item.username).toLowerCase() ===
+                    String(newUsername).toLowerCase() &&
+
+                    String(item.referrer).toLowerCase() ===
+                    String(level2Username).toLowerCase() &&
+
+                    Number(item.level) === 2
+                );
+
+            });
+
+
+        if(!level2Exists){
+
+            referrals.push({
+
+                username: newUsername,
+
+                referrer: level2Username,
+
+                level: 2,
+
+                date:
+                    new Date().toISOString(),
+
+                packName: "",
+
+                packPrice: 0,
+
+                referralBonus: 0,
+
+                dailyProfitBonus: 0
+
+            });
+
+        }
+
+    }
+
+
+    /*
+      Sirf Level 1 + Level 2 save.
+      Level 3 kabhi create nahi hota.
+    */
+
+    referrals =
+        referrals.filter(function(item){
+
+            return (
+                Number(item.level) === 1 ||
+                Number(item.level) === 2
+            );
+
+        });
+
+
+    saveReferrals(referrals);
+
+}
+
+
+/* =========================
+   REGISTRATION
+========================= */
+
+document
+.getElementById("registerForm")
+.addEventListener(
+    "submit",
+    function(e){
+
+        e.preventDefault();
+
+
+        const username =
+            document
+            .getElementById("username")
+            .value
+            .trim();
+
+
+        const phoneInput =
+            document
+            .getElementById("phone")
+            .value
+            .trim();
+
+
+        const password =
+            document
+            .getElementById("password")
+            .value
+            .trim();
+
+
+        const userError =
+            document.getElementById(
+                "userError"
+            );
+
+
+        const phoneError =
+            document.getElementById(
+                "phoneError"
+            );
+
+
+        userError.textContent = "";
+        phoneError.textContent = "";
+
+
+        /*
+          USERNAME
+        */
+
+        if(username.length < 3){
+
+            userError.textContent =
+                "Username must contain at least 3 characters.";
+
+            return;
+
+        }
+
+
+        /*
+          PASSWORD
+        */
+
+        if(password.length < 4){
+
+            alert(
+                "Password must contain at least 4 characters."
+            );
+
+            return;
+
+        }
+
+
+        /*
+          PHONE
+        */
+
+        const phoneRegex =
+            /^[0-9]{10}$/;
+
+
+        if(!phoneRegex.test(phoneInput)){
+
+            phoneError.textContent =
+                "Please enter exactly 10 digits after +92.";
+
+            return;
+
+        }
+
+
+        const fullPhone =
+            "+92" + phoneInput;
+
+
+        /*
+          USERS
+        */
+
+        let appUsers =
+            getUsers(
+                "aasanRozgaarUsers"
+            );
+
+
+        let adminUsers =
+            getUsers(
+                "users"
+            );
+
+
+        /*
+          DUPLICATE USERNAME
+        */
+
+        const usernameTaken =
+            appUsers.some(function(user){
+
+                return String(
+                    user.username
+                ).toLowerCase() ===
+                username.toLowerCase();
+
+            }) ||
+
+            adminUsers.some(function(user){
+
+                return String(
+                    user.username
+                ).toLowerCase() ===
+                username.toLowerCase();
+
+            });
+
+
+        if(usernameTaken){
+
+            userError.textContent =
+                "Username is already taken. Choose another one.";
+
+            return;
+
+        }
+
+
+        /*
+          DUPLICATE PHONE
+        */
+
+        const phoneTaken =
+            appUsers.some(function(user){
+
+                return user.phone === fullPhone;
+
+            }) ||
+
+            adminUsers.some(function(user){
+
+                return user.phone === fullPhone;
+
+            });
+
+
+        if(phoneTaken){
+
+            phoneError.textContent =
+                "This phone number is already registered.";
+
+            return;
+
+        }
+
+
+        /*
+          REFERRAL VALIDATION
+        */
+
+        const referralCode =
+            getReferralParameter();
+
+
+        let directReferrer =
+            null;
+
+
+        if(referralCode){
+
+            directReferrer =
+                findUserByReferralId(
+                    referralCode,
+                    appUsers,
+                    adminUsers
+                );
+
+
+            if(!directReferrer){
+
+                alert(
+                    "Invalid referral link. Please use a valid referral link."
+                );
+
+                return;
+
+            }
+
+
+            /*
+              Apne aap ko refer nahi kar sakta
+            */
+
+            if(
+                String(
+                    directReferrer.username
+                ).toLowerCase() ===
+                String(username).toLowerCase()
+            ){
+
+                alert(
+                    "You cannot use your own referral link."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        /*
+          UNIQUE USER ID
+        */
+
+        const userId =
+            "USER_" +
+            Date.now() +
+            "_" +
+            Math.random()
+            .toString(36)
+            .substring(2,8);
+
+
+        /*
+          REFERRAL ID
+        */
+
+        const referralId =
+            createReferralId(
+                username
+            );
+
+
+        /*
+          REFERRED BY
+        */
+
+        const referredBy =
+            directReferrer
+                ? directReferrer.username
+                : "";
+
+
+        /*
+          APP USER
+        */
+
+        const newAppUser = {
+
+            id: userId,
+
+            username: username,
+
+            phone: fullPhone,
+
+            password: password,
+
+            balance: 0,
+
+            referralId: referralId,
+
+            referredBy: referredBy,
+
+            referralLevel:
+                directReferrer ? 1 : 0,
+
+            status: "Active",
+
+            blocked: false,
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+
+        appUsers.push(
+            newAppUser
+        );
+
+
+        saveUsers(
+            "aasanRozgaarUsers",
+            appUsers
+        );
+
+
+        /*
+          ADMIN USER
+        */
+
+        const newAdminUser = {
+
+            id: userId,
+
+            username: username,
+
+            phone: fullPhone,
+
+            password: password,
+
+            email: "",
+
+            balance: 0,
+
+            status: "Active",
+
+            blocked: false,
+
+            referralId: referralId,
+
+            referredBy: referredBy,
+
+            referralLevel:
+                directReferrer ? 1 : 0,
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+
+        adminUsers.push(
+            newAdminUser
+        );
+
+
+        saveUsers(
+            "users",
+            adminUsers
+        );
+
+
+        /*
+          REFERRAL CHAIN
+        */
+
+        createReferralChain(
+            username,
+            directReferrer,
+            appUsers,
+            adminUsers
+        );
+
+
+        /*
+          BALANCE
+        */
+
+        localStorage.setItem(
+            "userBalance_" +
+            username,
+            "0"
+        );
+
+
+        /*
+          ACTIVE PLANS
+        */
+
+        localStorage.setItem(
+            "userActivePlans_" +
+            username,
+            "[]"
+        );
+
+
+        /*
+          PLAN HISTORY
+        */
+
+        localStorage.setItem(
+            "userPlanHistory_" +
+            username,
+            "[]"
+        );
+
+
+        /*
+          TOTAL PROFIT
+        */
+
+        localStorage.setItem(
+            "userTotalProfit_" +
+            username,
+            "0"
+        );
+
+
+        /*
+          REFERRAL ID
+        */
+
+        localStorage.setItem(
+            "referralId_" +
+            username,
+            referralId
+        );
+
+
+        /*
+          CURRENT USER
+        */
+
+        localStorage.setItem(
+            "currentUser",
+            username
+        );
+
+
+        /*
+          LOGIN STATE
+        */
+
+        localStorage.setItem(
+            "isLoggedIn",
+            "true"
+        );
+
+
+        /*
+          SUCCESS
+        */
+
+        alert(
+            directReferrer
+                ? "Account created successfully! Referred by: " +
+                  directReferrer.username
+                : "Account created successfully!"
+        );
+
+
+        window.location.href =
+            "home.html";
+
+    }
+);
+
+
+/* =========================
+   PAGE LOAD
+========================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        showReferralInfo();
+
+    }
+);
+
+</script></body>
+</html>

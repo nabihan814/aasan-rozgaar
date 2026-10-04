@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deposit Funds - Aasan Rozgaar</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: #f5f7f9;
+        color: #222;
+        padding-bottom: 80px;
+    }
+
+    .top-banner {
+        background: #0b8f55;
+        color: white;
+        padding: 18px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .container {
+        width: 94%;
+        max-width: 600px;
+        margin: 18px auto;
+    }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .methods {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+
+    .method-card {
+        min-width: 145px;
+        background: white;
+        border: 2px solid #ddd;
+        border-radius: 12px;
+        padding: 14px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .method-card.active {
+        border-color: #0b8f55;
+        background: #edfff6;
+    }
+
+    .method-name {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .info-box {
+        background: #eafff3;
+        border-left: 4px solid #0b8f55;
+        padding: 14px;
+        margin: 15px 0;
+        border-radius: 8px;
+        line-height: 1.6;
+        word-break: break-word;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 7px;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+        width: 100%;
+        padding: 13px;
+        border: 1px solid #ccc;
+        border-radius: 9px;
+        outline: none;
+        font-size: 15px;
+    }
+
+    input:focus {
+        border-color: #0b8f55;
+    }
+
+    .upload-box {
+        background: white;
+        border: 2px dashed #aaa;
+        border-radius: 10px;
+        padding: 18px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .upload-box input {
+        display: none;
+    }
+
+    .file-name {
+        margin-top: 8px;
+        font-size: 13px;
+        color: #555;
+        word-break: break-word;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 10px;
+        background: #0b8f55;
+        color: white;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .submit-btn:active {
+        transform: scale(.98);
+    }
+
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 65px;
+        background: white;
+        border-top: 1px solid #ddd;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 100;
+    }
+
+    .bottom-nav a {
+        text-decoration: none;
+        color: #555;
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .bottom-nav a.active {
+        color: #0b8f55;
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="top-banner">
+    Deposit Funds
+</div>
+
+<div class="container">
+
+    <div class="section-title">
+        Active Payment Methods
+    </div>
+
+    <div class="methods" id="paymentMethods"></div>
+
+    <div class="info-box" id="infoBox">
+        Payment method select karein.
+    </div>
+
+    <div class="form-group">
+        <label>Amount</label>
+        <input type="number" id="amount" placeholder="Enter amount" min="1">
+    </div>
+
+    <div class="form-group">
+        <label>TID / Transaction ID</label>
+        <input type="text" id="trxid" placeholder="Enter Transaction ID">
+    </div>
+
+    <div class="form-group">
+        <label>Payment Screenshot</label>
+
+        <label class="upload-box">
+            <input
+                type="file"
+                id="screenshot"
+                accept="image/*"
+                onchange="handleFileSelect(event)"
+            >
+
+            <div>📷 Select Payment Screenshot</div>
+
+            <div class="file-name" id="fileNameText">
+                No file selected
+            </div>
+        </label>
+    </div>
+
+    <button class="submit-btn" onclick="submitDepositRequest()">
+        Submit Deposit Request
+    </button>
+
+</div>
+
+<div class="bottom-nav">
+    <a href="home.html">Home</a>
+    <a href="plans.html">Plans</a>
+    <a href="deposit.html" class="active">Deposit</a>
+    <a href="withdraw.html">Withdraw</a>
+</div>
+
+
+<script>
+
+let selectedMethodId = null;
+let selectedMethodName = '';
+let selectedMethodDetails = '';
+let uploadedImageBase64 = '';
+let lastMethodsJSON = '';
+
+function initUserDeposit() {
+    loadActiveMethods();
+
+    window.addEventListener('storage', function(event) {
+        if (event.key === 'depositTypesList') {
+            loadActiveMethods();
+        }
+    });
+
+    setInterval(syncPaymentMethods, 2000);
+}
+
+function getDepositTypes() {
+    try {
+        return JSON.parse(localStorage.getItem('depositTypesList')) || [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function syncPaymentMethods() {
+    const methods = getDepositTypes();
+    const json = JSON.stringify(methods);
+
+    if (json !== lastMethodsJSON) {
+        lastMethodsJSON = json;
+        loadActiveMethods();
+    }
+}
+
+function loadActiveMethods() {
+
+    const container = document.getElementById('paymentMethods');
+
+    if (!container) return;
+
+    const methods = getDepositTypes();
+
+    lastMethodsJSON = JSON.stringify(methods);
+
+    const activeMethods = methods.filter(function(method) {
+        return method.status === 'Active';
+    });
+
+    container.innerHTML = '';
+
+    if (activeMethods.length === 0) {
+
+        container.innerHTML = `
+            <div style="
+                background:white;
+                padding:15px;
+                border-radius:10px;
+                width:100%;
+                text-align:center;
+                color:#777;
+            ">
+                No active payment method available.
+            </div>
+        `;
+
+        selectedMethodId = null;
+        selectedMethodName = '';
+        selectedMethodDetails = '';
+
+        updateInfoBox();
+
+        return;
+    }
+
+    activeMethods.forEach(function(method) {
+
+        const card = document.createElement('div');
+
+        card.className = 'method-card';
+
+        if (String(method.id) === String(selectedMethodId)) {
+            card.classList.add('active');
+        }
+
+        card.innerHTML = `
+            <div class="method-name">
+                ${escapeHTML(method.name || 'Payment Method')}
+            </div>
+        `;
+
+        card.onclick = function() {
+            selectMethodById(method.id);
+        };
+
+        container.appendChild(card);
+    });
+
+    if (
+        selectedMethodId &&
+        activeMethods.some(function(method) {
+            return String(method.id) === String(selectedMethodId);
+        })
+    ) {
+        selectMethodById(selectedMethodId);
+    } else {
+        selectMethodById(activeMethods[0].id);
+    }
+}
+
+function selectMethodById(id) {
+
+    const methods = getDepositTypes();
+
+    const method = methods.find(function(item) {
+        return String(item.id) === String(id) &&
+               item.status === 'Active';
+    });
+
+    if (!method) return;
+
+    selectedMethodId = method.id;
+    selectedMethodName = method.name || '';
+    selectedMethodDetails = method.details || '';
+
+    const cards = document.querySelectorAll('.method-card');
+
+    cards.forEach(function(card) {
+        card.classList.remove('active');
+
+        const title = card.querySelector('.method-name');
+
+        if (
+            title &&
+            title.innerText.trim() === selectedMethodName.trim()
+        ) {
+            card.classList.add('active');
+        }
+    });
+
+    updateInfoBox();
+}
+
+function updateInfoBox() {
+
+    const infoBox = document.getElementById('infoBox');
+
+    if (!selectedMethodName) {
+        infoBox.innerHTML = 'Payment method select karein.';
+        return;
+    }
+
+    infoBox.innerHTML = `
+        <strong>${escapeHTML(selectedMethodName)}</strong>
+        <br>
+        ${escapeHTML(selectedMethodDetails).replace(/\n/g, '<br>')}
+    `;
+}
+
+
+/*
+    SCREENSHOT UPLOAD
+    Normal screenshot/image select karein.
+    Code automatically usay compress karega
+    aur localStorage ke liye chhota version banayega.
+*/
+
+function handleFileSelect(event) {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+
+        alert('Sirf image screenshot upload karein.');
+
+        event.target.value = '';
+
+        uploadedImageBase64 = '';
+
+        document.getElementById('fileNameText').innerText =
+            'No file selected';
+
+        return;
+    }
+
+    document.getElementById('fileNameText').innerText =
+        file.name + ' — Processing...';
+
+    uploadedImageBase64 = '';
+
+    compressImage(file, function(result) {
+
+        if (!result) {
+
+            alert('Screenshot process nahi ho saka. Dobara try karein.');
+
+            document.getElementById('fileNameText').innerText =
+                'No file selected';
+
+            return;
+        }
+
+        uploadedImageBase64 = result;
+
+        document.getElementById('fileNameText').innerText =
+            file.name + ' — Ready';
+
+    });
+}
+
+
+function compressImage(file, callback) {
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        const img = new Image();
+
+        img.onload = function() {
+
+            let width = img.width;
+            let height = img.height;
+
+            /*
+                Pehle image ko reasonable size par lao.
+                User ko manually screenshot resize karne ki zarurat nahi.
+            */
+
+            const maxWidth = 1200;
+            const maxHeight = 1600;
+
+            if (width > maxWidth) {
+
+                const ratio = maxWidth / width;
+
+                width = maxWidth;
+                height = Math.round(height * ratio);
+            }
+
+            if (height > maxHeight) {
+
+                const ratio = maxHeight / height;
+
+                height = maxHeight;
+                width = Math.round(width * ratio);
+            }
+
+            const canvas = document.createElement('canvas');
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(
+                img,
+                0,
+                0,
+                width,
+                height
+            );
+
+            /*
+                Agar result localStorage ke liye zyada bara ho
+                to quality automatically kam hoti rahegi.
+            */
+
+            let quality = 0.75;
+            let result = '';
+
+            while (quality >= 0.30) {
+
+                result = canvas.toDataURL(
+                    'image/jpeg',
+                    quality
+                );
+
+                /*
+                    Around 700KB se neeche rakhne ki koshish.
+                    Is se normal screenshots easily save ho jate hain.
+                */
+
+                if (result.length <= 700000) {
+                    break;
+                }
+
+                quality -= 0.05;
+            }
+
+            callback(result);
+        };
+
+        img.onerror = function() {
+            callback(null);
+        };
+
+        img.src = e.target.result;
+    };
+
+    reader.onerror = function() {
+        callback(null);
+    };
+
+    reader.readAsDataURL(file);
+}
+
+
+function submitDepositRequest() {
+
+    const username = localStorage.getItem('currentUser');
+
+    if (!username) {
+
+        alert('Pehle login karein.');
+
+        return;
+    }
+
+    if (!selectedMethodId) {
+
+        alert('Payment method select karein.');
+
+        return;
+    }
+
+    const amountInput =
+        document.getElementById('amount').value.trim();
+
+    const trxid =
+        document.getElementById('trxid').value.trim();
+
+    const amount = parseFloat(amountInput);
+
+    if (!amountInput || isNaN(amount) || amount <= 0) {
+
+        alert('Valid amount enter karein.');
+
+        return;
+    }
+
+    if (!trxid) {
+
+        alert('Transaction ID enter karein.');
+
+        return;
+    }
+
+    if (!uploadedImageBase64) {
+
+        alert('Payment screenshot upload karein.');
+
+        return;
+    }
+
+    const request = {
+
+        id:
+            'dep_' +
+            Date.now() +
+            '_' +
+            Math.random()
+                .toString(36)
+                .substring(2, 8),
+
+        username: username,
+
+        method: selectedMethodName,
+
+        details: selectedMethodDetails,
+
+        amount: amount,
+
+        trxid: trxid,
+
+        screenshot: uploadedImageBase64,
+
+        date: new Date().toLocaleString('en-PK'),
+
+        status: 'Pending'
+    };
+
+
+    let requests = [];
+
+    try {
+
+        requests =
+            JSON.parse(
+                localStorage.getItem('depositRequests')
+            ) || [];
+
+    } catch (e) {
+
+        requests = [];
+    }
+
+
+    requests.push(request);
+
+
+    try {
+
+        localStorage.setItem(
+            'depositRequests',
+            JSON.stringify(requests)
+        );
+
+    } catch (e) {
+
+        alert(
+            'Screenshot/storage save nahi ho saka. Dobara try karein.'
+        );
+
+        return;
+    }
+
+
+    let userHistory = [];
+
+    try {
+
+        userHistory =
+            JSON.parse(
+                localStorage.getItem('userDepositHistory')
+            ) || [];
+
+    } catch (e) {
+
+        userHistory = [];
+    }
+
+
+    userHistory.push(request);
+
+
+    try {
+
+        localStorage.setItem(
+            'userDepositHistory',
+            JSON.stringify(userHistory)
+        );
+
+    } catch (e) {
+
+        /*
+            Main request already save ho chuki hai.
+            History save na ho to request ko phir bhi preserve rakhen.
+        */
+    }
+
+
+    /*
+        Report data bhi update kar rahe hain
+        taake admin side par report available ho.
+    */
+
+    let reportData = [];
+
+    try {
+
+        reportData =
+            JSON.parse(
+                localStorage.getItem('depositReportData')
+            ) || [];
+
+    } catch (e) {
+
+        reportData = [];
+    }
+
+    reportData.push(request);
+
+    try {
+
+        localStorage.setItem(
+            'depositReportData',
+            JSON.stringify(reportData)
+        );
+
+    } catch (e) {
+        // Report save fail ho to request phir bhi valid rahegi.
+    }
+
+
+    alert(
+        'Deposit request successfully submit ho gayi. Admin approval ka wait karein.'
+    );
+
+
+    document.getElementById('amount').value = '';
+    document.getElementById('trxid').value = '';
+
+    document.getElementById('screenshot').value = '';
+
+    document.getElementById('fileNameText').innerText =
+        'No file selected';
+
+    uploadedImageBase64 = '';
+}
+
+
+function escapeHTML(value) {
+
+    return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+
+function escapeJS(value) {
+
+    return String(value || '')
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r');
+}
+
+
+initUserDeposit();
+
+</script>
+
+</body>
+</html>
