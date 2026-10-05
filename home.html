@@ -510,7 +510,6 @@ body{
 
         </div>
 
-        <!-- REFERRER NOW DYNAMIC -->
         <div class="referrer-tag"
              id="referrerTag">
 
@@ -642,8 +641,6 @@ body{
     <div class="banner-row">
 
 
-        <!-- APP INSTALL BUTTON -->
-
         <a href="#"
            class="banner-box"
            id="installAppBtn">
@@ -675,8 +672,6 @@ body{
         </a>
 
 
-
-        <!-- EXISTING BONUS BUTTON -->
 
         <a href="#"
            class="banner-box">
@@ -790,21 +785,22 @@ body{
 
 
 
-        <a href="withdraw-history.html"
+        <!-- LUCKY DRAW -->
+        <a href="lucky-draw.html"
            class="stat-3d-card">
 
             <div class="stat-icon-box">
-                &#128196;
+                🎁
             </div>
 
             <div class="stat-text-info">
 
                 <span>
-                    Withdraw History
+                    Lucky Draw
                 </span>
 
                 <h4>
-                    View Logs
+                    Try Your Luck
                 </h4>
 
             </div>
@@ -993,6 +989,13 @@ const DAY =
     24 * 60 * 60 * 1000;
 
 
+/* =========================
+   BACKEND
+========================= */
+
+const API_URL =
+    "https://aasan-rozgaar-backend.onrender.com";
+
 
 /* =========================
    CURRENT USER
@@ -1005,7 +1008,6 @@ function getCurrentUser(){
     );
 
 }
-
 
 
 /* =========================
@@ -1033,7 +1035,6 @@ function getProfitKey(username){
 }
 
 
-
 /* =========================
    SAFE NUMBER
 ========================= */
@@ -1050,9 +1051,8 @@ function safeNumber(value){
 }
 
 
-
 /* =========================
-   BALANCE
+   LOCAL BALANCE CACHE
 ========================= */
 
 function getUserBalance(username){
@@ -1098,6 +1098,94 @@ function saveUserBalance(
 
 }
 
+
+/* =========================
+   LIVE DATABASE BALANCE
+========================= */
+
+async function loadLiveBalance(username){
+
+    if(!username){
+        return;
+    }
+
+    try{
+
+        const response =
+            await fetch(
+                API_URL +
+                "/api/balance/" +
+                encodeURIComponent(username)
+            );
+
+        const data =
+            await response.json();
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            console.log(
+                "Balance request failed:",
+                data.message || "Unknown error"
+            );
+
+            return;
+
+        }
+
+
+        const balance =
+            safeNumber(data.balance);
+
+
+        const balanceText =
+            'Rs ' +
+            balance.toLocaleString(
+                'en-PK',
+                {
+                    minimumFractionDigits:2,
+                    maximumFractionDigits:2
+                }
+            );
+
+
+        const balanceElement =
+            document.getElementById(
+                'dashBalance'
+            );
+
+
+        if(balanceElement){
+
+            balanceElement.innerText =
+                balanceText;
+
+        }
+
+
+        /*
+           LocalStorage sirf cache ke liye.
+           Database hi actual balance hai.
+        */
+
+        saveUserBalance(
+            username,
+            balance
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Live balance error:",
+            error
+        );
+
+    }
+
+}
 
 
 /* =========================
@@ -1151,7 +1239,6 @@ function saveUserPlans(
     );
 
 }
-
 
 
 /* =========================
@@ -1346,14 +1433,9 @@ function processPlanProfits(){
 }
 
 
-
 /* =========================
    REFERRAL HELPERS
 ========================= */
-
-/*
-   Gets all referral records.
-*/
 
 function getReferralRecords(){
 
@@ -1379,38 +1461,12 @@ function getReferralRecords(){
 }
 
 
-/*
-   Finds the direct referrer of the
-   current user.
-
-   ONLY LEVEL 1 is used here.
-
-   Example:
-
-   A -> B
-   B is Level 1 of A
-
-   B -> C
-   C is Level 1 of B
-
-   C -> D
-   D is Level 1 of C
-
-   This means the home page never
-   treats Level 2 as direct referrer.
-*/
-
 function getDirectReferrer(username){
 
     if(!username){
         return '';
     }
 
-
-    /*
-       First check the user's own
-       referredBy field.
-    */
 
     try{
 
@@ -1456,11 +1512,6 @@ function getDirectReferrer(username){
     }
 
 
-    /*
-       Fallback to referrals array.
-       ONLY level 1.
-    */
-
     const referrals =
         getReferralRecords();
 
@@ -1491,11 +1542,6 @@ function getDirectReferrer(username){
 
 }
 
-
-/*
-   Loads actual referrer into the
-   existing original design.
-*/
 
 function loadReferrer(){
 
@@ -1533,14 +1579,6 @@ function loadReferrer(){
 
 }
 
-
-/*
-   Gets ONLY Level 1 and Level 2
-   referral counts.
-
-   Level 3 and anything beyond
-   is completely ignored.
-*/
 
 function getReferralCounts(username){
 
@@ -1597,12 +1635,11 @@ function getReferralCounts(username){
 }
 
 
-
 /* =========================
    DASHBOARD
 ========================= */
 
-function loadDashboardData(){
+async function loadDashboardData(){
 
     const username =
         getCurrentUser();
@@ -1635,23 +1672,8 @@ function loadDashboardData(){
         username;
 
 
-    /*
-       NEW:
-       Show actual direct referrer.
-    */
-
     loadReferrer();
 
-
-    /*
-       Referral counts are calculated
-       only from Level 1 + Level 2.
-
-       They are not added to the existing
-       visual design because the original
-       design has no team-count card here.
-       Team page will handle the team list.
-    */
 
     getReferralCounts(username);
 
@@ -1659,21 +1681,13 @@ function loadDashboardData(){
     processPlanProfits();
 
 
-    const balance =
-        getUserBalance(username);
+    /*
+       IMPORTANT:
+       Database balance is loaded after
+       local calculations.
+    */
 
-
-    document.getElementById(
-        'dashBalance'
-    ).innerText =
-        'Rs ' +
-        balance.toLocaleString(
-            'en-PK',
-            {
-                minimumFractionDigits:2,
-                maximumFractionDigits:2
-            }
-        );
+    await loadLiveBalance(username);
 
 
     const planProfit =
@@ -1696,13 +1710,6 @@ function loadDashboardData(){
             }
         );
 
-
-    /*
-       Original behavior kept:
-       referral bonus display remains
-       Rs 0.00 until the bonus system
-       actually adds a demo/test bonus.
-    */
 
     document.getElementById(
         'refBonusDisplay'
@@ -1728,7 +1735,6 @@ function loadDashboardData(){
         ' Active';
 
 }
-
 
 
 /* =========================
@@ -1960,7 +1966,6 @@ function checkActivePlans(){
 }
 
 
-
 /* =========================
    PROFIT DETAILS
 ========================= */
@@ -2114,7 +2119,6 @@ function showProfitDetails(){
 }
 
 
-
 /* =========================
    ESCAPE HTML
 ========================= */
@@ -2129,7 +2133,6 @@ function escapeHtml(value){
         .replace(/'/g,'&#039;');
 
 }
-
 
 
 /* =========================
@@ -2156,7 +2159,6 @@ function closeProfitModal(){
 }
 
 
-
 /* =========================
    LOGOUT
 ========================= */
@@ -2168,7 +2170,6 @@ function logoutUser(){
     );
 
 }
-
 
 
 /* =========================
@@ -2207,7 +2208,6 @@ document.getElementById(
 );
 
 
-
 /* =========================
    PWA INSTALL SYSTEM
 ========================= */
@@ -2233,11 +2233,6 @@ const installBadge =
         'installBadge'
     );
 
-
-
-/*
-   Browser install prompt
-*/
 
 window.addEventListener(
     'beforeinstallprompt',
@@ -2277,11 +2272,6 @@ window.addEventListener(
 );
 
 
-
-/*
-   Install button
-*/
-
 if(installAppBtn){
 
     installAppBtn.addEventListener(
@@ -2290,10 +2280,6 @@ if(installAppBtn){
 
             event.preventDefault();
 
-
-            /*
-              Install option available
-            */
 
             if(deferredInstallPrompt){
 
@@ -2331,10 +2317,6 @@ if(installAppBtn){
             }
 
 
-            /*
-              Already installed
-            */
-
             if(
                 window.matchMedia(
                     '(display-mode: standalone)'
@@ -2350,10 +2332,6 @@ if(installAppBtn){
             }
 
 
-            /*
-              Browser install menu
-            */
-
             alert(
                 "Install option abhi available nahi hai.\n\n" +
                 "Chrome ke menu ⋮ mein jaakar " +
@@ -2366,11 +2344,6 @@ if(installAppBtn){
 
 }
 
-
-
-/*
-   App installed
-*/
 
 window.addEventListener(
     'appinstalled',
@@ -2402,7 +2375,6 @@ window.addEventListener(
 
     }
 );
-
 
 
 /* =========================
@@ -2447,13 +2419,11 @@ if(
 }
 
 
-
 /* =========================
    INITIAL LOAD
 ========================= */
 
 loadDashboardData();
-
 
 
 /* =========================
@@ -2472,9 +2442,8 @@ setInterval(
         }
 
     },
-    1000
+    5000
 );
-
 
 
 /* =========================
