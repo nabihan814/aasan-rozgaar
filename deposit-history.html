@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Aasan Rozgaar - Deposit History</title>
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Aasan Rozgaar - Deposit History</title><style>
 
 *{
     box-sizing:border-box;
@@ -147,6 +142,20 @@ h2{
     font-size:15px;
 }
 
+.error-msg{
+    text-align:center;
+    color:#c62828;
+    padding:35px 10px;
+    font-size:14px;
+}
+
+.loading-msg{
+    text-align:center;
+    color:#777;
+    padding:35px 10px;
+    font-size:15px;
+}
+
 .back-link{
     display:block;
     text-align:center;
@@ -168,37 +177,33 @@ h2{
     margin-top:12px;
 }
 
-</style>
-</head>
+</style></head><body><div class="container"><h2>Deposit History & Logs</h2>
 
-<body>
+<div id="accountName" class="account-name"></div>
 
-<div class="container">
+<div id="depositHistoryContainer"></div>
 
-    <h2>Deposit History & Logs</h2>
-
-    <div id="accountName" class="account-name"></div>
-
-    <div id="depositHistoryContainer"></div>
-
-    <div class="refresh-note">
-        Deposit status automatically updates when changed.
-    </div>
-
-    <a href="home.html" class="back-link">
-        &larr; Back to Dashboard
-    </a>
-
+<div class="refresh-note">
+    Deposit status automatically updates when changed.
 </div>
 
+<a href="home.html" class="back-link">
+    &larr; Back to Dashboard
+</a>
 
-<script>
+</div><script>
 
 /* =========================================================
    AASAN ROZGAAR
    USER DEPOSIT HISTORY
-   Connected with: depositRequests
+   CONNECTED WITH BACKEND
    ========================================================= */
+
+
+/* ---------- BACKEND ---------- */
+
+const API_URL =
+    "https://aasan-rozgaar-backend.onrender.com";
 
 
 /* ---------- HTML SECURITY ---------- */
@@ -215,42 +220,40 @@ function escapeHTML(value){
 }
 
 
-/* ---------- READ DEPOSITS ---------- */
+/* ---------- DISPLAY DATE ---------- */
 
-function getDepositRequests(){
+function displayDateTime(value){
 
-    try{
-
-        const data =
-            localStorage.getItem("depositRequests");
-
-        if(!data){
-            return [];
-        }
-
-        const parsed = JSON.parse(data);
-
-        return Array.isArray(parsed)
-            ? parsed
-            : [];
-
-    }catch(error){
-
-        console.error(
-            "Deposit data error:",
-            error
-        );
-
-        return [];
-
+    if(!value){
+        return "-";
     }
+
+    const date =
+        new Date(value);
+
+    if(isNaN(date.getTime())){
+        return String(value);
+    }
+
+    return date.toLocaleString(
+        "en-PK",
+        {
+            day:"2-digit",
+            month:"2-digit",
+            year:"numeric",
+            hour:"2-digit",
+            minute:"2-digit",
+            second:"2-digit",
+            hour12:true
+        }
+    );
 
 }
 
 
 /* ---------- LOAD USER HISTORY ---------- */
 
-function loadDepositHistory(){
+async function loadDepositHistory(){
 
     const container =
         document.getElementById(
@@ -266,7 +269,9 @@ function loadDepositHistory(){
     /* Current logged-in user */
 
     const currentUser =
-        localStorage.getItem("currentUser");
+        localStorage.getItem(
+            "currentUser"
+        );
 
 
     if(!currentUser){
@@ -289,219 +294,286 @@ function loadDepositHistory(){
         "Account: " + currentUser;
 
 
-    /* Get all deposits */
-
-    const allRequests =
-        getDepositRequests();
-
-
-    /*
-       Only current user's deposits.
-    */
-
-    const userRequests =
-        allRequests.filter(function(req){
-
-            return String(
-                req.username || ""
-            ).toLowerCase()
-            ===
-            String(
-                currentUser
-            ).toLowerCase();
-
-        });
+    container.innerHTML = `
+        <div class="loading-msg">
+            Loading deposit history...
+        </div>
+    `;
 
 
-    /* No history */
+    try{
 
-    if(userRequests.length === 0){
+        const response =
+            await fetch(
+                API_URL +
+                "/api/deposits/" +
+                encodeURIComponent(
+                    currentUser
+                ),
+                {
+                    method:"GET",
+                    headers:{
+                        "Accept":
+                            "application/json"
+                    },
+                    cache:"no-store"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Failed to load deposit history"
+            );
+
+        }
+
+
+        const userRequests =
+            Array.isArray(
+                data.deposits
+            )
+            ? data.deposits
+            : [];
+
+
+        /* No history */
+
+        if(userRequests.length === 0){
+
+            container.innerHTML = `
+                <div class="empty-msg">
+                    Abhi tak koi deposit request
+                    nahi lagai gayi.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        /* Newest first */
+
+        userRequests.sort(
+            function(a,b){
+
+                return new Date(
+                    b.createdAt || 0
+                ).getTime()
+                -
+                new Date(
+                    a.createdAt || 0
+                ).getTime();
+
+            }
+        );
+
+
+        container.innerHTML = "";
+
+
+        /* ---------- CREATE EACH DEPOSIT CARD ---------- */
+
+        userRequests.forEach(
+            function(req){
+
+                const rawStatus =
+                    String(
+                        req.status ||
+                        "Pending"
+                    );
+
+
+                const safeStatus =
+                    [
+                        "Pending",
+                        "Inprocess",
+                        "Approved",
+                        "Rejected"
+                    ].includes(
+                        rawStatus
+                    )
+                    ? rawStatus
+                    : (
+                        rawStatus === "Reject"
+                        ? "Rejected"
+                        : "Pending"
+                    );
+
+
+                const amount =
+                    Number(
+                        req.amount
+                    ) || 0;
+
+
+                const method =
+                    req.method || "-";
+
+
+                const trxid =
+                    req.transactionId
+                    || "-";
+
+
+                const date =
+                    displayDateTime(
+                        req.createdAt
+                    );
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "history-card " +
+                    safeStatus;
+
+
+                card.innerHTML = `
+
+                    <div class="row">
+
+                        <span>
+                            <strong>Method:</strong>
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                method
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <span>
+                            <strong>Amount:</strong>
+                        </span>
+
+                        <span class="amount">
+                            Rs ${amount.toLocaleString(
+                                "en-PK"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <span>
+                            <strong>TRX ID:</strong>
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                trxid
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <span>
+                            <strong>Status:</strong>
+                        </span>
+
+                        <span class="status ${safeStatus}">
+                            ${escapeHTML(
+                                safeStatus
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <span>
+                            <strong>Payment Details:</strong>
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                method
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="row date-row">
+
+                        <span>
+                            Date & Time:
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                date
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="deposit-id">
+
+                        Deposit ID:
+                        ${escapeHTML(
+                            req.id || "-"
+                        )}
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(
+                    card
+                );
+
+            }
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Deposit history error:",
+            error
+        );
+
 
         container.innerHTML = `
-            <div class="empty-msg">
-                Abhi tak koi deposit request
-                nahi lagai gayi.
+            <div class="error-msg">
+                Deposit history load nahi ho rahi.
+                <br>
+                <small>
+                    ${escapeHTML(
+                        error.message ||
+                        "Backend connection error"
+                    )}
+                </small>
             </div>
         `;
-
-        return;
 
     }
-
-
-    /*
-       Newest deposits first.
-       Date string se sorting fail ho sakti hai,
-       isliye array order + timestamp/id
-       ko safely handle kar rahe hain.
-    */
-
-    userRequests.sort(function(a,b){
-
-        const aTime =
-            Number(a.createdAt)
-            || Number(a.timestamp)
-            || Number(a.id?.replace(/\D/g,""))
-            || 0;
-
-        const bTime =
-            Number(b.createdAt)
-            || Number(b.timestamp)
-            || Number(b.id?.replace(/\D/g,""))
-            || 0;
-
-        return bTime - aTime;
-
-    });
-
-
-    container.innerHTML = "";
-
-
-    /* ---------- CREATE EACH DEPOSIT CARD ---------- */
-
-    userRequests.forEach(function(req){
-
-        const status =
-            req.status || "Pending";
-
-
-        const safeStatus =
-            [
-                "Pending",
-                "Inprocess",
-                "Approved",
-                "Rejected"
-            ].includes(status)
-            ? status
-            : "Pending";
-
-
-        const amount =
-            Number(req.amount) || 0;
-
-
-        const method =
-            req.method || "-";
-
-
-        const trxid =
-            req.trxid
-            || req.tid
-            || "-";
-
-
-        const details =
-            req.details
-            || "-";
-
-
-        const date =
-            req.date
-            || "-";
-
-
-        const card =
-            document.createElement("div");
-
-
-        card.className =
-            "history-card " + safeStatus;
-
-
-        card.innerHTML = `
-
-            <div class="row">
-
-                <span>
-                    <strong>Method:</strong>
-                </span>
-
-                <span>
-                    ${escapeHTML(method)}
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span>
-                    <strong>Amount:</strong>
-                </span>
-
-                <span class="amount">
-                    Rs ${amount.toLocaleString()}
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span>
-                    <strong>TRX ID:</strong>
-                </span>
-
-                <span>
-                    ${escapeHTML(trxid)}
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span>
-                    <strong>Status:</strong>
-                </span>
-
-                <span class="status ${safeStatus}">
-                    ${escapeHTML(safeStatus)}
-                </span>
-
-            </div>
-
-
-            <div class="row">
-
-                <span>
-                    <strong>Payment Details:</strong>
-                </span>
-
-                <span>
-                    ${escapeHTML(details)}
-                </span>
-
-            </div>
-
-
-            <div class="row date-row">
-
-                <span>
-                    Date & Time:
-                </span>
-
-                <span>
-                    ${escapeHTML(date)}
-                </span>
-
-            </div>
-
-
-            <div class="deposit-id">
-
-                Deposit ID:
-                ${escapeHTML(req.id || "-")}
-
-            </div>
-
-        `;
-
-
-        container.appendChild(card);
-
-    });
 
 }
 
@@ -518,75 +590,16 @@ window.addEventListener(
 );
 
 
-/* =========================================================
-   LIVE UPDATE
-   =========================================================
+/* ---------- AUTO REFRESH ---------- */
 
-   Admin agar deposit ka status change kare:
-
-   Pending
-       ↓
-   Inprocess
-       ↓
-   Approved
-
-   ya
-
-   Pending
-       ↓
-   Rejected
-
-   to depositRequests change hote hi
-   history dobara load hogi.
-   ========================================================= */
-
-window.addEventListener(
-    "storage",
-    function(event){
-
-        if(
-            event.key === "depositRequests"
-        ){
-
-            loadDepositHistory();
-
-        }
-
-    }
-);
-
-
-/*
-   Same page/browser mein agar kisi script
-   ne depositRequests update kiya ho,
-   to thori der baad check karte rahenge.
-*/
-
-let lastDepositData =
-    localStorage.getItem("depositRequests")
-    || "";
-
-
-setInterval(function(){
-
-    const currentData =
-        localStorage.getItem("depositRequests")
-        || "";
-
-
-    if(currentData !== lastDepositData){
-
-        lastDepositData =
-            currentData;
+setInterval(
+    function(){
 
         loadDepositHistory();
 
-    }
+    },
+    5000
+);
 
-},1000);
-
-
-</script>
-
-</body>
-</html>
+</script></body>
+    </html>
