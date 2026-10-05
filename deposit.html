@@ -264,6 +264,8 @@ let selectedMethodDetails = '';
 let uploadedImageBase64 = '';
 let lastMethodsJSON = '';
 
+let depositMethods = [];
+
 
 // ======================================
 // INITIALIZE
@@ -273,42 +275,64 @@ function initUserDeposit() {
 
     loadActiveMethods();
 
-    window.addEventListener('storage', function(event) {
-
-        if (event.key === 'depositTypesList') {
-
-            loadActiveMethods();
-
-        }
-
-    });
-
-    setInterval(
-        syncPaymentMethods,
-        2000
-    );
 }
 
 
 // ======================================
-// GET PAYMENT METHODS
+// GET ACTIVE PAYMENT METHODS
+// FROM BACKEND DATABASE
 // ======================================
 
-function getDepositTypes() {
+async function getDepositTypes() {
 
     try {
 
-        return JSON.parse(
-            localStorage.getItem(
-                'depositTypesList'
-            )
-        ) || [];
+        const response =
+            await fetch(
+                API_URL +
+                '/api/deposit-types/active'
+            );
 
-    } catch (e) {
+
+        if (!response.ok) {
+
+            throw new Error(
+                'Payment methods load nahi ho rahe.'
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data ||
+            !Array.isArray(
+                data.depositTypes
+            )
+        ) {
+
+            return [];
+
+        }
+
+
+        return data.depositTypes;
+
+
+    } catch (error) {
+
+        console.error(
+            'Payment methods error:',
+            error
+        );
 
         return [];
 
     }
+
 }
 
 
@@ -316,21 +340,10 @@ function getDepositTypes() {
 // SYNC PAYMENT METHODS
 // ======================================
 
-function syncPaymentMethods() {
+async function syncPaymentMethods() {
 
-    const methods =
-        getDepositTypes();
+    await loadActiveMethods();
 
-    const json =
-        JSON.stringify(methods);
-
-    if (json !== lastMethodsJSON) {
-
-        lastMethodsJSON = json;
-
-        loadActiveMethods();
-
-    }
 }
 
 
@@ -338,7 +351,7 @@ function syncPaymentMethods() {
 // LOAD ACTIVE METHODS
 // ======================================
 
-function loadActiveMethods() {
+async function loadActiveMethods() {
 
     const container =
         document.getElementById(
@@ -347,11 +360,32 @@ function loadActiveMethods() {
 
     if (!container) return;
 
+
+    container.innerHTML = `
+        <div style="
+            background:white;
+            padding:15px;
+            border-radius:10px;
+            width:100%;
+            text-align:center;
+            color:#777;
+        ">
+            Loading payment methods...
+        </div>
+    `;
+
+
     const methods =
-        getDepositTypes();
+        await getDepositTypes();
+
+
+    depositMethods =
+        methods;
+
 
     lastMethodsJSON =
         JSON.stringify(methods);
+
 
     const activeMethods =
         methods.filter(function(method) {
@@ -360,7 +394,9 @@ function loadActiveMethods() {
 
         });
 
+
     container.innerHTML = '';
+
 
     if (activeMethods.length === 0) {
 
@@ -384,15 +420,19 @@ function loadActiveMethods() {
         updateInfoBox();
 
         return;
+
     }
+
 
     activeMethods.forEach(function(method) {
 
         const card =
             document.createElement('div');
 
+
         card.className =
             'method-card';
+
 
         if (
             String(method.id) ===
@@ -405,6 +445,7 @@ function loadActiveMethods() {
 
         }
 
+
         card.innerHTML = `
             <div class="method-name">
                 ${escapeHTML(
@@ -414,6 +455,7 @@ function loadActiveMethods() {
             </div>
         `;
 
+
         card.onclick = function() {
 
             selectMethodById(
@@ -421,6 +463,7 @@ function loadActiveMethods() {
             );
 
         };
+
 
         container.appendChild(card);
 
@@ -450,6 +493,7 @@ function loadActiveMethods() {
         );
 
     }
+
 }
 
 
@@ -459,11 +503,8 @@ function loadActiveMethods() {
 
 function selectMethodById(id) {
 
-    const methods =
-        getDepositTypes();
-
     const method =
-        methods.find(function(item) {
+        depositMethods.find(function(item) {
 
             return (
                 String(item.id) ===
@@ -473,21 +514,27 @@ function selectMethodById(id) {
 
         });
 
+
     if (!method) return;
+
 
     selectedMethodId =
         method.id;
 
+
     selectedMethodName =
         method.name || '';
 
+
     selectedMethodDetails =
         method.details || '';
+
 
     const cards =
         document.querySelectorAll(
             '.method-card'
         );
+
 
     cards.forEach(function(card) {
 
@@ -495,10 +542,12 @@ function selectMethodById(id) {
             'active'
         );
 
+
         const title =
             card.querySelector(
                 '.method-name'
             );
+
 
         if (
             title &&
@@ -514,7 +563,9 @@ function selectMethodById(id) {
 
     });
 
+
     updateInfoBox();
+
 }
 
 
@@ -529,6 +580,7 @@ function updateInfoBox() {
             'infoBox'
         );
 
+
     if (!selectedMethodName) {
 
         infoBox.innerHTML =
@@ -537,6 +589,7 @@ function updateInfoBox() {
         return;
 
     }
+
 
     infoBox.innerHTML = `
         <strong>
@@ -549,6 +602,7 @@ function updateInfoBox() {
             selectedMethodDetails
         ).replace(/\n/g, '<br>')}
     `;
+
 }
 
 
@@ -560,6 +614,7 @@ function handleFileSelect(event) {
 
     const file =
         event.target.files[0];
+
 
     if (!file) return;
 
@@ -574,14 +629,18 @@ function handleFileSelect(event) {
             'Sirf image screenshot upload karein.'
         );
 
+
         event.target.value = '';
 
+
         uploadedImageBase64 = '';
+
 
         document.getElementById(
             'fileNameText'
         ).innerText =
             'No file selected';
+
 
         return;
 
@@ -608,10 +667,12 @@ function handleFileSelect(event) {
                     'Screenshot process nahi ho saka. Dobara try karein.'
                 );
 
+
                 document.getElementById(
                     'fileNameText'
                 ).innerText =
                     'No file selected';
+
 
                 return;
 
@@ -630,6 +691,7 @@ function handleFileSelect(event) {
 
         }
     );
+
 }
 
 
@@ -679,8 +741,10 @@ function compressImage(
                             maxWidth /
                             width;
 
+
                         width =
                             maxWidth;
+
 
                         height =
                             Math.round(
@@ -700,8 +764,10 @@ function compressImage(
                             maxHeight /
                             height;
 
+
                         height =
                             maxHeight;
+
 
                         width =
                             Math.round(
@@ -720,6 +786,7 @@ function compressImage(
 
                     canvas.width =
                         width;
+
 
                     canvas.height =
                         height;
@@ -743,6 +810,7 @@ function compressImage(
                     let quality =
                         0.75;
 
+
                     let result =
                         '';
 
@@ -758,12 +826,6 @@ function compressImage(
                                 quality
                             );
 
-
-                        /*
-                            Backend JSON limit 1MB hai.
-                            Isliye screenshot ko
-                            approximately 700KB ke andar rakhte hain.
-                        */
 
                         if (
                             result.length <=
@@ -813,6 +875,7 @@ function compressImage(
     reader.readAsDataURL(
         file
     );
+
 }
 
 
@@ -911,13 +974,9 @@ async function submitDepositRequest() {
         );
 
 
-    /*
-        Double click se duplicate deposit
-        request banne se bachane ke liye.
-    */
-
     submitButton.disabled =
         true;
+
 
     submitButton.innerText =
         'Submitting...';
@@ -1037,10 +1096,12 @@ async function submitDepositRequest() {
         submitButton.disabled =
             false;
 
+
         submitButton.innerText =
             'Submit Deposit Request';
 
     }
+
 }
 
 
