@@ -179,6 +179,11 @@ body{
     transform:scale(.98);
 }
 
+.btn-invest:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+}
+
 /* MODAL */
 .purchase-modal{
     display:none;
@@ -272,6 +277,12 @@ body{
 .confirm-btn{
     background:linear-gradient(135deg,#0b6623,#15803d);
     color:white;
+}
+
+.confirm-btn:disabled,
+.cancel-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
 }
 
 /* BOTTOM NAV */
@@ -664,6 +675,7 @@ body{
             <button
                 type="button"
                 class="cancel-btn"
+                id="cancelPurchaseBtn"
                 onclick="closePurchaseModal()">
                 NO, CANCEL
             </button>
@@ -671,6 +683,7 @@ body{
             <button
                 type="button"
                 class="confirm-btn"
+                id="confirmPurchaseBtn"
                 onclick="confirmPurchase()">
                 YES, ACTIVATE
             </button>
@@ -712,9 +725,17 @@ body{
    BASIC SETTINGS
 ========================= */
 
-const DAY = 24 * 60 * 60 * 1000;
+const DAY =
+    24 * 60 * 60 * 1000;
 
-let selectedPlan = null;
+const API_URL =
+    "https://aasan-rozgaar-backend.onrender.com";
+
+let selectedPlan =
+    null;
+
+let purchaseInProgress =
+    false;
 
 
 /* =========================
@@ -722,17 +743,28 @@ let selectedPlan = null;
 ========================= */
 
 function getCurrentUser(){
-    return localStorage.getItem("currentUser");
+
+    return localStorage.getItem(
+        "currentUser"
+    );
+
 }
 
 
 /* =========================
-   USER BALANCE
+   LOCAL CACHE KEY
 ========================= */
 
 function getBalanceKey(username){
+
     return "userBalance_" + username;
+
 }
+
+
+/* =========================
+   USER BALANCE CACHE
+========================= */
 
 function getUserBalance(username){
 
@@ -740,16 +772,24 @@ function getUserBalance(username){
         return 0;
     }
 
-    const value = parseFloat(
-        localStorage.getItem(getBalanceKey(username))
-    );
+    const value =
+        parseFloat(
+            localStorage.getItem(
+                getBalanceKey(username)
+            )
+        );
 
     return Number.isFinite(value) && value >= 0
         ? value
         : 0;
+
 }
 
-function saveUserBalance(username,balance){
+
+function saveUserBalance(
+    username,
+    balance
+){
 
     if(!username){
         return;
@@ -757,31 +797,124 @@ function saveUserBalance(username,balance){
 
     localStorage.setItem(
         getBalanceKey(username),
-        String(Math.max(0,balance))
+        String(
+            Math.max(
+                0,
+                Number(balance) || 0
+            )
+        )
     );
-}
 
-function updateBalanceDisplay(){
-
-    const username = getCurrentUser();
-
-    const balance = getUserBalance(username);
-
-    const element = document.getElementById("availableBalance");
-
-    if(element){
-        element.textContent =
-            "Rs " + balance.toFixed(2);
-    }
 }
 
 
 /* =========================
-   USER PLANS KEY
+   LIVE DATABASE BALANCE
+========================= */
+
+async function loadLiveBalance(){
+
+    const username =
+        getCurrentUser();
+
+    if(!username){
+        return false;
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                API_URL +
+                "/api/balance/" +
+                encodeURIComponent(username)
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            console.log(
+                "Balance request failed:",
+                data.message || "Unknown error"
+            );
+
+            return false;
+
+        }
+
+
+        const balance =
+            Number(data.balance);
+
+
+        if(
+            !Number.isFinite(balance) ||
+            balance < 0
+        ){
+
+            return false;
+
+        }
+
+
+        document.getElementById(
+            "availableBalance"
+        ).textContent =
+            "Rs " +
+            balance.toLocaleString(
+                "en-PK",
+                {
+                    minimumFractionDigits:2,
+                    maximumFractionDigits:2
+                }
+            );
+
+
+        /*
+           LocalStorage sirf cache hai.
+           Purchase ke waqt server/database
+           final authority hai.
+        */
+
+        saveUserBalance(
+            username,
+            balance
+        );
+
+
+        return true;
+
+
+    }catch(error){
+
+        console.error(
+            "Live balance error:",
+            error
+        );
+
+        return false;
+
+    }
+
+}
+
+
+/* =========================
+   LOCAL PLANS
 ========================= */
 
 function getPlansKey(username){
+
     return "userActivePlans_" + username;
+
 }
 
 
@@ -791,11 +924,14 @@ function getPlansKey(username){
 
 function safeNumber(value){
 
-    const number = Number(value);
+    const number =
+        Number(value);
 
-    return Number.isFinite(number) && number >= 0
+    return Number.isFinite(number) &&
+           number >= 0
         ? number
         : 0;
+
 }
 
 
@@ -803,36 +939,88 @@ function safeNumber(value){
    BUY PLAN
 ========================= */
 
-function buySecurePlan(
+async function buySecurePlan(
     name,
     price,
     dailyProfit,
     days
 ){
 
-    const username = getCurrentUser();
+    const username =
+        getCurrentUser();
+
 
     if(!username){
 
-        alert("Please login first.");
+        alert(
+            "Please login first."
+        );
 
-        window.location.href = "login.html";
-
-        return;
-    }
-
-    price = safeNumber(price);
-    dailyProfit = safeNumber(dailyProfit);
-    days = Math.floor(safeNumber(days));
-
-    if(!price || !dailyProfit || !days){
-
-        alert("Invalid package details.");
+        window.location.href =
+            "login.html";
 
         return;
+
     }
 
-    const balance = getUserBalance(username);
+
+    if(purchaseInProgress){
+
+        return;
+
+    }
+
+
+    price =
+        safeNumber(price);
+
+    dailyProfit =
+        safeNumber(dailyProfit);
+
+    days =
+        Math.floor(
+            safeNumber(days)
+        );
+
+
+    if(
+        !price ||
+        !dailyProfit ||
+        !days
+    ){
+
+        alert(
+            "Invalid package details."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Pehle database se latest balance
+       check karte hain.
+    */
+
+    const balanceLoaded =
+        await loadLiveBalance();
+
+
+    if(!balanceLoaded){
+
+        alert(
+            "Balance load nahi ho saka. Please dobara try karein."
+        );
+
+        return;
+
+    }
+
+
+    const balance =
+        getUserBalance(username);
+
 
     if(balance < price){
 
@@ -840,43 +1028,64 @@ function buySecurePlan(
             "Aapka balance kam hai. Pehle approved deposit karein."
         );
 
-        window.location.href = "deposit.html";
+        window.location.href =
+            "deposit.html";
 
         return;
+
     }
 
+
     selectedPlan = {
+
         name:name,
+
         price:price,
+
         dailyProfit:dailyProfit,
+
         days:days
+
     };
 
+
     const details =
+
         "<strong>Package:</strong> " +
         escapeHtml(name) +
+
         "<br>" +
 
         "<strong>Price:</strong> Rs " +
         price.toFixed(2) +
+
         "<br>" +
 
         "<strong>Daily Profit:</strong> Rs " +
         dailyProfit.toFixed(2) +
+
         "<br>" +
 
         "<strong>Duration:</strong> " +
         days +
         " Days" +
+
         "<br><br>" +
 
-        "Purchase karne par package price aapke available balance se deduct hoga.";
+        "Package price database balance se deduct hoga.";
 
-    document.getElementById("purchaseDetails").innerHTML =
+
+    document.getElementById(
+        "purchaseDetails"
+    ).innerHTML =
         details;
 
-    document.getElementById("purchaseModal").style.display =
+
+    document.getElementById(
+        "purchaseModal"
+    ).style.display =
         "flex";
+
 }
 
 
@@ -892,6 +1101,7 @@ function escapeHtml(value){
         .replace(/>/g,"&gt;")
         .replace(/"/g,"&quot;")
         .replace(/'/g,"&#039;");
+
 }
 
 
@@ -901,10 +1111,22 @@ function escapeHtml(value){
 
 function closePurchaseModal(){
 
-    selectedPlan = null;
+    if(purchaseInProgress){
 
-    document.getElementById("purchaseModal").style.display =
+        return;
+
+    }
+
+
+    selectedPlan =
+        null;
+
+
+    document.getElementById(
+        "purchaseModal"
+    ).style.display =
         "none";
+
 }
 
 
@@ -912,221 +1134,528 @@ function closePurchaseModal(){
    CONFIRM PURCHASE
 ========================= */
 
-function confirmPurchase(){
+async function confirmPurchase(){
 
-    const username = getCurrentUser();
+    if(purchaseInProgress){
+
+        return;
+
+    }
+
+
+    const username =
+        getCurrentUser();
+
 
     if(!username){
 
         closePurchaseModal();
 
-        alert("Session expired. Please login again.");
+        alert(
+            "Session expired. Please login again."
+        );
 
-        window.location.href = "login.html";
+        window.location.href =
+            "login.html";
 
         return;
+
     }
+
 
     if(!selectedPlan){
 
         closePurchaseModal();
 
         return;
-    }
-
-    const price = safeNumber(selectedPlan.price);
-
-    if(!price){
-
-        closePurchaseModal();
-
-        alert("Invalid package price.");
-
-        return;
-    }
-
-
-    /* Re-read balance before deduction */
-
-    let balance = getUserBalance(username);
-
-    if(balance < price){
-
-        closePurchaseModal();
-
-        alert(
-            "Aapka balance is package ke liye kam hai."
-        );
-
-        updateBalanceDisplay();
-
-        return;
-    }
-
-
-    /* Deduct package price */
-
-    balance -= price;
-
-    saveUserBalance(
-        username,
-        balance
-    );
-
-
-    /* Get user's plans */
-
-    const plansKey =
-        getPlansKey(username);
-
-    let activePlans = [];
-
-    try{
-
-        const stored =
-            JSON.parse(
-                localStorage.getItem(plansKey)
-            );
-
-        if(Array.isArray(stored)){
-            activePlans = stored;
-        }
-
-    }catch(error){
-
-        activePlans = [];
 
     }
 
 
-    /* Create new plan */
-
-    const now = Date.now();
-
-    const newPlan = {
-
-        id:
-            "plan_" +
-            now +
-            "_" +
-            Math.random()
-                .toString(36)
-                .slice(2,8),
-
+    const planToPurchase = {
         name:
             selectedPlan.name,
 
         price:
-            selectedPlan.price,
+            safeNumber(
+                selectedPlan.price
+            ),
 
-        daily:
-            selectedPlan.dailyProfit,
+        dailyProfit:
+            safeNumber(
+                selectedPlan.dailyProfit
+            ),
 
         days:
-            selectedPlan.days,
-
-        daysPassed:
-            0,
-
-        startTime:
-            now,
-
-        lastProfitTime:
-            now,
-
-        endTime:
-            now +
-            selectedPlan.days * DAY,
-
-        profitEarned:
-            0,
-
-        status:
-            "Active"
+            Math.floor(
+                safeNumber(
+                    selectedPlan.days
+                )
+            )
     };
 
 
-    activePlans.push(newPlan);
+    if(
+        !planToPurchase.price ||
+        !planToPurchase.dailyProfit ||
+        !planToPurchase.days
+    ){
 
+        closePurchaseModal();
 
-    /* Save active plans */
+        alert(
+            "Invalid package details."
+        );
 
-    localStorage.setItem(
-        plansKey,
-        JSON.stringify(activePlans)
-    );
-
-
-    /* Plan history */
-
-    const historyKey =
-        "userPlanHistory_" +
-        username;
-
-    let history = [];
-
-    try{
-
-        const storedHistory =
-            JSON.parse(
-                localStorage.getItem(historyKey)
-            );
-
-        if(Array.isArray(storedHistory)){
-            history = storedHistory;
-        }
-
-    }catch(error){
-
-        history = [];
+        return;
 
     }
 
 
-    history.push({
-
-        id:newPlan.id,
-
-        username:username,
-
-        name:newPlan.name,
-
-        price:newPlan.price,
-
-        daily:newPlan.daily,
-
-        days:newPlan.days,
-
-        date:new Date(now).toLocaleString(),
-
-        status:"Active"
-
-    });
+    purchaseInProgress =
+        true;
 
 
-    localStorage.setItem(
-        historyKey,
-        JSON.stringify(history)
-    );
+    const confirmButton =
+        document.getElementById(
+            "confirmPurchaseBtn"
+        );
 
 
-    /* Refresh screen */
-
-    updateBalanceDisplay();
-
-    closePurchaseModal();
-
-
-    alert(
-        selectedPlan.name +
-        " kamyabi se activate ho gaya hai!"
-    );
+    const cancelButton =
+        document.getElementById(
+            "cancelPurchaseBtn"
+        );
 
 
-    /* Stay on plans.html */
+    if(confirmButton){
 
-    window.location.href =
-        "plans.html";
+        confirmButton.disabled =
+            true;
+
+        confirmButton.textContent =
+            "PROCESSING...";
+
+    }
+
+
+    if(cancelButton){
+
+        cancelButton.disabled =
+            true;
+
+    }
+
+
+    try{
+
+        /*
+           IMPORTANT:
+           Balance yahan localStorage se
+           deduct nahi ho raha.
+
+           Actual deduction backend/database
+           karega.
+        */
+
+        const response =
+            await fetch(
+                API_URL +
+                "/api/plans/purchase",
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        username:
+                            username,
+
+                        planName:
+                            planToPurchase.name,
+
+                        price:
+                            planToPurchase.price,
+
+                        dailyProfit:
+                            planToPurchase.dailyProfit,
+
+                        days:
+                            planToPurchase.days
+
+                    })
+
+                }
+            );
+
+
+        let data = {};
+
+        try{
+
+            data =
+                await response.json();
+
+        }catch(error){
+
+            data = {};
+
+        }
+
+
+        if(!response.ok){
+
+            if(
+                data.reason ===
+                "insufficient_balance"
+            ){
+
+                throw new Error(
+                    "INSUFFICIENT_BALANCE"
+                );
+
+            }
+
+
+            throw new Error(
+                data.message ||
+                "Plan purchase failed."
+            );
+
+        }
+
+
+        if(!data.success){
+
+            if(
+                data.reason ===
+                "insufficient_balance"
+            ){
+
+                throw new Error(
+                    "INSUFFICIENT_BALANCE"
+                );
+
+            }
+
+
+            throw new Error(
+                data.message ||
+                "Plan purchase failed."
+            );
+
+        }
+
+
+        /*
+           Server ne successful purchase ke
+           baad remaining balance diya.
+        */
+
+        const remainingBalance =
+            Number(
+                data.remainingBalance
+            );
+
+
+        if(
+            !Number.isFinite(
+                remainingBalance
+            ) ||
+            remainingBalance < 0
+        ){
+
+            throw new Error(
+                "Invalid remaining balance received."
+            );
+
+        }
+
+
+        /*
+           Returned server balance ko sirf
+           cache/display ke liye save karte hain.
+        */
+
+        saveUserBalance(
+            username,
+            remainingBalance
+        );
+
+
+        /*
+           IMPORTANT:
+           Local active plan sirf successful
+           database purchase ke baad banega.
+        */
+
+        const plansKey =
+            getPlansKey(username);
+
+
+        let activePlans = [];
+
+
+        try{
+
+            const stored =
+                JSON.parse(
+                    localStorage.getItem(
+                        plansKey
+                    ) || "[]"
+                );
+
+
+            if(Array.isArray(stored)){
+
+                activePlans =
+                    stored;
+
+            }
+
+        }catch(error){
+
+            activePlans =
+                [];
+
+        }
+
+
+        const now =
+            Date.now();
+
+
+        const newPlan = {
+
+            id:
+                "plan_" +
+                now +
+                "_" +
+                Math.random()
+                    .toString(36)
+                    .slice(2,8),
+
+            name:
+                planToPurchase.name,
+
+            price:
+                planToPurchase.price,
+
+            daily:
+                planToPurchase.dailyProfit,
+
+            days:
+                planToPurchase.days,
+
+            daysPassed:
+                0,
+
+            startTime:
+                now,
+
+            lastProfitTime:
+                now,
+
+            endTime:
+                now +
+                planToPurchase.days *
+                DAY,
+
+            profitEarned:
+                0,
+
+            status:
+                "Active"
+
+        };
+
+
+        activePlans.push(
+            newPlan
+        );
+
+
+        localStorage.setItem(
+            plansKey,
+            JSON.stringify(
+                activePlans
+            )
+        );
+
+
+        /*
+           Plan history
+        */
+
+        const historyKey =
+            "userPlanHistory_" +
+            username;
+
+
+        let history = [];
+
+
+        try{
+
+            const storedHistory =
+                JSON.parse(
+                    localStorage.getItem(
+                        historyKey
+                    ) || "[]"
+                );
+
+
+            if(Array.isArray(storedHistory)){
+
+                history =
+                    storedHistory;
+
+            }
+
+        }catch(error){
+
+            history =
+                [];
+
+        }
+
+
+        history.push({
+
+            id:
+                newPlan.id,
+
+            username:
+                username,
+
+            name:
+                newPlan.name,
+
+            price:
+                newPlan.price,
+
+            daily:
+                newPlan.daily,
+
+            days:
+                newPlan.days,
+
+            date:
+                new Date(
+                    now
+                ).toLocaleString(),
+
+            status:
+                "Active"
+
+        });
+
+
+        localStorage.setItem(
+            historyKey,
+            JSON.stringify(
+                history
+            )
+        );
+
+
+        /*
+           Display remaining server balance.
+        */
+
+        document.getElementById(
+            "availableBalance"
+        ).textContent =
+            "Rs " +
+            remainingBalance.toLocaleString(
+                "en-PK",
+                {
+                    minimumFractionDigits:2,
+                    maximumFractionDigits:2
+                }
+            );
+
+
+        selectedPlan =
+            null;
+
+
+        document.getElementById(
+            "purchaseModal"
+        ).style.display =
+            "none";
+
+
+        alert(
+            planToPurchase.name +
+            " kamyabi se activate ho gaya hai!\n\n" +
+            "Remaining Balance: Rs " +
+            remainingBalance.toFixed(2)
+        );
+
+
+        window.location.href =
+            "plans.html";
+
+
+    }catch(error){
+
+        console.error(
+            "Plan purchase error:",
+            error
+        );
+
+
+        if(
+            error.message ===
+            "INSUFFICIENT_BALANCE"
+        ){
+
+            alert(
+                "Aapka database balance is package ke liye kam hai."
+            );
+
+
+            await loadLiveBalance();
+
+        }else{
+
+            alert(
+                "Plan activate nahi ho saka. Please dobara try karein."
+            );
+
+        }
+
+    }finally{
+
+        purchaseInProgress =
+            false;
+
+
+        if(confirmButton){
+
+            confirmButton.disabled =
+                false;
+
+            confirmButton.textContent =
+                "YES, ACTIVATE";
+
+        }
+
+
+        if(cancelButton){
+
+            cancelButton.disabled =
+                false;
+
+        }
+
+    }
+
 }
 
 
@@ -1139,6 +1668,7 @@ function logoutUser(){
     localStorage.removeItem(
         "currentUser"
     );
+
 }
 
 
@@ -1148,7 +1678,9 @@ function logoutUser(){
 
 function checkLogin(){
 
-    const username = getCurrentUser();
+    const username =
+        getCurrentUser();
+
 
     if(!username){
 
@@ -1156,9 +1688,12 @@ function checkLogin(){
             "login.html";
 
         return false;
+
     }
 
+
     return true;
+
 }
 
 
@@ -1171,55 +1706,35 @@ document.addEventListener(
     function(){
 
         if(!checkLogin()){
+
             return;
+
         }
 
-        updateBalanceDisplay();
+
+        loadLiveBalance();
 
     }
 );
 
 
 /* =========================
-   LIVE BALANCE UPDATE
-========================= */
-
-window.addEventListener(
-    "storage",
-    function(event){
-
-        const username =
-            getCurrentUser();
-
-        if(!username){
-            return;
-        }
-
-        if(
-            event.key ===
-            getBalanceKey(username)
-        ){
-
-            updateBalanceDisplay();
-        }
-
-    }
-);
-
-
-/* =========================
-   REFRESH BALANCE
+   LIVE DATABASE BALANCE
 ========================= */
 
 setInterval(
     function(){
 
-        if(getCurrentUser()){
-            updateBalanceDisplay();
+        if(
+            getCurrentUser()
+        ){
+
+            loadLiveBalance();
+
         }
 
     },
-    1000
+    5000
 );
 
 
@@ -1239,6 +1754,7 @@ document.getElementById(
         ){
 
             closePurchaseModal();
+
         }
 
     }
