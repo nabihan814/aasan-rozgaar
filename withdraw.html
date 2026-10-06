@@ -18,7 +18,6 @@ body{
   color:#222;
 }
 
-/* HEADER */
 .header{
   position:relative;
   background:#0b8f55;
@@ -47,14 +46,12 @@ body{
   transform:scale(.96);
 }
 
-/* CONTAINER */
 .container{
   max-width:520px;
   margin:auto;
   padding:18px 14px 30px;
 }
 
-/* BALANCE */
 .balance-box{
   background:linear-gradient(135deg,#087f4d,#0ca866);
   color:white;
@@ -80,7 +77,6 @@ body{
   margin-left:4px;
 }
 
-/* CARD */
 .card{
   background:white;
   border-radius:16px;
@@ -119,7 +115,6 @@ input:focus{
   border-color:#0b995b;
 }
 
-/* BUTTON */
 .withdraw-btn{
   width:100%;
   border:0;
@@ -138,7 +133,6 @@ input:focus{
   cursor:not-allowed;
 }
 
-/* COOLDOWN */
 .cooldown-box{
   background:#fff7e6;
   color:#8a5a00;
@@ -151,7 +145,6 @@ input:focus{
   display:none;
 }
 
-/* MESSAGE */
 .message{
   margin-top:15px;
   padding:13px;
@@ -174,7 +167,6 @@ input:focus{
   border:1px solid #f1b7b7;
 }
 
-/* NOTE */
 .note{
   margin-top:15px;
   background:#f1f8f4;
@@ -185,7 +177,6 @@ input:focus{
   color:#555;
 }
 
-/* POPUP */
 .popup-overlay{
   position:fixed;
   inset:0;
@@ -273,20 +264,17 @@ input:focus{
   background:#b42318;
 }
 
-/* TEST MODE LABEL */
 .test-mode{
   margin-top:10px;
   text-align:center;
   font-size:11px;
   color:#999;
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
 
   <button
@@ -301,10 +289,8 @@ input:focus{
 
 </div>
 
-
 <div class="container">
 
-  <!-- CURRENT BALANCE -->
   <div class="balance-box">
 
     <div class="balance-label">
@@ -325,14 +311,11 @@ input:focus{
 
   </div>
 
-
-  <!-- WITHDRAW CARD -->
   <div class="card">
 
     <div class="card-title">
       Withdraw Details
     </div>
-
 
     <label for="withdrawMethod">
       Payment Method
@@ -354,7 +337,6 @@ input:focus{
 
     </select>
 
-
     <label for="accountName">
       Account Holder Name
     </label>
@@ -366,7 +348,6 @@ input:focus{
       autocomplete="name"
     >
 
-
     <label for="accountNumber">
       Account / Mobile Number
     </label>
@@ -377,7 +358,6 @@ input:focus{
       placeholder="03XXXXXXXXX"
       inputmode="numeric"
     >
-
 
     <label for="withdrawAmount">
       Withdraw Amount
@@ -392,7 +372,6 @@ input:focus{
       step="0.01"
     >
 
-
     <button
       type="button"
       class="withdraw-btn"
@@ -402,18 +381,15 @@ input:focus{
       WITHDRAW
     </button>
 
-
     <div
       id="cooldownBox"
       class="cooldown-box">
     </div>
 
-
     <div
       id="message"
       class="message">
     </div>
-
 
     <div class="note">
 
@@ -429,15 +405,15 @@ input:focus{
 
     </div>
 
-
-    <div class="test-mode" id="testModeText"></div>
+    <div
+      class="test-mode"
+      id="testModeText">
+    </div>
 
   </div>
 
 </div>
 
-
-<!-- POPUP -->
 <div
   class="popup-overlay"
   id="popupOverlay"
@@ -450,8 +426,7 @@ input:focus{
 
     <div
       class="popup-icon"
-      id="popupIcon"
-    >
+      id="popupIcon">
       ✓
     </div>
 
@@ -466,8 +441,7 @@ input:focus{
     <button
       type="button"
       class="popup-btn"
-      onclick="closePopup()"
-    >
+      onclick="closePopup()">
       OK
     </button>
 
@@ -475,17 +449,10 @@ input:focus{
 
 </div>
 
-
 <script>
 
-/* =====================================================
-   TEST MODE
-===================================================== */
-
-/*
-   true  = 1 minute cooldown for testing
-   false = real 24 hour cooldown
-*/
+const API_BASE =
+  "https://aasan-rozgaar-backend.onrender.com";
 
 const TEST_MODE = true;
 
@@ -497,74 +464,138 @@ const COOLDOWN =
     ? 60 * 1000
     : DAY;
 
-
-/* =====================================================
-   CURRENT USER
-===================================================== */
+let serverBalance = 0;
 
 function getCurrentUser(){
 
   return (
-    localStorage.getItem("currentUser") || ""
+    localStorage.getItem("currentUser") ||
+    ""
   ).trim();
 
 }
 
-
-/* =====================================================
-   BALANCE
-===================================================== */
-
-function getBalanceKey(username){
-
-  return "userBalance_" + username;
-
-}
-
-
-function getUserBalance(username){
-
-  const value =
-    parseFloat(
-      localStorage.getItem(
-        getBalanceKey(username)
-      )
-    );
+function getSessionToken(){
 
   return (
-    Number.isFinite(value) &&
-    value >= 0
-  )
-    ? value
-    : 0;
+    sessionStorage.getItem("userSessionToken") ||
+    sessionStorage.getItem("sessionToken") ||
+    ""
+  ).trim();
 
 }
 
+function getCsrfToken(){
 
-function updateBalanceDisplay(){
+  return (
+    sessionStorage.getItem("userCsrfToken") ||
+    sessionStorage.getItem("csrfToken") ||
+    ""
+  ).trim();
+
+}
+
+function authHeaders(includeCsrf = false){
+
+  const token =
+    getSessionToken();
+
+  const csrfToken =
+    getCsrfToken();
+
+  const headers = {
+    "Accept":"application/json"
+  };
+
+  if(token){
+
+    headers["Authorization"] =
+      "Bearer " + token;
+
+  }
+
+  if(includeCsrf && csrfToken){
+
+    headers["X-CSRF-Token"] =
+      csrfToken;
+
+  }
+
+  return headers;
+
+}
+
+async function loadBalance(){
 
   const username =
     getCurrentUser();
 
-
   if(!username){
 
-    document
-      .getElementById("balanceAmount")
-      .textContent = "0.00";
+    serverBalance = 0;
+
+    updateBalanceDisplay();
 
     return;
+
   }
 
+  try{
 
-  const balance =
-    getUserBalance(username);
+    const response =
+      await fetch(
+        API_BASE +
+        "/api/balance/" +
+        encodeURIComponent(username),
+        {
+          method:"GET",
+          headers:authHeaders(),
+          credentials:"include"
+        }
+      );
 
+    const data =
+      await response.json();
+
+    if(!response.ok){
+
+      throw new Error(
+        data.message ||
+        "Unable to load balance"
+      );
+
+    }
+
+    serverBalance =
+      Number(
+        data.balance ?? 0
+      );
+
+    if(
+      !Number.isFinite(serverBalance) ||
+      serverBalance < 0
+    ){
+
+      serverBalance = 0;
+
+    }
+
+    updateBalanceDisplay();
+
+  }catch(error){
+
+    updateBalanceDisplay();
+
+  }
+
+}
+
+function updateBalanceDisplay(){
 
   document
     .getElementById("balanceAmount")
     .textContent =
-      balance.toLocaleString(
+      serverBalance.toLocaleString(
         "en-PK",
         {
           minimumFractionDigits:2,
@@ -573,11 +604,6 @@ function updateBalanceDisplay(){
       );
 
 }
-
-
-/* =====================================================
-   POPUP
-===================================================== */
 
 function showPopup(title,text,type){
 
@@ -604,26 +630,17 @@ function showPopup(title,text,type){
     "popupText"
   ).textContent = text;
 
-
   box.className =
     "popup " + type;
 
-
-  if(type === "success"){
-
-    icon.textContent = "✓";
-
-  }else{
-
-    icon.textContent = "!";
-
-  }
-
+  icon.textContent =
+    type === "success"
+      ? "✓"
+      : "!";
 
   overlay.classList.add("show");
 
 }
-
 
 function closePopup(){
 
@@ -632,9 +649,6 @@ function closePopup(){
     .classList.remove("show");
 
 }
-
-
-/* Close popup by clicking outside */
 
 document.addEventListener(
   "click",
@@ -654,11 +668,6 @@ document.addEventListener(
   }
 );
 
-
-/* =====================================================
-   MESSAGE
-===================================================== */
-
 function showMessage(text,type){
 
   const box =
@@ -676,21 +685,14 @@ function showMessage(text,type){
 
 }
 
-
-/* =====================================================
-   SAVED ACCOUNT DETAILS
-===================================================== */
-
 function loadSavedAccount(){
 
   const username =
     getCurrentUser();
 
-
   if(!username){
     return;
   }
-
 
   const name =
     localStorage.getItem(
@@ -698,13 +700,11 @@ function loadSavedAccount(){
       username
     ) || "";
 
-
   const number =
     localStorage.getItem(
       "withdraw_account_number_" +
       username
     ) || "";
-
 
   const method =
     localStorage.getItem(
@@ -712,16 +712,13 @@ function loadSavedAccount(){
       username
     ) || "";
 
-
   document.getElementById(
     "accountName"
   ).value = name;
 
-
   document.getElementById(
     "accountNumber"
   ).value = number;
-
 
   if(method){
 
@@ -732,11 +729,6 @@ function loadSavedAccount(){
   }
 
 }
-
-
-/* =====================================================
-   COOLDOWN
-===================================================== */
 
 function getLastWithdrawTime(username){
 
@@ -749,44 +741,34 @@ function getLastWithdrawTime(username){
 
 }
 
-
 function updateCooldown(){
 
   const username =
     getCurrentUser();
 
-
   if(!username){
     return;
   }
 
-
   const lastTime =
-    getLastWithdrawTime(
-      username
-    );
-
+    getLastWithdrawTime(username);
 
   const now =
     Date.now();
 
-
   const remaining =
     (lastTime + COOLDOWN) -
     now;
-
 
   const button =
     document.getElementById(
       "withdrawBtn"
     );
 
-
   const box =
     document.getElementById(
       "cooldownBox"
     );
-
 
   if(remaining > 0){
 
@@ -795,31 +777,25 @@ function updateCooldown(){
     box.style.display =
       "block";
 
-
     const totalSeconds =
       Math.ceil(
         remaining / 1000
       );
-
 
     const hours =
       Math.floor(
         totalSeconds / 3600
       );
 
-
     const minutes =
       Math.floor(
         (totalSeconds % 3600) / 60
       );
 
-
     const seconds =
       totalSeconds % 60;
 
-
     let timeText;
-
 
     if(TEST_MODE){
 
@@ -839,7 +815,6 @@ function updateCooldown(){
 
     }
 
-
     box.innerHTML =
       "Next withdrawal available in <b>" +
       timeText +
@@ -856,16 +831,10 @@ function updateCooldown(){
 
 }
 
-
-/* =====================================================
-   SUBMIT WITHDRAW
-===================================================== */
-
-function submitWithdraw(){
+async function submitWithdraw(){
 
   const username =
     getCurrentUser();
-
 
   if(!username){
 
@@ -876,16 +845,29 @@ function submitWithdraw(){
     );
 
     return;
+
   }
 
+  const token =
+    getSessionToken();
 
-  /* COOLDOWN */
+  const csrfToken =
+    getCsrfToken();
 
-  const lastTime =
-    getLastWithdrawTime(
-      username
+  if(!token || !csrfToken){
+
+    showPopup(
+      "Login Required",
+      "Your login session has expired. Please login again.",
+      "error"
     );
 
+    return;
+
+  }
+
+  const lastTime =
+    getLastWithdrawTime(username);
 
   if(
     lastTime &&
@@ -904,28 +886,23 @@ function submitWithdraw(){
     updateCooldown();
 
     return;
+
   }
-
-
-  /* VALUES */
 
   const method =
     document.getElementById(
       "withdrawMethod"
     ).value.trim();
 
-
   const accountName =
     document.getElementById(
       "accountName"
     ).value.trim();
 
-
   const accountNumber =
     document.getElementById(
       "accountNumber"
     ).value.trim();
-
 
   const amount =
     parseFloat(
@@ -933,9 +910,6 @@ function submitWithdraw(){
         "withdrawAmount"
       ).value
     );
-
-
-  /* VALIDATION */
 
   if(!method){
 
@@ -946,8 +920,8 @@ function submitWithdraw(){
     );
 
     return;
-  }
 
+  }
 
   if(!accountName){
 
@@ -958,8 +932,8 @@ function submitWithdraw(){
     );
 
     return;
-  }
 
+  }
 
   if(!accountNumber){
 
@@ -970,8 +944,8 @@ function submitWithdraw(){
     );
 
     return;
-  }
 
+  }
 
   if(!Number.isFinite(amount)){
 
@@ -982,8 +956,8 @@ function submitWithdraw(){
     );
 
     return;
-  }
 
+  }
 
   if(amount < 500){
 
@@ -994,8 +968,8 @@ function submitWithdraw(){
     );
 
     return;
-  }
 
+  }
 
   if(amount > 50000){
 
@@ -1006,29 +980,15 @@ function submitWithdraw(){
     );
 
     return;
+
   }
 
-
-  /* BALANCE */
-
-  const balanceKey =
-    getBalanceKey(
-      username
-    );
-
-
-  const currentBalance =
-    getUserBalance(
-      username
-    );
-
-
-  if(amount > currentBalance){
+  if(amount > serverBalance){
 
     showPopup(
       "Insufficient Balance",
       "Your current balance is " +
-      currentBalance.toLocaleString(
+      serverBalance.toLocaleString(
         "en-PK",
         {
           minimumFractionDigits:2,
@@ -1040,177 +1000,157 @@ function submitWithdraw(){
     );
 
     return;
+
   }
 
-
-  /* SAVE ACCOUNT */
-
-  localStorage.setItem(
-    "withdraw_account_name_" +
-    username,
-    accountName
-  );
-
-
-  localStorage.setItem(
-    "withdraw_account_number_" +
-    username,
-    accountNumber
-  );
-
-
-  localStorage.setItem(
-    "withdraw_method_" +
-    username,
-    method
-  );
-
-
-  /* DEDUCT BALANCE */
-
-  const newBalance =
-    Math.max(
-      0,
-      currentBalance - amount
+  const button =
+    document.getElementById(
+      "withdrawBtn"
     );
 
-
-  localStorage.setItem(
-    balanceKey,
-    String(newBalance)
-  );
-
-
-  /* REQUEST */
-
-  const now =
-    Date.now();
-
-
-  const request = {
-
-    id:
-      "wd_" +
-      now +
-      "_" +
-      Math.random()
-        .toString(36)
-        .substring(2,8),
-
-    username:
-      username,
-
-    method:
-      method,
-
-    accountName:
-      accountName,
-
-    accountNumber:
-      accountNumber,
-
-    amount:
-      amount,
-
-    status:
-      "Pending",
-
-    date:
-      new Date(now).toLocaleString(
-        "en-PK"
-      ),
-
-    createdAt:
-      now,
-
-    updatedAt:
-      null,
-
-    approvedAt:
-      null,
-
-    refunded:
-      false
-
-  };
-
-
-  /* GET REQUESTS */
-
-  let requests = [];
-
+  button.disabled = true;
 
   try{
 
-    requests =
-      JSON.parse(
-        localStorage.getItem(
-          "withdrawRequests"
-        ) || "[]"
+    const response =
+      await fetch(
+        API_BASE +
+        "/api/withdrawals",
+        {
+          method:"POST",
+          headers:{
+            ...authHeaders(true),
+            "Content-Type":
+              "application/json"
+          },
+          credentials:"include",
+          body:JSON.stringify({
+            username:username,
+            amount:amount,
+            method:method,
+            accountName:accountName,
+            accountNumber:accountNumber
+          })
+        }
       );
 
+    const data =
+      await response.json();
 
-    if(!Array.isArray(requests)){
+    if(!response.ok){
 
-      requests = [];
+      throw new Error(
+        data.message ||
+        "Withdrawal request failed"
+      );
 
     }
 
-  }catch(e){
+    if(
+      data.csrfToken
+    ){
 
-    requests = [];
+      sessionStorage.setItem(
+        "userCsrfToken",
+        data.csrfToken
+      );
+
+      sessionStorage.setItem(
+        "csrfToken",
+        data.csrfToken
+      );
+
+    }
+
+    if(
+      data.sessionToken
+    ){
+
+      sessionStorage.setItem(
+        "userSessionToken",
+        data.sessionToken
+      );
+
+      sessionStorage.setItem(
+        "sessionToken",
+        data.sessionToken
+      );
+
+    }
+
+    if(
+      data.remainingBalance !== undefined
+    ){
+
+      serverBalance =
+        Number(
+          data.remainingBalance
+        );
+
+    }else{
+
+      serverBalance =
+        Math.max(
+          0,
+          serverBalance - amount
+        );
+
+    }
+
+    localStorage.setItem(
+      "withdraw_account_name_" +
+      username,
+      accountName
+    );
+
+    localStorage.setItem(
+      "withdraw_account_number_" +
+      username,
+      accountNumber
+    );
+
+    localStorage.setItem(
+      "withdraw_method_" +
+      username,
+      method
+    );
+
+    localStorage.setItem(
+      "last_withdraw_time_" +
+      username,
+      String(Date.now())
+    );
+
+    updateBalanceDisplay();
+
+    updateCooldown();
+
+    document.getElementById(
+      "withdrawAmount"
+    ).value = "";
+
+    showPopup(
+      "Withdrawal Submitted",
+      "Your withdrawal request has been submitted successfully. It is now Pending and has been sent to Admin for processing.",
+      "success"
+    );
+
+  }catch(error){
+
+    button.disabled = false;
+
+    showPopup(
+      "Withdrawal Failed",
+      error.message ||
+      "Unable to submit withdrawal request.",
+      "error"
+    );
+
+    await loadBalance();
 
   }
 
-
-  requests.push(
-    request
-  );
-
-
-  /* SAVE */
-
-  localStorage.setItem(
-    "withdrawRequests",
-    JSON.stringify(requests)
-  );
-
-
-  /* COOLDOWN */
-
-  localStorage.setItem(
-    "last_withdraw_time_" +
-    username,
-    String(now)
-  );
-
-
-  /* UPDATE */
-
-  updateBalanceDisplay();
-
-  updateCooldown();
-
-
-  document.getElementById(
-    "withdrawAmount"
-  ).value = "";
-
-
-  /* SUCCESS POPUP */
-
-  showPopup(
-    "Withdrawal Submitted",
-    "Your withdrawal request has been submitted successfully. It is now Pending and has been sent to Admin for processing.",
-    "success"
-  );
-
 }
-
-
-/* =====================================================
-   BACK BUTTON
-===================================================== */
 
 function goBack(){
 
@@ -1231,18 +1171,12 @@ function goBack(){
 
 }
 
-
-/* =====================================================
-   TEST MODE TEXT
-===================================================== */
-
 function updateTestModeText(){
 
   const box =
     document.getElementById(
       "testModeText"
     );
-
 
   if(TEST_MODE){
 
@@ -1258,14 +1192,9 @@ function updateTestModeText(){
 
 }
 
-
-/* =====================================================
-   PAGE LOAD
-===================================================== */
-
 document.addEventListener(
   "DOMContentLoaded",
-  function(){
+  async function(){
 
     updateBalanceDisplay();
 
@@ -1275,49 +1204,10 @@ document.addEventListener(
 
     updateTestModeText();
 
-  }
-);
-
-
-/* =====================================================
-   STORAGE UPDATE
-===================================================== */
-
-window.addEventListener(
-  "storage",
-  function(event){
-
-    const username =
-      getCurrentUser();
-
-
-    if(!username){
-      return;
-    }
-
-
-    if(
-      event.key ===
-      "userBalance_" +
-      username
-      ||
-      event.key ===
-      "withdrawRequests"
-    ){
-
-      updateBalanceDisplay();
-
-      updateCooldown();
-
-    }
+    await loadBalance();
 
   }
 );
-
-
-/* =====================================================
-   LIVE UPDATE
-===================================================== */
 
 setInterval(
   function(){
@@ -1328,6 +1218,15 @@ setInterval(
 
   },
   1000
+);
+
+setInterval(
+  function(){
+
+    loadBalance();
+
+  },
+  10000
 );
 
 </script>
