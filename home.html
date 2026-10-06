@@ -1,1059 +1,235 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
+<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aasan Rozgaar - Dashboard</title>
-
 <link rel="manifest" href="manifest.json">
-
-<meta name="theme-color"
-      content="#0b6623">
-
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-}
-
-body{
-    background-color:#f2f7f3;
-    color:#333;
-    padding-bottom:90px;
-}
-
-.header{
-    background:white;
-    padding:15px 20px;
-    text-align:center;
-    border-bottom-left-radius:20px;
-    border-bottom-right-radius:20px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.05);
-}
-
-.user-welcome-box{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-    background:#f8fafc;
-    padding:10px 15px;
-    border-radius:12px;
-    border:1px solid #e2e8f0;
-}
-
-.user-profile{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.user-avatar{
-    width:35px;
-    height:35px;
-    background:#0b6623;
-    color:white;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-    font-size:14px;
-}
-
-.user-info h4{
-    font-size:13px;
-    color:#333;
-    text-align:left;
-}
-
-.user-info span{
-    font-size:11px;
-    color:#64748b;
-    display:block;
-    text-align:left;
-}
-
-.referrer-tag{
-    font-size:11px;
-    color:#0b6623;
-    background:#d1e7dd;
-    padding:4px 10px;
-    border-radius:8px;
-    font-weight:bold;
-}
-
-.balance-box{
-    font-size:24px;
-    font-weight:bold;
-    color:#15803d;
-    margin:8px 0;
-}
-
-.active-badge{
-    background:#d1e7dd;
-    color:#0b6623;
-    padding:4px 12px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:bold;
-    display:inline-block;
-}
-
-.action-buttons{
-    display:flex;
-    gap:10px;
-    margin-top:15px;
-}
-
-.btn{
-    flex:1;
-    padding:12px;
-    border-radius:12px;
-    border:none;
-    font-weight:bold;
-    font-size:14px;
-    cursor:pointer;
-    text-decoration:none;
-    text-align:center;
-}
-
-.btn-deposit{
-    background:#0b6623;
-    color:white;
-}
-
-.btn-withdraw{
-    background:white;
-    color:#0b6623;
-    border:1px solid #0b6623;
-}
-
-.container{
-    padding:15px;
-}
-
-.top-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:8px;
-    margin-bottom:15px;
-}
-
-.top-menu-card{
-    background:white;
-    padding:12px 4px;
-    border-radius:15px;
-    text-align:center;
-    text-decoration:none;
-    color:#333;
-    box-shadow:0 4px 12px rgba(0,100,0,0.08);
-    border:1.5px solid #d4ebd9;
-    font-size:11px;
-    font-weight:600;
-}
-
-.top-menu-card span{
-    font-size:20px;
-    display:block;
-    margin-bottom:4px;
-}
-
-.banner-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-bottom:20px;
-}
-
-.banner-box{
-    background:white;
-    padding:12px;
-    border-radius:16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    box-shadow:0 4px 12px rgba(0,100,0,0.08);
-    border:1.5px solid #d4ebd9;
-    text-decoration:none;
-    color:#333;
-}
-
-.banner-text span{
-    font-size:10px;
-    color:#64748b;
-    display:block;
-    font-weight:700;
-}
-
-.banner-text h4{
-    font-size:11px;
-    color:#0b6623;
-    font-weight:bold;
-}
-
-.banner-icon-badge{
-    background:#d1e7dd;
-    color:#0b6623;
-    padding:6px 10px;
-    border-radius:10px;
-    font-size:11px;
-    font-weight:bold;
-}
-
-.section-title{
-    font-size:14px;
-    font-weight:bold;
-    color:#333;
-    margin-bottom:12px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.section-title span{
-    font-size:12px;
-    color:#0b6623;
-    font-weight:bold;
-}
-
-.large-stats-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    margin-bottom:20px;
-}
-
-.stat-3d-card{
-    background:white;
-    padding:14px;
-    border-radius:16px;
-    box-shadow:0 4px 15px rgba(0,100,0,0.08);
-    border:1.5px solid #d4ebd9;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    text-decoration:none;
-    color:#333;
-    cursor:pointer;
-}
-
-.stat-icon-box{
-    width:42px;
-    height:42px;
-    background:#f0fdf4;
-    border:1px solid #d1e7dd;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:20px;
-    flex-shrink:0;
-}
-
-.stat-text-info span{
-    font-size:11px;
-    color:#64748b;
-    display:block;
-    margin-bottom:2px;
-}
-
-.stat-text-info h4{
-    font-size:13px;
-    color:#0b6623;
-    font-weight:bold;
-}
-
-.modal-overlay{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.55);
-    z-index:1000;
-    justify-content:center;
-    align-items:center;
-    padding:15px;
-}
-
-.modal-box{
-    background:white;
-    padding:20px;
-    border-radius:20px;
-    width:90%;
-    max-width:400px;
-    max-height:82vh;
-    overflow-y:auto;
-    text-align:center;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
-    animation:fadeIn .25s ease;
-}
-
-.modal-icon{
-    font-size:35px;
-    margin-bottom:5px;
-}
-
-.modal-title{
-    font-size:17px;
-    font-weight:bold;
-    color:#0b6623;
-    margin-bottom:15px;
-}
-
-.modal-text{
-    font-size:12px;
-    color:#333;
-    margin-bottom:15px;
-    text-align:left;
-}
-
-.plan-card-item{
-    background:#f8fafc;
-    border:1px solid #cbd5e1;
-    padding:12px;
-    border-radius:12px;
-    margin-bottom:10px;
-    text-align:left;
-}
-
-.plan-card-item p{
-    margin:4px 0;
-    font-size:12px;
-}
-
-.plan-status{
-    display:inline-block;
-    background:#dcfce7;
-    color:#15803d;
-    padding:4px 9px;
-    border-radius:20px;
-    font-size:10px;
-    font-weight:bold;
-}
-
-.profit-card{
-    background:#f8fafc;
-    border:1px solid #d4ebd9;
-    border-radius:13px;
-    padding:13px;
-    margin-bottom:10px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.profit-card-left{
-    text-align:left;
-}
-
-.profit-card-left span{
-    display:block;
-    font-size:11px;
-    color:#64748b;
-    margin-bottom:3px;
-}
-
-.profit-card-left strong{
-    font-size:13px;
-    color:#0b6623;
-}
-
-.profit-card-right{
-    font-size:14px;
-    font-weight:bold;
-    color:#15803d;
-}
-
-.total-profit-card{
-    background:#d1e7dd;
-    border:1px solid #9bd0ae;
-    border-radius:14px;
-    padding:15px;
-    margin-top:12px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.total-profit-card span{
-    font-size:12px;
-    font-weight:bold;
-    color:#0b6623;
-}
-
-.total-profit-card strong{
-    font-size:17px;
-    color:#0b6623;
-}
-
-.modal-btn{
-    background:#0b6623;
-    color:white;
-    border:none;
-    padding:11px 20px;
-    border-radius:10px;
-    font-weight:bold;
-    font-size:13px;
-    cursor:pointer;
-    width:100%;
-    margin-top:5px;
-}
-
-@keyframes fadeIn{
-
-    from{
-        opacity:0;
-        transform:scale(.9);
-    }
-
-    to{
-        opacity:1;
-        transform:scale(1);
-    }
-
-}
-
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:white;
-    display:flex;
-    justify-content:space-around;
-    padding:8px 0;
-    box-shadow:0 -4px 15px rgba(0,0,0,0.06);
-    border-top:1px solid #e2e8f0;
-    z-index:100;
-}
-
-.nav-item{
-    text-align:center;
-    text-decoration:none;
-    color:#666;
-    font-size:11px;
-    flex:1;
-}
-
-.nav-item.active{
-    color:#0b6623;
-    font-weight:bold;
-}
-
-.nav-icon{
-    font-size:18px;
-    display:block;
-    margin-bottom:2px;
-}
-
-
-/* APP INSTALL */
-
-#installAppBtn{
-    cursor:pointer;
-}
-
-#installAppBtn.install-ready{
-    border:2px solid #0b6623;
-    background:#f0fdf4;
-}
-
-.install-status{
-    font-size:9px;
-    color:#15803d;
-    display:block;
-    margin-top:2px;
-    font-weight:bold;
-}
-
-</style>
-
-</head>
-
-
-<body>
-
-
-<div class="header">
-
-    <div class="user-welcome-box">
-
-        <div class="user-profile">
-
-            <div class="user-avatar">
-                A
-            </div>
-
-            <div class="user-info">
-
-                <h4>
-                    Welcome Back!
-                </h4>
-
-                <span id="userNameDisplay">
-                    Loading...
-                </span>
-
-            </div>
-
-        </div>
-
-        <div class="referrer-tag"
-             id="referrerTag">
-
-            Refer by: None
-
-        </div>
-
-    </div>
-
-
-    <div style="
-        font-size:12px;
-        color:#64748b;
-        font-weight:600;
-    ">
-        TOTAL BALANCE
-    </div>
-
-
-    <div class="balance-box"
-         id="dashBalance">
-
-        Rs 0.00
-
-    </div>
-
-
-    <div class="active-badge"
-         id="activePlansCount">
-
-        0 Active Plans
-
-    </div>
-
-
-    <div class="action-buttons">
-
-        <a href="deposit.html"
-           class="btn btn-deposit">
-
-            Deposit
-
-        </a>
-
-
-        <a href="withdraw.html"
-           class="btn btn-withdraw">
-
-            Withdraw
-
-        </a>
-
-    </div>
-
+<meta name="theme-color" content="#0b6623"><style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+body{background-color:#f2f7f3;color:#333;padding-bottom:90px}
+.header{background:white;padding:15px 20px;text-align:center;border-bottom-left-radius:20px;border-bottom-right-radius:20px;box-shadow:0 4px 10px rgba(0,0,0,.05)}
+.user-welcome-box{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;background:#f8fafc;padding:10px 15px;border-radius:12px;border:1px solid #e2e8f0}
+.user-profile{display:flex;align-items:center;gap:10px}
+.user-avatar{width:35px;height:35px;background:#0b6623;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:14px}
+.user-info h4{font-size:13px;color:#333;text-align:left}
+.user-info span{font-size:11px;color:#64748b;display:block;text-align:left}
+.referrer-tag{font-size:11px;color:#0b6623;background:#d1e7dd;padding:4px 10px;border-radius:8px;font-weight:bold}
+.balance-box{font-size:24px;font-weight:bold;color:#15803d;margin:8px 0}
+.active-badge{background:#d1e7dd;color:#0b6623;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:bold;display:inline-block}
+.action-buttons{display:flex;gap:10px;margin-top:15px}
+.btn{flex:1;padding:12px;border-radius:12px;border:none;font-weight:bold;font-size:14px;cursor:pointer;text-decoration:none;text-align:center}
+.btn-deposit{background:#0b6623;color:white}
+.btn-withdraw{background:white;color:#0b6623;border:1px solid #0b6623}
+.container{padding:15px}
+.top-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:15px}
+.top-menu-card{background:white;padding:12px 4px;border-radius:15px;text-align:center;text-decoration:none;color:#333;box-shadow:0 4px 12px rgba(0,100,0,.08);border:1.5px solid #d4ebd9;font-size:11px;font-weight:600}
+.top-menu-card span{font-size:20px;display:block;margin-bottom:4px}
+.banner-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.banner-box{background:white;padding:12px;border-radius:16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 12px rgba(0,100,0,.08);border:1.5px solid #d4ebd9;text-decoration:none;color:#333}
+.banner-text span{font-size:10px;color:#64748b;display:block;font-weight:700}
+.banner-text h4{font-size:11px;color:#0b6623;font-weight:bold}
+.banner-icon-badge{background:#d1e7dd;color:#0b6623;padding:6px 10px;border-radius:10px;font-size:11px;font-weight:bold}
+.section-title{font-size:14px;font-weight:bold;color:#333;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.section-title span{font-size:12px;color:#0b6623;font-weight:bold}
+.large-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.stat-3d-card{background:white;padding:14px;border-radius:16px;box-shadow:0 4px 15px rgba(0,100,0,.08);border:1.5px solid #d4ebd9;display:flex;align-items:center;gap:12px;text-decoration:none;color:#333;cursor:pointer}
+.stat-icon-box{width:42px;height:42px;background:#f0fdf4;border:1px solid #d1e7dd;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.stat-text-info span{font-size:11px;color:#64748b;display:block;margin-bottom:2px}
+.stat-text-info h4{font-size:13px;color:#0b6623;font-weight:bold}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.55);z-index:1000;justify-content:center;align-items:center;padding:15px}
+.modal-box{background:white;padding:20px;border-radius:20px;width:90%;max-width:400px;max-height:82vh;overflow-y:auto;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,.2);animation:fadeIn .25s ease}
+.modal-icon{font-size:35px;margin-bottom:5px}
+.modal-title{font-size:17px;font-weight:bold;color:#0b6623;margin-bottom:15px}
+.modal-text{font-size:12px;color:#333;margin-bottom:15px;text-align:left}
+.plan-card-item{background:#f8fafc;border:1px solid #cbd5e1;padding:12px;border-radius:12px;margin-bottom:10px;text-align:left}
+.plan-card-item p{margin:4px 0;font-size:12px}
+.plan-status{display:inline-block;background:#dcfce7;color:#15803d;padding:4px 9px;border-radius:20px;font-size:10px;font-weight:bold}
+.profit-card{background:#f8fafc;border:1px solid #d4ebd9;border-radius:13px;padding:13px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.profit-card-left{text-align:left}
+.profit-card-left span{display:block;font-size:11px;color:#64748b;margin-bottom:3px}
+.profit-card-left strong{font-size:13px;color:#0b6623}
+.profit-card-right{font-size:14px;font-weight:bold;color:#15803d}
+.total-profit-card{background:#d1e7dd;border:1px solid #9bd0ae;border-radius:14px;padding:15px;margin-top:12px;display:flex;justify-content:space-between;align-items:center}
+.total-profit-card span{font-size:12px;font-weight:bold;color:#0b6623}
+.total-profit-card strong{font-size:17px;color:#0b6623}
+.modal-btn{background:#0b6623;color:white;border:none;padding:11px 20px;border-radius:10px;font-weight:bold;font-size:13px;cursor:pointer;width:100%;margin-top:5px}
+@keyframes fadeIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.bottom-nav{position:fixed;bottom:0;left:0;width:100%;background:white;display:flex;justify-content:space-around;padding:8px 0;box-shadow:0 -4px 15px rgba(0,0,0,.06);border-top:1px solid #e2e8f0;z-index:100}
+.nav-item{text-align:center;text-decoration:none;color:#666;font-size:11px;flex:1}
+.nav-item.active{color:#0b6623;font-weight:bold}
+.nav-icon{font-size:18px;display:block;margin-bottom:2px}
+#installAppBtn{cursor:pointer}
+#installAppBtn.install-ready{border:2px solid #0b6623;background:#f0fdf4}
+.install-status{font-size:9px;color:#15803d;display:block;margin-top:2px;font-weight:bold}
+</style></head><body><div class="header">
+<div class="user-welcome-box">
+<div class="user-profile">
+<div class="user-avatar">A</div>
+<div class="user-info">
+<h4>Welcome Back!</h4>
+<span id="userNameDisplay">Loading...</span>
 </div>
-
-
-
-<div class="container">
-
-
-    <div class="top-grid">
-
-
-        <a href="team.html"
-           class="top-menu-card">
-
-            <span>&#128101;</span>
-
-            Team
-
-        </a>
-
-
-
-        <a href="https://wa.me/447718486232?s=t"
-           class="top-menu-card"
-           target="_blank"
-           rel="noopener noreferrer">
-
-            <span>&#128222;</span>
-
-            WhatsApp
-
-        </a>
-
-
-
-        <a href="plans.html"
-           class="top-menu-card"
-           style="
-           border:2px solid #0b6623;
-           background:#f0fdf4;
-           ">
-
-            <span style="color:#0b6623;">
-                &#128202;
-            </span>
-
-            <span style="
-                color:#0b6623;
-                font-weight:bold;
-            ">
-
-                Plans
-
-            </span>
-
-        </a>
-
-
-
-        <a href="login.html"
-           class="top-menu-card"
-           onclick="logoutUser()">
-
-            <span>
-                &#128682;
-            </span>
-
-            Logout
-
-        </a>
-
-    </div>
-
-
-
-    <div class="banner-row">
-
-
-        <a href="#"
-           class="banner-box"
-           id="installAppBtn">
-
-            <div class="banner-text">
-
-                <span>
-                    APP DOWNLOAD
-                </span>
-
-                <h4>
-                    Download App
-                </h4>
-
-                <span class="install-status"
-                      id="installStatus">
-                </span>
-
-            </div>
-
-
-            <div class="banner-icon-badge"
-                 id="installBadge">
-
-                INSTALL
-
-            </div>
-
-        </a>
-
-
-
-        <a href="#"
-           class="banner-box">
-
-            <div class="banner-text">
-
-                <span>
-                    Task Complete
-                </span>
-
-                <h4>
-                    Claim Volume
-                </h4>
-
-            </div>
-
-
-            <div class="banner-icon-badge">
-
-                BONUS
-
-            </div>
-
-        </a>
-
-    </div>
-
-
-
-    <div class="section-title">
-
-        Account Stats
-
-        <span>
-            Overview
-        </span>
-
-    </div>
-
-
-
-    <div class="large-stats-grid">
-
-
-        <a href="deposit-history.html"
-           class="stat-3d-card">
-
-            <div class="stat-icon-box">
-                &#9202;
-            </div>
-
-            <div class="stat-text-info">
-
-                <span>
-                    Pending Deposit
-                </span>
-
-                <h4>
-                    Rs 0
-                </h4>
-
-            </div>
-
-        </a>
-
-
-
-        <a href="withdraw-history.html"
-           class="stat-3d-card">
-
-            <div class="stat-icon-box">
-                &#8987;
-            </div>
-
-            <div class="stat-text-info">
-
-                <span>
-                    Pending Withdraw
-                </span>
-
-                <h4>
-                    Rs 0
-                </h4>
-
-            </div>
-
-        </a>
-
-
-
-        <div onclick="checkActivePlans()"
-             class="stat-3d-card">
-
-            <div class="stat-icon-box">
-                &#128200;
-            </div>
-
-            <div class="stat-text-info">
-
-                <span>
-                    Active Plans
-                </span>
-
-                <h4 id="dashActivePlansText">
-                    0 Active
-                </h4>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- LUCKY DRAW -->
-        <a href="lucky-draw.html"
-           class="stat-3d-card">
-
-            <div class="stat-icon-box">
-                🎁
-            </div>
-
-            <div class="stat-text-info">
-
-                <span>
-                    Lucky Draw
-                </span>
-
-                <h4>
-                    Try Your Luck
-                </h4>
-
-            </div>
-
-        </a>
-
-
-
-        <div onclick="showProfitDetails()"
-             class="stat-3d-card">
-
-            <div class="stat-icon-box">
-                &#128201;
-            </div>
-
-            <div class="stat-text-info">
-
-                <span>
-                    Profit
-                </span>
-
-                <h4 id="dashProfitDisplay">
-                    Rs 0.00
-                </h4>
-
-            </div>
-
-        </div>
-
-
-
-        <a href="referral.html"
-           class="stat-3d-card">
-
-            <div class="stat-icon-box">
-                &#127873;
-            </div>
-
-            <div class="stat-text-info">
-
-                <span>
-                    Refer Bonus
-                </span>
-
-                <h4 id="refBonusDisplay">
-                    Rs 0.00
-                </h4>
-
-            </div>
-
-        </a>
-
-    </div>
-
 </div>
-
-
-
-<div id="customModal"
-     class="modal-overlay">
-
-    <div class="modal-box">
-
-        <div class="modal-icon">
-            📊
-        </div>
-
-        <div class="modal-title">
-            Active Plans
-        </div>
-
-        <div id="modalMessage"
-             class="modal-text">
-
-            Plan active nahi hai!
-
-        </div>
-
-        <button
-            class="modal-btn"
-            onclick="closeModal()">
-
-            Theek hai
-
-        </button>
-
-    </div>
-
+<div class="referrer-tag" id="referrerTag">Refer by: None</div>
+</div><div style="font-size:12px;color:#64748b;font-weight:600;">TOTAL BALANCE</div><div class="balance-box" id="dashBalance">Rs 0.00</div><div class="active-badge" id="activePlansCount">0 Active Plans</div><div class="action-buttons">
+<a href="deposit.html" class="btn btn-deposit">Deposit</a>
+<a href="withdraw.html" class="btn btn-withdraw">Withdraw</a>
 </div>
-
-
-
-<div id="profitModal"
-     class="modal-overlay">
-
-    <div class="modal-box">
-
-        <div class="modal-icon">
-            💰
-        </div>
-
-        <div class="modal-title">
-            Profit Details
-        </div>
-
-        <div id="profitMessage"
-             class="modal-text">
-        </div>
-
-        <button
-            class="modal-btn"
-            onclick="closeProfitModal()">
-
-            Theek hai
-
-        </button>
-
-    </div>
-
+</div><div class="container"><div class="top-grid"><a href="team.html" class="top-menu-card">
+<span>&#128101;</span>
+Team
+</a><a href="https://wa.me/447718486232?s=t" class="top-menu-card" target="_blank" rel="noopener noreferrer">
+<span>&#128222;</span>
+WhatsApp
+</a><a href="plans.html" class="top-menu-card" style="border:2px solid #0b6623;background:#f0fdf4;">
+<span style="color:#0b6623;">&#128202;</span>
+<span style="color:#0b6623;font-weight:bold;">Plans</span>
+</a><a href="login.html" class="top-menu-card" onclick="logoutUser()">
+<span>&#128682;</span>
+Logout
+</a></div><div class="banner-row"><a href="#" class="banner-box" id="installAppBtn">
+<div class="banner-text">
+<span>APP DOWNLOAD</span>
+<h4>Download App</h4>
+<span class="install-status" id="installStatus"></span>
 </div>
-
-
-
-<div class="bottom-nav">
-
-
-    <a href="home.html"
-       class="nav-item active">
-
-        <span class="nav-icon">
-            &#127968;
-        </span>
-
-        Home
-
-    </a>
-
-
-
-    <a href="plans.html"
-       class="nav-item">
-
-        <span class="nav-icon">
-            &#128200;
-        </span>
-
-        Plans
-
-    </a>
-
-
-
-    <a href="team.html"
-       class="nav-item">
-
-        <span class="nav-icon">
-            &#128101;
-        </span>
-
-        Team
-
-    </a>
-
-
-
-    <a href="login.html"
-       class="nav-item"
-       onclick="logoutUser()">
-
-        <span class="nav-icon">
-            &#128682;
-        </span>
-
-        Logout
-
-    </a>
-
+<div class="banner-icon-badge" id="installBadge">INSTALL</div>
+</a><a href="#" class="banner-box">
+<div class="banner-text">
+<span>Task Complete</span>
+<h4>Claim Volume</h4>
 </div>
+<div class="banner-icon-badge">BONUS</div>
+</a></div><div class="section-title">
+Account Stats
+<span>Overview</span>
+</div><div class="large-stats-grid"><a href="deposit-history.html" class="stat-3d-card">
+<div class="stat-icon-box">&#9202;</div>
+<div class="stat-text-info">
+<span>Pending Deposit</span>
+<h4>Rs 0</h4>
+</div>
+</a><a href="withdraw-history.html" class="stat-3d-card">
+<div class="stat-icon-box">&#8987;</div>
+<div class="stat-text-info">
+<span>Pending Withdraw</span>
+<h4>Rs 0</h4>
+</div>
+</a><div onclick="checkActivePlans()" class="stat-3d-card">
+<div class="stat-icon-box">&#128200;</div>
+<div class="stat-text-info">
+<span>Active Plans</span>
+<h4 id="dashActivePlansText">0 Active</h4>
+</div>
+</div><a href="lucky-draw.html" class="stat-3d-card">
+<div class="stat-icon-box">🎁</div>
+<div class="stat-text-info">
+<span>Lucky Draw</span>
+<h4>Try Your Luck</h4>
+</div>
+</a><div onclick="showProfitDetails()" class="stat-3d-card">
+<div class="stat-icon-box">&#128201;</div>
+<div class="stat-text-info">
+<span>Profit</span>
+<h4 id="dashProfitDisplay">Rs 0.00</h4>
+</div>
+</div><a href="referral.html" class="stat-3d-card">
+<div class="stat-icon-box">&#127873;</div>
+<div class="stat-text-info">
+<span>Refer Bonus</span>
+<h4 id="refBonusDisplay">Rs 0.00</h4>
+</div>
+</a></div>
+</div><div id="customModal" class="modal-overlay">
+<div class="modal-box">
+<div class="modal-icon">📊</div>
+<div class="modal-title">Active Plans</div>
+<div id="modalMessage" class="modal-text">Plan active nahi hai!</div>
+<button class="modal-btn" onclick="closeModal()">Theek hai</button>
+</div>
+</div><div id="profitModal" class="modal-overlay">
+<div class="modal-box">
+<div class="modal-icon">💰</div>
+<div class="modal-title">Profit Details</div>
+<div id="profitMessage" class="modal-text"></div>
+<button class="modal-btn" onclick="closeProfitModal()">Theek hai</button>
+</div>
+</div><div class="bottom-nav"><a href="home.html" class="nav-item active">
+<span class="nav-icon">&#127968;</span>
+Home
+</a><a href="plans.html" class="nav-item">
+<span class="nav-icon">&#128200;</span>
+Plans
+</a><a href="team.html" class="nav-item">
+<span class="nav-icon">&#128101;</span>
+Team
+</a><a href="login.html" class="nav-item" onclick="logoutUser()">
+<span class="nav-icon">&#128682;</span>
+Logout
+</a></div><script>
 
+const DAY = 24 * 60 * 60 * 1000;
 
-
-<script>
-
-
-const DAY =
-    24 * 60 * 60 * 1000;
-
-
-/* =========================
-   BACKEND
-========================= */
-
-const API_URL =
-    "https://aasan-rozgaar-backend.onrender.com";
-
-
-/* =========================
-   CURRENT USER
-========================= */
+const API_URL = "https://aasan-rozgaar-backend.onrender.com";
 
 function getCurrentUser(){
-
-    return localStorage.getItem(
-        'currentUser'
-    );
-
+    return localStorage.getItem("currentUser");
 }
 
+function getUserSessionToken(){
+    return (
+        sessionStorage.getItem("userSessionToken") ||
+        sessionStorage.getItem("sessionToken") ||
+        ""
+    );
+}
 
-/* =========================
-   STORAGE KEYS
-========================= */
+function getUserCsrfToken(){
+    return (
+        sessionStorage.getItem("userCsrfToken") ||
+        sessionStorage.getItem("csrfToken") ||
+        ""
+    );
+}
+
+function authHeaders(includeCsrf = false){
+
+    const token = getUserSessionToken();
+    const csrfToken = getUserCsrfToken();
+
+    const headers = {
+        "Accept":"application/json"
+    };
+
+    if(token){
+        headers["Authorization"] = "Bearer " + token;
+    }
+
+    if(includeCsrf && csrfToken){
+        headers["X-CSRF-Token"] = csrfToken;
+    }
+
+    return headers;
+}
 
 function getBalanceKey(username){
-
-    return 'userBalance_' + username;
-
+    return "userBalance_" + username;
 }
-
 
 function getPlansKey(username){
-
-    return 'userActivePlans_' + username;
-
+    return "userActivePlans_" + username;
 }
-
 
 function getProfitKey(username){
-
-    return 'userTotalProfit_' + username;
-
+    return "userTotalProfit_" + username;
 }
-
-
-/* =========================
-   SAFE NUMBER
-========================= */
 
 function safeNumber(value){
 
-    const number =
-        Number(value);
+    const number = Number(value);
 
-    return Number.isFinite(number)
-        ? number
-        : 0;
+    return Number.isFinite(number) ? number : 0;
 
 }
-
-
-/* =========================
-   LOCAL BALANCE CACHE
-========================= */
 
 function getUserBalance(username){
 
@@ -1061,17 +237,13 @@ function getUserBalance(username){
         return 0;
     }
 
-    const value =
-        parseFloat(
-            localStorage.getItem(
-                getBalanceKey(username)
-            )
-        );
+    const value = parseFloat(
+        localStorage.getItem(
+            getBalanceKey(username)
+        )
+    );
 
-    if(
-        !Number.isFinite(value) ||
-        value < 0
-    ){
+    if(!Number.isFinite(value) || value < 0){
         return 0;
     }
 
@@ -1079,11 +251,7 @@ function getUserBalance(username){
 
 }
 
-
-function saveUserBalance(
-    username,
-    balance
-){
+function saveUserBalance(username,balance){
 
     if(!username){
         return;
@@ -1091,17 +259,10 @@ function saveUserBalance(
 
     localStorage.setItem(
         getBalanceKey(username),
-        String(
-            Math.max(0,balance)
-        )
+        String(Math.max(0,balance))
     );
 
 }
-
-
-/* =========================
-   LIVE DATABASE BALANCE
-========================= */
 
 async function loadLiveBalance(username){
 
@@ -1109,22 +270,55 @@ async function loadLiveBalance(username){
         return;
     }
 
+    const token = getUserSessionToken();
+
+    if(!token){
+        console.log("User session token missing");
+        return;
+    }
+
     try{
 
-        const response =
-            await fetch(
-                API_URL +
-                "/api/balance/" +
-                encodeURIComponent(username)
-            );
+        const response = await fetch(
+            API_URL +
+            "/api/balance/" +
+            encodeURIComponent(username),
+            {
+                method:"GET",
+                headers:authHeaders(false),
+                credentials:"include"
+            }
+        );
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
         if(
-            !response.ok ||
-            !data.success
+            data.sessionToken
         ){
+            sessionStorage.setItem(
+                "userSessionToken",
+                data.sessionToken
+            );
+            sessionStorage.setItem(
+                "sessionToken",
+                data.sessionToken
+            );
+        }
+
+        if(
+            data.csrfToken
+        ){
+            sessionStorage.setItem(
+                "userCsrfToken",
+                data.csrfToken
+            );
+            sessionStorage.setItem(
+                "csrfToken",
+                data.csrfToken
+            );
+        }
+
+        if(!response.ok || !data.success){
 
             console.log(
                 "Balance request failed:",
@@ -1132,49 +326,31 @@ async function loadLiveBalance(username){
             );
 
             return;
-
         }
 
-
-        const balance =
-            safeNumber(data.balance);
-
+        const balance = safeNumber(data.balance);
 
         const balanceText =
-            'Rs ' +
+            "Rs " +
             balance.toLocaleString(
-                'en-PK',
+                "en-PK",
                 {
                     minimumFractionDigits:2,
                     maximumFractionDigits:2
                 }
             );
 
-
         const balanceElement =
-            document.getElementById(
-                'dashBalance'
-            );
-
+            document.getElementById("dashBalance");
 
         if(balanceElement){
-
-            balanceElement.innerText =
-                balanceText;
-
+            balanceElement.innerText = balanceText;
         }
-
-
-        /*
-           LocalStorage sirf cache ke liye.
-           Database hi actual balance hai.
-        */
 
         saveUserBalance(
             username,
             balance
         );
-
 
     }catch(error){
 
@@ -1187,11 +363,6 @@ async function loadLiveBalance(username){
 
 }
 
-
-/* =========================
-   PLANS
-========================= */
-
 function getUserPlans(username){
 
     if(!username){
@@ -1202,12 +373,11 @@ function getUserPlans(username){
 
     try{
 
-        const saved =
-            JSON.parse(
-                localStorage.getItem(
-                    getPlansKey(username)
-                )
-            );
+        const saved = JSON.parse(
+            localStorage.getItem(
+                getPlansKey(username)
+            )
+        );
 
         if(Array.isArray(saved)){
             plans = saved;
@@ -1223,11 +393,7 @@ function getUserPlans(username){
 
 }
 
-
-function saveUserPlans(
-    username,
-    plans
-){
+function saveUserPlans(username,plans){
 
     if(!username){
         return;
@@ -1240,107 +406,72 @@ function saveUserPlans(
 
 }
 
-
-/* =========================
-   PLAN PROFITS
-========================= */
-
 function processPlanProfits(){
 
-    const username =
-        getCurrentUser();
+    const username = getCurrentUser();
 
     if(!username){
         return;
     }
 
-    let plans =
-        getUserPlans(username);
+    let plans = getUserPlans(username);
 
     if(plans.length === 0){
         return;
     }
 
-    let balance =
-        getUserBalance(username);
+    let balance = getUserBalance(username);
 
-    let totalProfit =
-        safeNumber(
-            localStorage.getItem(
-                getProfitKey(username)
-            )
-        );
+    let totalProfit = safeNumber(
+        localStorage.getItem(
+            getProfitKey(username)
+        )
+    );
 
-    const now =
-        Date.now();
+    const now = Date.now();
 
-    let changed =
-        false;
-
+    let changed = false;
 
     plans.forEach(function(plan){
 
         const startTime =
-            safeNumber(
-                plan.startTime
-            );
+            safeNumber(plan.startTime);
 
         if(!startTime){
             return;
         }
 
-
         const durationDays =
             Math.max(
                 1,
                 Math.floor(
-                    safeNumber(
-                        plan.days
-                    ) || 60
+                    safeNumber(plan.days) || 60
                 )
             );
 
-
         const endTime =
-            safeNumber(
-                plan.endTime
-            ) ||
+            safeNumber(plan.endTime) ||
             (
                 startTime +
                 durationDays * DAY
             );
 
-
         let lastProfitTime =
-            safeNumber(
-                plan.lastProfitTime
-            ) ||
+            safeNumber(plan.lastProfitTime) ||
             startTime;
 
-
         const effectiveNow =
-            Math.min(
-                now,
-                endTime
-            );
-
+            Math.min(now,endTime);
 
         const elapsed =
             effectiveNow -
             lastProfitTime;
 
-
         const daysToAdd =
-            Math.floor(
-                elapsed / DAY
-            );
-
+            Math.floor(elapsed / DAY);
 
         const dailyProfit =
-            safeNumber(
-                plan.daily
-            );
-
+            safeNumber(plan.daily);
 
         if(
             daysToAdd > 0 &&
@@ -1348,66 +479,41 @@ function processPlanProfits(){
         ){
 
             const profitToAdd =
-                daysToAdd *
-                dailyProfit;
+                daysToAdd * dailyProfit;
 
-
-            balance +=
-                profitToAdd;
-
+            balance += profitToAdd;
 
             plan.profitEarned =
-                safeNumber(
-                    plan.profitEarned
-                ) +
+                safeNumber(plan.profitEarned) +
                 profitToAdd;
 
-
             plan.daysPassed =
-                safeNumber(
-                    plan.daysPassed
-                ) +
+                safeNumber(plan.daysPassed) +
                 daysToAdd;
-
 
             plan.lastProfitTime =
                 lastProfitTime +
                 daysToAdd * DAY;
 
-
-            totalProfit +=
-                profitToAdd;
-
+            totalProfit += profitToAdd;
 
             changed = true;
 
         }
 
-
         if(now >= endTime){
-
-            plan.status =
-                'Completed';
-
+            plan.status = "Completed";
             changed = true;
-
         }else{
-
-            plan.status =
-                'Active';
-
+            plan.status = "Active";
         }
 
     });
 
-
     const activePlans =
         plans.filter(function(plan){
-
-            return plan.status === 'Active';
-
+            return plan.status === "Active";
         });
-
 
     if(changed){
 
@@ -1416,14 +522,12 @@ function processPlanProfits(){
             balance
         );
 
-
         localStorage.setItem(
             getProfitKey(username),
             String(totalProfit)
         );
 
     }
-
 
     saveUserPlans(
         username,
@@ -1432,21 +536,13 @@ function processPlanProfits(){
 
 }
 
-
-/* =========================
-   REFERRAL HELPERS
-========================= */
-
 function getReferralRecords(){
 
     try{
 
-        const referrals =
-            JSON.parse(
-                localStorage.getItem(
-                    'referrals'
-                ) || '[]'
-            );
+        const referrals = JSON.parse(
+            localStorage.getItem("referrals") || "[]"
+        );
 
         return Array.isArray(referrals)
             ? referrals
@@ -1460,35 +556,27 @@ function getReferralRecords(){
 
 }
 
-
 function getDirectReferrer(username){
 
     if(!username){
-        return '';
+        return "";
     }
-
 
     try{
 
-        const users =
-            JSON.parse(
-                localStorage.getItem(
-                    'aasanRozgaarUsers'
-                ) || '[]'
-            );
-
+        const users = JSON.parse(
+            localStorage.getItem(
+                "aasanRozgaarUsers"
+            ) || "[]"
+        );
 
         if(Array.isArray(users)){
 
-            const user =
-                users.find(
-                    function(item){
-
-                        return item.username === username;
-
-                    }
-                );
-
+            const user = users.find(
+                function(item){
+                    return item.username === username;
+                }
+            );
 
             if(
                 user &&
@@ -1505,16 +593,14 @@ function getDirectReferrer(username){
     }catch(error){
 
         console.log(
-            'User referral lookup error:',
+            "User referral lookup error:",
             error
         );
 
     }
 
-
     const referrals =
         getReferralRecords();
-
 
     const level1Record =
         referrals.find(
@@ -1530,101 +616,71 @@ function getDirectReferrer(username){
             }
         );
 
-
     if(level1Record){
-
         return level1Record.referrer;
-
     }
 
-
-    return '';
+    return "";
 
 }
-
 
 function loadReferrer(){
 
     const username =
         getCurrentUser();
 
-
     const tag =
-        document.getElementById(
-            'referrerTag'
-        );
-
+        document.getElementById("referrerTag");
 
     if(!tag){
         return;
     }
 
-
     const referrer =
         getDirectReferrer(username);
-
 
     if(referrer){
 
         tag.innerText =
-            'Refer by: ' +
-            referrer;
+            "Refer by: " + referrer;
 
     }else{
 
         tag.innerText =
-            'Refer by: None';
+            "Refer by: None";
 
     }
 
 }
-
 
 function getReferralCounts(username){
 
     const referrals =
         getReferralRecords();
 
-
-    let level1 =
-        0;
-
-    let level2 =
-        0;
-
+    let level1 = 0;
+    let level2 = 0;
 
     referrals.forEach(
         function(record){
 
-            if(
-                record.referrer !== username
-            ){
-
+            if(record.referrer !== username){
                 return;
-
             }
-
 
             const level =
                 Number(record.level);
 
-
             if(level === 1){
-
                 level1++;
-
             }
 
-
             if(level === 2){
-
                 level2++;
-
             }
 
         }
     );
-
 
     return {
         level1:level1,
@@ -1634,30 +690,20 @@ function getReferralCounts(username){
 
 }
 
-
-/* =========================
-   DASHBOARD
-========================= */
-
 async function loadDashboardData(){
 
     const username =
         getCurrentUser();
 
-
     if(!username){
 
         document.getElementById(
-            'userNameDisplay'
-        ).innerText =
-            'Guest';
-
+            "userNameDisplay"
+        ).innerText = "Guest";
 
         document.getElementById(
-            'dashBalance'
-        ).innerText =
-            'Rs 0.00';
-
+            "dashBalance"
+        ).innerText = "Rs 0.00";
 
         loadReferrer();
 
@@ -1665,30 +711,17 @@ async function loadDashboardData(){
 
     }
 
-
     document.getElementById(
-        'userNameDisplay'
-    ).innerText =
-        username;
-
+        "userNameDisplay"
+    ).innerText = username;
 
     loadReferrer();
 
-
     getReferralCounts(username);
-
 
     processPlanProfits();
 
-
-    /*
-       IMPORTANT:
-       Database balance is loaded after
-       local calculations.
-    */
-
     await loadLiveBalance(username);
-
 
     const planProfit =
         safeNumber(
@@ -1697,128 +730,94 @@ async function loadDashboardData(){
             )
         );
 
-
     document.getElementById(
-        'dashProfitDisplay'
+        "dashProfitDisplay"
     ).innerText =
-        'Rs ' +
+        "Rs " +
         planProfit.toLocaleString(
-            'en-PK',
+            "en-PK",
             {
                 minimumFractionDigits:2,
                 maximumFractionDigits:2
             }
         );
 
-
     document.getElementById(
-        'refBonusDisplay'
+        "refBonusDisplay"
     ).innerText =
-        'Rs 0.00';
-
+        "Rs 0.00";
 
     const activePlans =
         getUserPlans(username);
 
-
     document.getElementById(
-        'activePlansCount'
+        "activePlansCount"
     ).innerText =
         activePlans.length +
-        ' Active Plans';
-
+        " Active Plans";
 
     document.getElementById(
-        'dashActivePlansText'
+        "dashActivePlansText"
     ).innerText =
         activePlans.length +
-        ' Active';
+        " Active";
 
 }
-
-
-/* =========================
-   ACTIVE PLANS MODAL
-========================= */
 
 function checkActivePlans(){
 
     const username =
         getCurrentUser();
 
-
     if(!username){
 
         window.location.href =
-            'login.html';
+            "login.html";
 
         return;
 
     }
 
-
     processPlanProfits();
-
 
     const plans =
         getUserPlans(username);
 
-
     const msgBox =
         document.getElementById(
-            'modalMessage'
+            "modalMessage"
         );
-
 
     if(plans.length === 0){
 
         msgBox.innerHTML =
-
             "<p style='text-align:center;color:#64748b;'>" +
-
             "Filhal aapka koi active plan nahi hai." +
-
             "<br><br>" +
-
-            "<a href='plans.html' " +
-            "style='color:#0b6623;font-weight:bold;text-decoration:none;'>" +
-
+            "<a href='plans.html' style='color:#0b6623;font-weight:bold;text-decoration:none;'>" +
             "Plans page par jayein →" +
-
             "</a>" +
-
             "</p>";
 
     }else{
 
         let htmlContent = "";
 
-
         plans.forEach(
             function(plan,index){
 
-                const now =
-                    Date.now();
-
+                const now = Date.now();
 
                 const startTime =
-                    safeNumber(
-                        plan.startTime
-                    );
-
+                    safeNumber(plan.startTime);
 
                 const endTime =
-                    safeNumber(
-                        plan.endTime
-                    ) ||
+                    safeNumber(plan.endTime) ||
                     (
                         startTime +
-                        safeNumber(
-                            plan.days
-                        ) *
+                        safeNumber(plan.days) *
                         DAY
                     );
-
 
                 let remaining =
                     Math.max(
@@ -1826,16 +825,13 @@ function checkActivePlans(){
                         endTime - now
                     );
 
-
                 const remainingDays =
                     Math.floor(
                         remaining / DAY
                     );
 
-
                 remaining -=
                     remainingDays * DAY;
-
 
                 const remainingHours =
                     Math.floor(
@@ -1843,18 +839,14 @@ function checkActivePlans(){
                         (1000 * 60 * 60)
                     );
 
-
                 const lastProfitTime =
                     safeNumber(
                         plan.lastProfitTime
                     ) ||
                     startTime;
 
-
                 const nextProfitTime =
-                    lastProfitTime +
-                    DAY;
-
+                    lastProfitTime + DAY;
 
                 let timeUntilProfit =
                     Math.max(
@@ -1862,17 +854,14 @@ function checkActivePlans(){
                         nextProfitTime - now
                     );
 
-
                 const profitHours =
                     Math.floor(
                         timeUntilProfit /
                         (1000 * 60 * 60)
                     );
 
-
                 timeUntilProfit %=
                     (1000 * 60 * 60);
-
 
                 const profitMinutes =
                     Math.floor(
@@ -1880,114 +869,50 @@ function checkActivePlans(){
                         (1000 * 60)
                     );
 
-
                 htmlContent += `
-
                     <div class="plan-card-item">
-
-                        <p>
-                            <b>
-                                Plan ${index + 1}:
-                                ${escapeHtml(plan.name || 'Package')}
-                            </b>
+                        <p><b>Plan ${index + 1}: ${escapeHtml(plan.name || "Package")}</b></p>
+                        <p>💰 Price: Rs ${safeNumber(plan.price).toLocaleString("en-PK")}</p>
+                        <p>📈 Daily Profit: Rs ${safeNumber(plan.daily).toLocaleString("en-PK",{minimumFractionDigits:2,maximumFractionDigits:2})}</p>
+                        <p>⏳ Duration: ${safeNumber(plan.days)} Days</p>
+                        <p>💵 Profit Earned: Rs ${safeNumber(plan.profitEarned).toLocaleString("en-PK",{minimumFractionDigits:2,maximumFractionDigits:2})}</p>
+                        <p>📅 Remaining: ${remainingDays} Days ${remainingHours} Hours</p>
+                        <p style="margin-top:7px;"><span class="plan-status">ACTIVE</span></p>
+                        <p style="color:#0b6623;font-weight:bold;margin-top:8px;">
+                            ⏰ Next Daily Profit: ${profitHours}h ${profitMinutes}m
                         </p>
-
-                        <p>
-                            💰 Price:
-                            Rs ${safeNumber(plan.price).toLocaleString('en-PK')}
-                        </p>
-
-                        <p>
-                            📈 Daily Profit:
-                            Rs ${safeNumber(plan.daily).toLocaleString('en-PK',{
-                                minimumFractionDigits:2,
-                                maximumFractionDigits:2
-                            })}
-                        </p>
-
-                        <p>
-                            ⏳ Duration:
-                            ${safeNumber(plan.days)} Days
-                        </p>
-
-                        <p>
-                            💵 Profit Earned:
-                            Rs ${safeNumber(plan.profitEarned).toLocaleString('en-PK',{
-                                minimumFractionDigits:2,
-                                maximumFractionDigits:2
-                            })}
-                        </p>
-
-                        <p>
-                            📅 Remaining:
-                            ${remainingDays} Days
-                            ${remainingHours} Hours
-                        </p>
-
-                        <p style="margin-top:7px;">
-
-                            <span class="plan-status">
-                                ACTIVE
-                            </span>
-
-                        </p>
-
-                        <p style="
-                            color:#0b6623;
-                            font-weight:bold;
-                            margin-top:8px;
-                        ">
-
-                            ⏰ Next Daily Profit:
-                            ${profitHours}h
-                            ${profitMinutes}m
-
-                        </p>
-
                     </div>
-
                 `;
 
             }
         );
-
 
         msgBox.innerHTML =
             htmlContent;
 
     }
 
-
     document.getElementById(
-        'customModal'
-    ).style.display =
-        'flex';
+        "customModal"
+    ).style.display = "flex";
 
 }
-
-
-/* =========================
-   PROFIT DETAILS
-========================= */
 
 function showProfitDetails(){
 
     const username =
         getCurrentUser();
 
-
     if(!username){
 
         window.location.href =
-            'login.html';
+            "login.html";
 
         return;
 
     }
 
-
     processPlanProfits();
-
 
     const plansProfit =
         safeNumber(
@@ -1996,341 +921,235 @@ function showProfitDetails(){
             )
         );
 
-
-    const teamProfit =
-        0;
-
-
-    const referralBonus =
-        0;
-
+    const teamProfit = 0;
+    const referralBonus = 0;
 
     const totalProfit =
         plansProfit +
         teamProfit +
         referralBonus;
 
-
     const profitMessage =
         document.getElementById(
-            'profitMessage'
+            "profitMessage"
         );
 
-
     profitMessage.innerHTML = `
-
         <div class="profit-card">
-
             <div class="profit-card-left">
-
-                <span>
-                    Plans Profit
-                </span>
-
-                <strong>
-                    Active plans se earned
-                </strong>
-
+                <span>Plans Profit</span>
+                <strong>Active plans se earned</strong>
             </div>
-
             <div class="profit-card-right">
-
-                Rs ${plansProfit.toLocaleString('en-PK',{
-                    minimumFractionDigits:2,
-                    maximumFractionDigits:2
-                })}
-
+                Rs ${plansProfit.toLocaleString("en-PK",{minimumFractionDigits:2,maximumFractionDigits:2})}
             </div>
-
         </div>
 
-
         <div class="profit-card">
-
             <div class="profit-card-left">
-
-                <span>
-                    Team Profit
-                </span>
-
-                <strong>
-                    Team activity
-                </strong>
-
+                <span>Team Profit</span>
+                <strong>Team activity</strong>
             </div>
-
             <div class="profit-card-right">
-
                 Rs ${teamProfit.toFixed(2)}
-
             </div>
-
         </div>
-
 
         <div class="profit-card">
-
             <div class="profit-card-left">
-
-                <span>
-                    Referral Bonus
-                </span>
-
-                <strong>
-                    Referral rewards
-                </strong>
-
+                <span>Referral Bonus</span>
+                <strong>Referral rewards</strong>
             </div>
-
             <div class="profit-card-right">
-
                 Rs ${referralBonus.toFixed(2)}
-
             </div>
-
         </div>
-
 
         <div class="total-profit-card">
-
-            <span>
-                TOTAL PROFIT
-            </span>
-
+            <span>TOTAL PROFIT</span>
             <strong>
-
-                Rs ${totalProfit.toLocaleString('en-PK',{
-                    minimumFractionDigits:2,
-                    maximumFractionDigits:2
-                })}
-
+                Rs ${totalProfit.toLocaleString("en-PK",{minimumFractionDigits:2,maximumFractionDigits:2})}
             </strong>
-
         </div>
-
     `;
 
-
     document.getElementById(
-        'profitModal'
-    ).style.display =
-        'flex';
+        "profitModal"
+    ).style.display = "flex";
 
 }
-
-
-/* =========================
-   ESCAPE HTML
-========================= */
 
 function escapeHtml(value){
 
     return String(value)
-        .replace(/&/g,'&amp;')
-        .replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;')
-        .replace(/"/g,'&quot;')
-        .replace(/'/g,'&#039;');
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
-
-
-/* =========================
-   MODALS
-========================= */
 
 function closeModal(){
 
     document.getElementById(
-        'customModal'
-    ).style.display =
-        'none';
+        "customModal"
+    ).style.display = "none";
 
 }
-
 
 function closeProfitModal(){
 
     document.getElementById(
-        'profitModal'
-    ).style.display =
-        'none';
+        "profitModal"
+    ).style.display = "none";
 
 }
-
-
-/* =========================
-   LOGOUT
-========================= */
 
 function logoutUser(){
 
     localStorage.removeItem(
-        'currentUser'
+        "currentUser"
+    );
+
+    sessionStorage.removeItem(
+        "userSessionToken"
+    );
+
+    sessionStorage.removeItem(
+        "userCsrfToken"
+    );
+
+    sessionStorage.removeItem(
+        "sessionToken"
+    );
+
+    sessionStorage.removeItem(
+        "csrfToken"
     );
 
 }
 
-
-/* =========================
-   MODAL CLICK
-========================= */
-
 document.getElementById(
-    'customModal'
+    "customModal"
 ).addEventListener(
-    'click',
+    "click",
     function(event){
 
         if(event.target === this){
-
             closeModal();
-
         }
 
     }
 );
 
-
 document.getElementById(
-    'profitModal'
+    "profitModal"
 ).addEventListener(
-    'click',
+    "click",
     function(event){
 
         if(event.target === this){
-
             closeProfitModal();
-
         }
 
     }
 );
 
-
-/* =========================
-   PWA INSTALL SYSTEM
-========================= */
-
-let deferredInstallPrompt =
-    null;
-
+let deferredInstallPrompt = null;
 
 const installAppBtn =
     document.getElementById(
-        'installAppBtn'
+        "installAppBtn"
     );
-
 
 const installStatus =
     document.getElementById(
-        'installStatus'
+        "installStatus"
     );
-
 
 const installBadge =
     document.getElementById(
-        'installBadge'
+        "installBadge"
     );
 
-
 window.addEventListener(
-    'beforeinstallprompt',
+    "beforeinstallprompt",
     function(event){
 
         event.preventDefault();
 
-        deferredInstallPrompt =
-            event;
-
+        deferredInstallPrompt = event;
 
         if(installAppBtn){
-
             installAppBtn.classList.add(
-                'install-ready'
+                "install-ready"
             );
-
         }
-
 
         if(installStatus){
-
             installStatus.innerText =
-                'Ready to install';
-
+                "Ready to install";
         }
 
-
         if(installBadge){
-
             installBadge.innerText =
-                'INSTALL';
-
+                "INSTALL";
         }
 
     }
 );
 
-
 if(installAppBtn){
 
     installAppBtn.addEventListener(
-        'click',
+        "click",
         async function(event){
 
             event.preventDefault();
-
 
             if(deferredInstallPrompt){
 
                 deferredInstallPrompt.prompt();
 
-
                 try{
 
                     const result =
-                        await deferredInstallPrompt
-                            .userChoice;
-
+                        await deferredInstallPrompt.userChoice;
 
                     console.log(
-                        'Install result:',
+                        "Install result:",
                         result.outcome
                     );
 
                 }catch(error){
 
                     console.log(
-                        'Install prompt error:',
+                        "Install prompt error:",
                         error
                     );
 
                 }
 
-
-                deferredInstallPrompt =
-                    null;
-
+                deferredInstallPrompt = null;
 
                 return;
 
             }
 
-
             if(
                 window.matchMedia(
-                    '(display-mode: standalone)'
+                    "(display-mode: standalone)"
                 ).matches
             ){
 
                 alert(
-                    'Aasan Rozgaar App pehle se installed hai.'
+                    "Aasan Rozgaar App pehle se installed hai."
                 );
 
                 return;
 
             }
-
 
             alert(
                 "Install option abhi available nahi hai.\n\n" +
@@ -2344,72 +1163,48 @@ if(installAppBtn){
 
 }
 
-
 window.addEventListener(
-    'appinstalled',
+    "appinstalled",
     function(){
 
         console.log(
-            'Aasan Rozgaar App installed successfully.'
+            "Aasan Rozgaar App installed successfully."
         );
 
-
-        deferredInstallPrompt =
-            null;
-
+        deferredInstallPrompt = null;
 
         if(installStatus){
-
-            installStatus.innerText =
-                'Installed';
-
+            installStatus.innerText = "Installed";
         }
 
-
         if(installBadge){
-
-            installBadge.innerText =
-                'OPEN';
-
+            installBadge.innerText = "OPEN";
         }
 
     }
 );
 
-
-/* =========================
-   SERVICE WORKER
-========================= */
-
-if(
-    'serviceWorker' in navigator
-){
+if("serviceWorker" in navigator){
 
     window.addEventListener(
-        'load',
+        "load",
         function(){
 
             navigator.serviceWorker
-                .register(
-                    './service-worker.js'
-                )
+                .register("./service-worker.js")
                 .then(
                     function(){
-
                         console.log(
-                            'Aasan Rozgaar Service Worker registered.'
+                            "Aasan Rozgaar Service Worker registered."
                         );
-
                     }
                 )
                 .catch(
                     function(error){
-
                         console.log(
-                            'Service Worker registration failed:',
+                            "Service Worker registration failed:",
                             error
                         );
-
                     }
                 );
 
@@ -2418,63 +1213,33 @@ if(
 
 }
 
-
-/* =========================
-   INITIAL LOAD
-========================= */
-
 loadDashboardData();
-
-
-/* =========================
-   AUTO UPDATE
-========================= */
 
 setInterval(
     function(){
 
-        if(
-            getCurrentUser()
-        ){
-
+        if(getCurrentUser()){
             loadDashboardData();
-
         }
 
     },
     5000
 );
 
-
-/* =========================
-   STORAGE UPDATE
-========================= */
-
 window.addEventListener(
-    'storage',
+    "storage",
     function(event){
 
         if(!event.key){
             return;
         }
 
-
         if(
-            event.key.startsWith(
-                'userBalance_'
-            ) ||
-
-            event.key.startsWith(
-                'userActivePlans_'
-            ) ||
-
-            event.key.startsWith(
-                'userTotalProfit_'
-            ) ||
-
-            event.key === 'referrals' ||
-
-            event.key === 'aasanRozgaarUsers'
+            event.key.startsWith("userBalance_") ||
+            event.key.startsWith("userActivePlans_") ||
+            event.key.startsWith("userTotalProfit_") ||
+            event.key === "referrals" ||
+            event.key === "aasanRozgaarUsers"
         ){
 
             loadDashboardData();
@@ -2484,8 +1249,5 @@ window.addEventListener(
     }
 );
 
-</script>
-
-</body>
-
+</script></body>
 </html>
