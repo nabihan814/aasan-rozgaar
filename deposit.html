@@ -243,28 +243,92 @@
     <a href="withdraw.html">Withdraw</a>
 </div>
 
-
 <script>
-
-// ======================================
-// BACKEND
-// ======================================
 
 const API_URL =
     'https://aasan-rozgaar-backend.onrender.com';
-
-
-// ======================================
-// PAYMENT METHOD VARIABLES
-// ======================================
 
 let selectedMethodId = null;
 let selectedMethodName = '';
 let selectedMethodDetails = '';
 let uploadedImageBase64 = '';
 let lastMethodsJSON = '';
-
 let depositMethods = [];
+
+
+// ======================================
+// USER AUTH
+// ======================================
+
+function getCurrentUsername() {
+
+    return (
+        localStorage.getItem('currentUser') ||
+        sessionStorage.getItem('currentUser') ||
+        ''
+    ).trim();
+
+}
+
+
+function getUserSessionToken() {
+
+    return (
+        sessionStorage.getItem('userSessionToken') ||
+        sessionStorage.getItem('sessionToken') ||
+        localStorage.getItem('userSessionToken') ||
+        localStorage.getItem('sessionToken') ||
+        ''
+    ).trim();
+
+}
+
+
+function getUserCsrfToken() {
+
+    return (
+        sessionStorage.getItem('userCsrfToken') ||
+        sessionStorage.getItem('csrfToken') ||
+        localStorage.getItem('userCsrfToken') ||
+        localStorage.getItem('csrfToken') ||
+        ''
+    ).trim();
+
+}
+
+
+function userHeaders(includeCsrf = false) {
+
+    const token =
+        getUserSessionToken();
+
+    const csrfToken =
+        getUserCsrfToken();
+
+    const headers = {
+        'Accept': 'application/json'
+    };
+
+    if (token) {
+
+        headers['Authorization'] =
+            'Bearer ' + token;
+
+    }
+
+    if (
+        includeCsrf &&
+        csrfToken
+    ) {
+
+        headers['X-CSRF-Token'] =
+            csrfToken;
+
+    }
+
+    return headers;
+
+}
 
 
 // ======================================
@@ -280,7 +344,6 @@ function initUserDeposit() {
 
 // ======================================
 // GET ACTIVE PAYMENT METHODS
-// FROM BACKEND DATABASE
 // ======================================
 
 async function getDepositTypes() {
@@ -290,7 +353,12 @@ async function getDepositTypes() {
         const response =
             await fetch(
                 API_URL +
-                '/api/deposit-types/active'
+                '/api/deposit-types/active',
+                {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: userHeaders()
+                }
             );
 
 
@@ -320,7 +388,6 @@ async function getDepositTypes() {
 
 
         return data.depositTypes;
-
 
     } catch (error) {
 
@@ -629,18 +696,14 @@ function handleFileSelect(event) {
             'Sirf image screenshot upload karein.'
         );
 
-
         event.target.value = '';
 
-
         uploadedImageBase64 = '';
-
 
         document.getElementById(
             'fileNameText'
         ).innerText =
             'No file selected';
-
 
         return;
 
@@ -667,12 +730,10 @@ function handleFileSelect(event) {
                     'Screenshot process nahi ho saka. Dobara try karein.'
                 );
 
-
                 document.getElementById(
                     'fileNameText'
                 ).innerText =
                     'No file selected';
-
 
                 return;
 
@@ -741,10 +802,8 @@ function compressImage(
                             maxWidth /
                             width;
 
-
                         width =
                             maxWidth;
-
 
                         height =
                             Math.round(
@@ -764,10 +823,8 @@ function compressImage(
                             maxHeight /
                             height;
 
-
                         height =
                             maxHeight;
-
 
                         width =
                             Math.round(
@@ -786,7 +843,6 @@ function compressImage(
 
                     canvas.width =
                         width;
-
 
                     canvas.height =
                         height;
@@ -809,7 +865,6 @@ function compressImage(
 
                     let quality =
                         0.75;
-
 
                     let result =
                         '';
@@ -886,15 +941,32 @@ function compressImage(
 async function submitDepositRequest() {
 
     const username =
-        localStorage.getItem(
-            'currentUser'
-        );
+        getCurrentUsername();
 
 
     if (!username) {
 
         alert(
             'Pehle login karein.'
+        );
+
+        return;
+
+    }
+
+
+    const sessionToken =
+        getUserSessionToken();
+
+
+    const csrfToken =
+        getUserCsrfToken();
+
+
+    if (!sessionToken || !csrfToken) {
+
+        alert(
+            'Login session expire ho gaya hai. Please dobara login karein.'
         );
 
         return;
@@ -992,12 +1064,15 @@ async function submitDepositRequest() {
 
                     method: 'POST',
 
-                    headers: {
+                    credentials: 'include',
 
-                        'Content-Type':
-                            'application/json'
+                    headers:
+                        {
+                            ...userHeaders(true),
 
-                    },
+                            'Content-Type':
+                                'application/json'
+                        },
 
                     body:
                         JSON.stringify({
@@ -1038,6 +1113,21 @@ async function submitDepositRequest() {
         }
 
 
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            alert(
+                data?.message ||
+                'Login session expire ho gaya hai. Please dobara login karein.'
+            );
+
+            return;
+
+        }
+
+
         if (!response.ok) {
 
             throw new Error(
@@ -1074,8 +1164,7 @@ async function submitDepositRequest() {
             'No file selected';
 
 
-        uploadedImageBase64 =
-            '';
+        uploadedImageBase64 = '';
 
 
     } catch (error) {
@@ -1146,3 +1235,7 @@ initUserDeposit();
 
 </body>
 </html>
+
+Ab sirf ye "deposit.html" replace karo, GitHub par upload/commit karo, phir dobara login karke deposit test karo.
+
+Important: agar iske baad message aaye “Login session expire…”, to mujhe user wali login file bhejna. Phir hum usi 1 file ko fix karenge.
