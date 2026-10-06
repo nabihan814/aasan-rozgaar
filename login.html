@@ -44,11 +44,6 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            transition: 0.2s;
-        }
-
-        .back-link:active {
-            transform: scale(0.9);
         }
 
         .header-title-link {
@@ -117,9 +112,6 @@
             color: #0b6623;
             margin-bottom: 6px;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .saved-accounts-box p {
@@ -153,11 +145,6 @@
             text-align: center;
             text-decoration: none;
             font-size: 13px;
-            transition: 0.2s;
-        }
-
-        .btn-choose-saved:active {
-            background: #dcfce7;
         }
 
         .login-card {
@@ -181,7 +168,6 @@
             font-size: 14px;
             background: #f8fafc;
             outline: none;
-            transition: 0.2s;
             color: #1e293b;
             font-weight: 600;
         }
@@ -234,11 +220,6 @@
             gap: 10px;
             box-shadow: 0 6px 20px rgba(11, 102, 35, 0.3);
             margin-top: 10px;
-            transition: 0.2s;
-        }
-
-        .btn-login-now:active {
-            transform: scale(0.98);
         }
 
         .btn-login-now:disabled {
@@ -310,13 +291,7 @@
 
         .feature-item {
             flex: 1;
-            cursor: pointer;
             padding: 4px;
-            transition: 0.2s;
-        }
-
-        .feature-item:active {
-            transform: scale(0.95);
         }
 
         .feature-icon {
@@ -341,216 +316,176 @@
 
 <body>
 
-    <div class="top-header">
+<div class="top-header">
 
-        <a href="index.html" class="back-link">
-            &#8592;
-        </a>
+    <a href="index.html" class="back-link">
+        &#8592;
+    </a>
 
-        <a href="index.html" class="header-title-link">
-            <span>🛡️</span>
-            Aasan Rozgaar
-        </a>
+    <a href="index.html" class="header-title-link">
+        <span>🛡️</span>
+        Aasan Rozgaar
+    </a>
 
-        <div style="width: 35px;"></div>
+    <div style="width:35px;"></div>
+
+</div>
+
+
+<div class="container">
+
+    <div class="brand-logo-box">
+
+        <div class="app-avatar">
+            AR
+        </div>
+
+        <h1>
+            Login Account
+        </h1>
+
+        <p>
+            Welcome back! Securely sign in to your dashboard
+        </p>
 
     </div>
 
 
-    <div class="container">
+    <div class="saved-accounts-box">
 
-        <div class="brand-logo-box">
+        <h4>
+            🔑 Saved Accounts
+        </h4>
 
-            <div class="app-avatar">
-                AR
+        <p>
+            On this browser: Accounts are saved automatically after successful login or registration.
+        </p>
+
+        <div class="no-account-badge">
+            No saved account yet. Enter credentials below.
+        </div>
+
+        <a href="#" class="btn-choose-saved">
+            Choose Saved Account &rarr;
+        </a>
+
+    </div>
+
+
+    <div class="login-card">
+
+        <form id="loginForm">
+
+            <div class="input-group phone-group">
+
+                <span class="phone-prefix">
+                    +92
+                </span>
+
+                <span
+                    class="input-icon"
+                    style="left:55px;"
+                >
+                    📱
+                </span>
+
+                <input
+                    type="tel"
+                    id="loginPhone"
+                    placeholder="3001234567"
+                    maxlength="10"
+                    inputmode="numeric"
+                    autocomplete="tel"
+                    required
+                >
+
             </div>
 
-            <h1>
-                Login Account
-            </h1>
 
-            <p>
-                Welcome back! Securely sign in to your dashboard
-            </p>
+            <div class="input-group">
 
+                <span class="input-icon">
+                    🔒
+                </span>
+
+                <input
+                    type="password"
+                    id="loginPass"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <span
+                    id="loginError"
+                    class="error-msg"
+                ></span>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn-login-now"
+                id="loginButton"
+            >
+                Login Now <span>&rarr;</span>
+            </button>
+
+        </form>
+
+
+        <div class="divider-or">
+            <span>OR</span>
         </div>
 
 
-        <div class="saved-accounts-box">
+        <div class="register-redirect">
 
-            <h4>
-                🔑 Saved Accounts
-            </h4>
+            Don't have an account?
 
-            <p>
-                On this browser: Accounts are saved automatically after successful login or registration.
-            </p>
-
-            <div class="no-account-badge">
-                No saved account yet. Enter credentials below.
-            </div>
-
-            <a href="#" class="btn-choose-saved">
-                Choose Saved Account &rarr;
+            <a href="register.html">
+                Register Now
             </a>
 
         </div>
 
-
-        <div class="login-card">
-
-            <form id="loginForm">
-
-                <div class="input-group phone-group">
-
-                    <span class="phone-prefix">
-                        +92
-                    </span>
-
-                    <span
-                        class="input-icon"
-                        style="left: 55px;"
-                    >
-                        📱
-                    </span>
-
-                    <input
-                        type="tel"
-                        id="loginPhone"
-                        placeholder="3001234567"
-                        maxlength="10"
-                        inputmode="numeric"
-                        autocomplete="tel"
-                        required
-                    >
-
-                </div>
+    </div>
 
 
-                <div class="input-group">
+    <div class="footer-features">
 
-                    <span class="input-icon">
-                        🔒
-                    </span>
-
-                    <input
-                        type="password"
-                        id="loginPass"
-                        placeholder="Enter your password"
-                        autocomplete="current-password"
-                        required
-                    >
-
-                    <span
-                        id="loginError"
-                        class="error-msg"
-                    ></span>
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    class="btn-login-now"
-                    id="loginButton"
-                >
-                    Login Now <span>&rarr;</span>
-                </button>
-
-            </form>
-
-
-            <div class="divider-or">
-                <span>OR</span>
-            </div>
-
-
-            <div class="register-redirect">
-
-                Don't have an account?
-
-                <a href="register.html">
-                    Register Now
-                </a>
-
-            </div>
-
+        <div class="feature-item">
+            <div class="feature-icon">🛡️</div>
+            <h5>100% Secure</h5>
+            <p>Encrypted data</p>
         </div>
 
+        <div class="feature-item">
+            <div class="feature-icon">⚡</div>
+            <h5>Fast Hub</h5>
+            <p>Instant access</p>
+        </div>
 
-        <div class="footer-features">
-
-            <div class="feature-item">
-
-                <div class="feature-icon">
-                    🛡️
-                </div>
-
-                <h5>
-                    100% Secure
-                </h5>
-
-                <p>
-                    Encrypted data
-                </p>
-
-            </div>
-
-
-            <div class="feature-item">
-
-                <div class="feature-icon">
-                    ⚡
-                </div>
-
-                <h5>
-                    Fast Hub
-                </h5>
-
-                <p>
-                    Instant access
-                </p>
-
-            </div>
-
-
-            <div
-                class="feature-item"
-                onclick="window.open('https://api.whatsapp.com/send?phone=447718486232', '_blank')"
-            >
-
-                <div class="feature-icon">
-                    💬
-                </div>
-
-                <h5>
-                    24/7 Support
-                </h5>
-
-                <p>
-                    Live assistance
-                </p>
-
-            </div>
-
+        <div
+            class="feature-item"
+            onclick="window.open('https://api.whatsapp.com/send?phone=447718486232', '_blank')"
+        >
+            <div class="feature-icon">💬</div>
+            <h5>24/7 Support</h5>
+            <p>Live assistance</p>
         </div>
 
     </div>
 
+</div>
+
 
 <script>
-
-/* =========================
-   BACKEND URL
-========================= */
 
 const BACKEND_URL =
     "https://aasan-rozgaar-backend.onrender.com";
 
-
-/* =========================
-   LOGIN FORM
-========================= */
 
 document
 .getElementById("loginForm")
@@ -558,36 +493,27 @@ document
 
     e.preventDefault();
 
-
     const phoneInput =
         document
         .getElementById("loginPhone")
         .value
         .trim();
 
-
     const passInput =
         document
         .getElementById("loginPass")
         .value;
 
-
     const loginError =
         document
         .getElementById("loginError");
-
 
     const loginButton =
         document
         .getElementById("loginButton");
 
-
     loginError.textContent = "";
 
-
-    /* =========================
-       PHONE VALIDATION
-    ========================= */
 
     const phoneRegex =
         /^[0-9]{10}$/;
@@ -617,10 +543,6 @@ document
         "+92" + phoneInput;
 
 
-    /* =========================
-       LOADING
-    ========================= */
-
     loginButton.disabled = true;
 
     loginButton.innerHTML =
@@ -629,18 +551,18 @@ document
 
     try {
 
-        /* =========================
-           SEND LOGIN TO BACKEND
-        ========================= */
-
         const response =
             await fetch(
                 BACKEND_URL + "/api/login",
                 {
                     method: "POST",
 
+                    credentials: "include",
+
                     headers: {
                         "Content-Type":
+                            "application/json",
+                        "Accept":
                             "application/json"
                     },
 
@@ -672,10 +594,6 @@ document
         }
 
 
-        /* =========================
-           LOGIN ERROR
-        ========================= */
-
         if (!response.ok) {
 
             loginError.textContent =
@@ -691,10 +609,6 @@ document
 
         }
 
-
-        /* =========================
-           SUCCESS
-        ========================= */
 
         if (
             !data ||
@@ -719,15 +633,14 @@ document
             data.user.username;
 
 
-        /* =========================
-           SAVE LOGIN SESSION
-        ========================= */
+        /* =================================
+           SAVE USER LOGIN
+        ================================= */
 
         localStorage.setItem(
             "currentUser",
             username
         );
-
 
         localStorage.setItem(
             "isLoggedIn",
@@ -735,21 +648,54 @@ document
         );
 
 
-        /* =========================
-           SAVE BACKEND USER
-        ========================= */
+        /* =================================
+           SAVE BACKEND USER DATA
+        ================================= */
 
         localStorage.setItem(
             "backendUser",
-            JSON.stringify(
-                data.user
-            )
+            JSON.stringify(data.user)
         );
 
 
-        /* =========================
+        /* =================================
+           IMPORTANT:
+           SAVE SESSION TOKEN + CSRF TOKEN
+        ================================= */
+
+        if (data.sessionToken) {
+
+            sessionStorage.setItem(
+                "userSessionToken",
+                data.sessionToken
+            );
+
+            sessionStorage.setItem(
+                "sessionToken",
+                data.sessionToken
+            );
+
+        }
+
+
+        if (data.csrfToken) {
+
+            sessionStorage.setItem(
+                "userCsrfToken",
+                data.csrfToken
+            );
+
+            sessionStorage.setItem(
+                "csrfToken",
+                data.csrfToken
+            );
+
+        }
+
+
+        /* =================================
            KEEP LOCAL USER DATA
-        ========================= */
+        ================================= */
 
         let users = [];
 
@@ -791,18 +737,48 @@ document
         }
 
 
-        /* =========================
-           SUCCESS MESSAGE
-        ========================= */
+        /* =================================
+           VERIFY SESSION TOKENS EXIST
+        ================================= */
+
+        if (
+            !data.sessionToken ||
+            !data.csrfToken
+        ) {
+
+            loginError.textContent =
+                "Login successful hua lekin secure session nahi mila. Dobara try karein.";
+
+            sessionStorage.removeItem(
+                "userSessionToken"
+            );
+
+            sessionStorage.removeItem(
+                "sessionToken"
+            );
+
+            sessionStorage.removeItem(
+                "userCsrfToken"
+            );
+
+            sessionStorage.removeItem(
+                "csrfToken"
+            );
+
+            loginButton.disabled = false;
+
+            loginButton.innerHTML =
+                'Login Now <span>&rarr;</span>';
+
+            return;
+
+        }
+
 
         alert(
             "Login successful!"
         );
 
-
-        /* =========================
-           GO HOME
-        ========================= */
 
         window.location.href =
             "home.html";
@@ -822,10 +798,6 @@ document
     }
 
 
-    /* =========================
-       RESET BUTTON
-    ========================= */
-
     loginButton.disabled = false;
 
     loginButton.innerHTML =
@@ -837,3 +809,14 @@ document
 
 </body>
 </html>
+
+Ab is file ko replace karke GitHub par commit karo.
+
+Phir:
+
+1. Website se logout/old session clear karke login karo.
+2. Login successful hone do.
+3. "deposit.html" kholo.
+4. Deposit request submit karo.
+
+Agar ab bhi “Please login first” aaye, us waqt koi aur file mat badalna — bas jo exact popup/message aaye woh mujhe bhejna.
