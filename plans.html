@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Plans - Aasan Rozgaar</title>
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Plans - Aasan Rozgaar</title><style>
 *{
     margin:0;
     padding:0;
@@ -20,7 +15,6 @@ body{
     padding-bottom:90px;
 }
 
-/* HEADER */
 .header-section{
     background:linear-gradient(135deg,#064e3b,#0b6623);
     color:white;
@@ -50,7 +44,6 @@ body{
     opacity:.9;
 }
 
-/* BALANCE */
 .balance-box{
     max-width:600px;
     margin:-12px auto 0;
@@ -94,7 +87,6 @@ body{
     font-size:22px;
 }
 
-/* CONTENT */
 .container{
     padding:15px;
     max-width:600px;
@@ -108,7 +100,6 @@ body{
     margin:20px 0 12px 5px;
 }
 
-/* PLAN CARD */
 .plan-card{
     background:white;
     border-radius:20px;
@@ -184,7 +175,6 @@ body{
     cursor:not-allowed;
 }
 
-/* MODAL */
 .purchase-modal{
     display:none;
     position:fixed;
@@ -285,7 +275,6 @@ body{
     cursor:not-allowed;
 }
 
-/* BOTTOM NAV */
 .bottom-nav{
     position:fixed;
     bottom:0;
@@ -318,499 +307,473 @@ body{
     display:block;
     margin-bottom:2px;
 }
-</style>
-</head>
-
-<body>
-
-<!-- HEADER -->
-<section class="header-section">
+</style></head><body><section class="header-section">
     <div class="header-top">Aasan Rozgaar</div>
     <div class="main-title">Investment Plans</div>
     <div class="subtitle">Choose a plan according to your available balance.</div>
-</section>
-
-<!-- BALANCE -->
-<div class="balance-box">
+</section><div class="balance-box">
     <div class="balance-card">
         <div>
             <div class="balance-label">Available Balance</div>
             <div class="balance-amount" id="availableBalance">Rs 0.00</div>
-        </div>
-
-        <div class="balance-icon">💰</div>
-    </div>
+        </div>    <div class="balance-icon">💰</div>
 </div>
 
-<!-- PLANS -->
-<div class="container">
+</div><div class="container"><div class="section-heading">Available Plans</div>
 
-    <div class="section-heading">Available Plans</div>
-
-    <!-- PACKAGE 1 -->
-    <div class="plan-card">
-        <div class="plan-header">
-            <div class="plan-title">Package 1</div>
-            <div class="plan-badge">60 Days</div>
-        </div>
-
-        <div class="plan-detail">
-            <span>Package Price</span>
-            <span>Rs 500</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Daily Profit</span>
-            <span>Rs 16.66</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Duration</span>
-            <span>60 Days</span>
-        </div>
-
-        <button class="btn-invest"
-            onclick="buySecurePlan('Package 1',500,16.66,60)">
-            ACTIVATE PLAN
-        </button>
+<div class="plan-card">
+    <div class="plan-header">
+        <div class="plan-title">Package 1</div>
+        <div class="plan-badge">60 Days</div>
     </div>
 
-    <!-- PACKAGE 2 -->
-    <div class="plan-card">
-        <div class="plan-header">
-            <div class="plan-title">Package 2</div>
-            <div class="plan-badge">60 Days</div>
-        </div>
-
-        <div class="plan-detail">
-            <span>Package Price</span>
-            <span>Rs 1,000</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Daily Profit</span>
-            <span>Rs 33.33</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Duration</span>
-            <span>60 Days</span>
-        </div>
-
-        <button class="btn-invest"
-            onclick="buySecurePlan('Package 2',1000,33.33,60)">
-            ACTIVATE PLAN
-        </button>
+    <div class="plan-detail">
+        <span>Package Price</span>
+        <span>Rs 500</span>
     </div>
 
-    <!-- PACKAGE 3 -->
-    <div class="plan-card">
-        <div class="plan-header">
-            <div class="plan-title">Package 3</div>
-            <div class="plan-badge">60 Days</div>
-        </div>
-
-        <div class="plan-detail">
-            <span>Package Price</span>
-            <span>Rs 1,500</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Daily Profit</span>
-            <span>Rs 50.00</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Duration</span>
-            <span>60 Days</span>
-        </div>
-
-        <button class="btn-invest"
-            onclick="buySecurePlan('Package 3',1500,50,60)">
-            ACTIVATE PLAN
-        </button>
+    <div class="plan-detail">
+        <span>Daily Profit</span>
+        <span>Rs 16.66</span>
     </div>
 
-    <!-- PACKAGE 4 -->
-    <div class="plan-card">
-        <div class="plan-header">
-            <div class="plan-title">Package 4</div>
-            <div class="plan-badge">60 Days</div>
-        </div>
-
-        <div class="plan-detail">
-            <span>Package Price</span>
-            <span>Rs 3,000</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Daily Profit</span>
-            <span>Rs 100.00</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Duration</span>
-            <span>60 Days</span>
-        </div>
-
-        <button class="btn-invest"
-            onclick="buySecurePlan('Package 4',3000,100,60)">
-            ACTIVATE PLAN
-        </button>
+    <div class="plan-detail">
+        <span>Duration</span>
+        <span>60 Days</span>
     </div>
 
-    <!-- PACKAGE 5 -->
-    <div class="plan-card">
-        <div class="plan-header">
-            <div class="plan-title">Package 5</div>
-            <div class="plan-badge">60 Days</div>
-        </div>
-
-        <div class="plan-detail">
-            <span>Package Price</span>
-            <span>Rs 6,000</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Daily Profit</span>
-            <span>Rs 200.00</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Duration</span>
-            <span>60 Days</span>
-        </div>
-
-        <button class="btn-invest"
-            onclick="buySecurePlan('Package 5',6000,200,60)">
-            ACTIVATE PLAN
-        </button>
-    </div>
-
-    <!-- PACKAGE 6 -->
-    <div class="plan-card">
-        <div class="plan-header">
-            <div class="plan-title">Package 6</div>
-            <div class="plan-badge">60 Days</div>
-        </div>
-
-        <div class="plan-detail">
-            <span>Package Price</span>
-            <span>Rs 13,500</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Daily Profit</span>
-            <span>Rs 450.00</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Duration</span>
-            <span>60 Days</span>
-        </div>
-
-        <button class="btn-invest"
-            onclick="buySecurePlan('Package 6',13500,450,60)">
-            ACTIVATE PLAN
-        </button>
-    </div>
-
-    <!-- PACKAGE 7 -->
-    <div class="plan-card">
-        <div class="plan-header">
-            <div class="plan-title">Package 7</div>
-            <div class="plan-badge">60 Days</div>
-        </div>
-
-        <div class="plan-detail">
-            <span>Package Price</span>
-            <span>Rs 27,500</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Daily Profit</span>
-            <span>Rs 916.66</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Duration</span>
-            <span>60 Days</span>
-        </div>
-
-        <button class="btn-invest"
-            onclick="buySecurePlan('Package 7',27500,916.66,60)">
-            ACTIVATE PLAN
-        </button>
-    </div>
-
-    <!-- PACKAGE 8 -->
-    <div class="plan-card">
-        <div class="plan-header">
-            <div class="plan-title">Package 8</div>
-            <div class="plan-badge">60 Days</div>
-        </div>
-
-        <div class="plan-detail">
-            <span>Package Price</span>
-            <span>Rs 55,600</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Daily Profit</span>
-            <span>Rs 1,853.33</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Duration</span>
-            <span>60 Days</span>
-        </div>
-
-        <button class="btn-invest"
-            onclick="buySecurePlan('Package 8',55600,1853.33,60)">
-            ACTIVATE PLAN
-        </button>
-    </div>
-
-    <!-- PACKAGE 9 -->
-    <div class="plan-card">
-        <div class="plan-header">
-            <div class="plan-title">Package 9</div>
-            <div class="plan-badge">60 Days</div>
-        </div>
-
-        <div class="plan-detail">
-            <span>Package Price</span>
-            <span>Rs 95,600</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Daily Profit</span>
-            <span>Rs 3,186.66</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Duration</span>
-            <span>60 Days</span>
-        </div>
-
-        <button class="btn-invest"
-            onclick="buySecurePlan('Package 9',95600,3186.66,60)">
-            ACTIVATE PLAN
-        </button>
-    </div>
-
-    <!-- PACKAGE 10 -->
-    <div class="plan-card">
-        <div class="plan-header">
-            <div class="plan-title">Package 10</div>
-            <div class="plan-badge">60 Days</div>
-        </div>
-
-        <div class="plan-detail">
-            <span>Package Price</span>
-            <span>Rs 196,520</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Daily Profit</span>
-            <span>Rs 6,550.66</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Duration</span>
-            <span>60 Days</span>
-        </div>
-
-        <button class="btn-invest"
-            onclick="buySecurePlan('Package 10',196520,6550.66,60)">
-            ACTIVATE PLAN
-        </button>
-    </div>
-
-    <!-- PACKAGE 11 -->
-    <div class="plan-card">
-        <div class="plan-header">
-            <div class="plan-title">Package 11</div>
-            <div class="plan-badge">60 Days</div>
-        </div>
-
-        <div class="plan-detail">
-            <span>Package Price</span>
-            <span>Rs 394,500</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Daily Profit</span>
-            <span>Rs 13,150.00</span>
-        </div>
-
-        <div class="plan-detail">
-            <span>Duration</span>
-            <span>60 Days</span>
-        </div>
-
-        <button class="btn-invest"
-            onclick="buySecurePlan('Package 11',394500,13150,60)">
-            ACTIVATE PLAN
-        </button>
-    </div>
-
+    <button class="btn-invest"
+        onclick="buySecurePlan('Package 1',500,16.66,60)">
+        ACTIVATE PLAN
+    </button>
 </div>
 
-<!-- PURCHASE MODAL -->
-<div id="purchaseModal" class="purchase-modal">
+<div class="plan-card">
+    <div class="plan-header">
+        <div class="plan-title">Package 2</div>
+        <div class="plan-badge">60 Days</div>
+    </div>
 
-    <div class="purchase-box">
+    <div class="plan-detail">
+        <span>Package Price</span>
+        <span>Rs 1,000</span>
+    </div>
 
-        <div class="purchase-icon">🛡️</div>
+    <div class="plan-detail">
+        <span>Daily Profit</span>
+        <span>Rs 33.33</span>
+    </div>
 
-        <div class="purchase-title">
-            Confirm Package
-        </div>
+    <div class="plan-detail">
+        <span>Duration</span>
+        <span>60 Days</span>
+    </div>
 
-        <div id="purchaseDetails" class="purchase-details"></div>
+    <button class="btn-invest"
+        onclick="buySecurePlan('Package 2',1000,33.33,60)">
+        ACTIVATE PLAN
+    </button>
+</div>
 
-        <div class="purchase-buttons">
+<div class="plan-card">
+    <div class="plan-header">
+        <div class="plan-title">Package 3</div>
+        <div class="plan-badge">60 Days</div>
+    </div>
 
-            <button
-                type="button"
-                class="cancel-btn"
-                id="cancelPurchaseBtn"
-                onclick="closePurchaseModal()">
-                NO, CANCEL
-            </button>
+    <div class="plan-detail">
+        <span>Package Price</span>
+        <span>Rs 1,500</span>
+    </div>
 
-            <button
-                type="button"
-                class="confirm-btn"
-                id="confirmPurchaseBtn"
-                onclick="confirmPurchase()">
-                YES, ACTIVATE
-            </button>
+    <div class="plan-detail">
+        <span>Daily Profit</span>
+        <span>Rs 50.00</span>
+    </div>
 
-        </div>
+    <div class="plan-detail">
+        <span>Duration</span>
+        <span>60 Days</span>
+    </div>
+
+    <button class="btn-invest"
+        onclick="buySecurePlan('Package 3',1500,50,60)">
+        ACTIVATE PLAN
+    </button>
+</div>
+
+<div class="plan-card">
+    <div class="plan-header">
+        <div class="plan-title">Package 4</div>
+        <div class="plan-badge">60 Days</div>
+    </div>
+
+    <div class="plan-detail">
+        <span>Package Price</span>
+        <span>Rs 3,000</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Daily Profit</span>
+        <span>Rs 100.00</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Duration</span>
+        <span>60 Days</span>
+    </div>
+
+    <button class="btn-invest"
+        onclick="buySecurePlan('Package 4',3000,100,60)">
+        ACTIVATE PLAN
+    </button>
+</div>
+
+<div class="plan-card">
+    <div class="plan-header">
+        <div class="plan-title">Package 5</div>
+        <div class="plan-badge">60 Days</div>
+    </div>
+
+    <div class="plan-detail">
+        <span>Package Price</span>
+        <span>Rs 6,000</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Daily Profit</span>
+        <span>Rs 200.00</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Duration</span>
+        <span>60 Days</span>
+    </div>
+
+    <button class="btn-invest"
+        onclick="buySecurePlan('Package 5',6000,200,60)">
+        ACTIVATE PLAN
+    </button>
+</div>
+
+<div class="plan-card">
+    <div class="plan-header">
+        <div class="plan-title">Package 6</div>
+        <div class="plan-badge">60 Days</div>
+    </div>
+
+    <div class="plan-detail">
+        <span>Package Price</span>
+        <span>Rs 13,500</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Daily Profit</span>
+        <span>Rs 450.00</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Duration</span>
+        <span>60 Days</span>
+    </div>
+
+    <button class="btn-invest"
+        onclick="buySecurePlan('Package 6',13500,450,60)">
+        ACTIVATE PLAN
+    </button>
+</div>
+
+<div class="plan-card">
+    <div class="plan-header">
+        <div class="plan-title">Package 7</div>
+        <div class="plan-badge">60 Days</div>
+    </div>
+
+    <div class="plan-detail">
+        <span>Package Price</span>
+        <span>Rs 27,500</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Daily Profit</span>
+        <span>Rs 916.66</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Duration</span>
+        <span>60 Days</span>
+    </div>
+
+    <button class="btn-invest"
+        onclick="buySecurePlan('Package 7',27500,916.66,60)">
+        ACTIVATE PLAN
+    </button>
+</div>
+
+<div class="plan-card">
+    <div class="plan-header">
+        <div class="plan-title">Package 8</div>
+        <div class="plan-badge">60 Days</div>
+    </div>
+
+    <div class="plan-detail">
+        <span>Package Price</span>
+        <span>Rs 55,600</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Daily Profit</span>
+        <span>Rs 1,853.33</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Duration</span>
+        <span>60 Days</span>
+    </div>
+
+    <button class="btn-invest"
+        onclick="buySecurePlan('Package 8',55600,1853.33,60)">
+        ACTIVATE PLAN
+    </button>
+</div>
+
+<div class="plan-card">
+    <div class="plan-header">
+        <div class="plan-title">Package 9</div>
+        <div class="plan-badge">60 Days</div>
+    </div>
+
+    <div class="plan-detail">
+        <span>Package Price</span>
+        <span>Rs 95,600</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Daily Profit</span>
+        <span>Rs 3,186.66</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Duration</span>
+        <span>60 Days</span>
+    </div>
+
+    <button class="btn-invest"
+        onclick="buySecurePlan('Package 9',95600,3186.66,60)">
+        ACTIVATE PLAN
+    </button>
+</div>
+
+<div class="plan-card">
+    <div class="plan-header">
+        <div class="plan-title">Package 10</div>
+        <div class="plan-badge">60 Days</div>
+    </div>
+
+    <div class="plan-detail">
+        <span>Package Price</span>
+        <span>Rs 196,520</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Daily Profit</span>
+        <span>Rs 6,550.66</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Duration</span>
+        <span>60 Days</span>
+    </div>
+
+    <button class="btn-invest"
+        onclick="buySecurePlan('Package 10',196520,6550.66,60)">
+        ACTIVATE PLAN
+    </button>
+</div>
+
+<div class="plan-card">
+    <div class="plan-header">
+        <div class="plan-title">Package 11</div>
+        <div class="plan-badge">60 Days</div>
+    </div>
+
+    <div class="plan-detail">
+        <span>Package Price</span>
+        <span>Rs 394,500</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Daily Profit</span>
+        <span>Rs 13,150.00</span>
+    </div>
+
+    <div class="plan-detail">
+        <span>Duration</span>
+        <span>60 Days</span>
+    </div>
+
+    <button class="btn-invest"
+        onclick="buySecurePlan('Package 11',394500,13150,60)">
+        ACTIVATE PLAN
+    </button>
+</div>
+
+</div><div id="purchaseModal" class="purchase-modal"><div class="purchase-box">
+
+    <div class="purchase-icon">🛡️</div>
+
+    <div class="purchase-title">
+        Confirm Package
+    </div>
+
+    <div id="purchaseDetails" class="purchase-details"></div>
+
+    <div class="purchase-buttons">
+
+        <button
+            type="button"
+            class="cancel-btn"
+            id="cancelPurchaseBtn"
+            onclick="closePurchaseModal()">
+            NO, CANCEL
+        </button>
+
+        <button
+            type="button"
+            class="confirm-btn"
+            id="confirmPurchaseBtn"
+            onclick="confirmPurchase()">
+            YES, ACTIVATE
+        </button>
 
     </div>
 
 </div>
 
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav">
+</div><nav class="bottom-nav"><a href="home.html" class="nav-item">
+    <span class="nav-icon">🏠</span>
+    Home
+</a>
 
-    <a href="home.html" class="nav-item">
-        <span class="nav-icon">🏠</span>
-        Home
-    </a>
+<a href="plans.html" class="nav-item active">
+    <span class="nav-icon">💼</span>
+    Plans
+</a>
 
-    <a href="plans.html" class="nav-item active">
-        <span class="nav-icon">💼</span>
-        Plans
-    </a>
+<a href="team.html" class="nav-item">
+    <span class="nav-icon">👥</span>
+    Team
+</a>
 
-    <a href="team.html" class="nav-item">
-        <span class="nav-icon">👥</span>
-        Team
-    </a>
+<a href="login.html" class="nav-item" onclick="logoutUser()">
+    <span class="nav-icon">🚪</span>
+    Logout
+</a>
 
-    <a href="login.html" class="nav-item" onclick="logoutUser()">
-        <span class="nav-icon">🚪</span>
-        Logout
-    </a>
-
-</nav>
-
-<script>
-
-/* =========================
-   BASIC SETTINGS
-========================= */
-
-const DAY =
-    24 * 60 * 60 * 1000;
+</nav><script>
 
 const API_URL =
     "https://aasan-rozgaar-backend.onrender.com";
 
-let selectedPlan =
-    null;
+let selectedPlan = null;
+let purchaseInProgress = false;
 
-let purchaseInProgress =
-    false;
-
-
-/* =========================
-   CURRENT USER
-========================= */
 
 function getCurrentUser(){
 
-    return localStorage.getItem(
-        "currentUser"
+    return (
+        localStorage.getItem("currentUser") ||
+        ""
+    ).trim();
+
+}
+
+
+function getUserSessionToken(){
+
+    return (
+        sessionStorage.getItem("userSessionToken") ||
+        sessionStorage.getItem("sessionToken") ||
+        ""
     );
 
 }
 
 
-/* =========================
-   LOCAL CACHE KEY
-========================= */
+function getUserCsrfToken(){
 
-function getBalanceKey(username){
-
-    return "userBalance_" + username;
+    return (
+        sessionStorage.getItem("userCsrfToken") ||
+        sessionStorage.getItem("csrfToken") ||
+        ""
+    );
 
 }
 
 
-/* =========================
-   USER BALANCE CACHE
-========================= */
+function userHeaders(includeCsrf = false){
 
-function getUserBalance(username){
+    const token =
+        getUserSessionToken();
 
-    if(!username){
-        return 0;
+    const csrfToken =
+        getUserCsrfToken();
+
+    const headers = {
+        "Accept":"application/json"
+    };
+
+    if(token){
+
+        headers["Authorization"] =
+            "Bearer " + token;
+
     }
 
-    const value =
-        parseFloat(
-            localStorage.getItem(
-                getBalanceKey(username)
-            )
+    if(includeCsrf && csrfToken){
+
+        headers["X-CSRF-Token"] =
+            csrfToken;
+
+    }
+
+    return headers;
+
+}
+
+
+function updateSessionTokens(data){
+
+    if(data && data.sessionToken){
+
+        sessionStorage.setItem(
+            "userSessionToken",
+            data.sessionToken
         );
 
-    return Number.isFinite(value) && value >= 0
-        ? value
-        : 0;
+        sessionStorage.setItem(
+            "sessionToken",
+            data.sessionToken
+        );
 
-}
-
-
-function saveUserBalance(
-    username,
-    balance
-){
-
-    if(!username){
-        return;
     }
 
-    localStorage.setItem(
-        getBalanceKey(username),
-        String(
-            Math.max(
-                0,
-                Number(balance) || 0
-            )
-        )
-    );
+    if(data && data.csrfToken){
+
+        sessionStorage.setItem(
+            "userCsrfToken",
+            data.csrfToken
+        );
+
+        sessionStorage.setItem(
+            "csrfToken",
+            data.csrfToken
+        );
+
+    }
 
 }
 
-
-/* =========================
-   LIVE DATABASE BALANCE
-========================= */
 
 async function loadLiveBalance(){
 
@@ -818,7 +781,25 @@ async function loadLiveBalance(){
         getCurrentUser();
 
     if(!username){
+
         return false;
+
+    }
+
+
+    const token =
+        getUserSessionToken();
+
+
+    if(!token){
+
+        document.getElementById(
+            "availableBalance"
+        ).textContent =
+            "Rs 0.00";
+
+        return false;
+
     }
 
 
@@ -828,23 +809,48 @@ async function loadLiveBalance(){
             await fetch(
                 API_URL +
                 "/api/balance/" +
-                encodeURIComponent(username)
+                encodeURIComponent(username),
+                {
+                    method:"GET",
+                    headers:userHeaders(),
+                    credentials:"include"
+                }
             );
 
 
-        const data =
-            await response.json();
+        let data = {};
+
+        try{
+
+            data =
+                await response.json();
+
+        }catch(error){
+
+            data = {};
+
+        }
+
+
+        updateSessionTokens(data);
+
+
+        if(
+            response.status === 401 ||
+            response.status === 403
+        ){
+
+            sessionExpired();
+
+            return false;
+
+        }
 
 
         if(
             !response.ok ||
             !data.success
         ){
-
-            console.log(
-                "Balance request failed:",
-                data.message || "Unknown error"
-            );
 
             return false;
 
@@ -878,25 +884,12 @@ async function loadLiveBalance(){
             );
 
 
-        /*
-           LocalStorage sirf cache hai.
-           Purchase ke waqt server/database
-           final authority hai.
-        */
-
-        saveUserBalance(
-            username,
-            balance
-        );
-
-
         return true;
-
 
     }catch(error){
 
         console.error(
-            "Live balance error:",
+            "Balance error:",
             error
         );
 
@@ -907,37 +900,45 @@ async function loadLiveBalance(){
 }
 
 
-/* =========================
-   LOCAL PLANS
-========================= */
+function sessionExpired(){
 
-function getPlansKey(username){
+    alert(
+        "Session expired. Please login again."
+    );
 
-    return "userActivePlans_" + username;
+    sessionStorage.removeItem(
+        "userSessionToken"
+    );
+
+    sessionStorage.removeItem(
+        "userCsrfToken"
+    );
+
+    sessionStorage.removeItem(
+        "sessionToken"
+    );
+
+    sessionStorage.removeItem(
+        "csrfToken"
+    );
+
+    window.location.href =
+        "login.html";
 
 }
 
-
-/* =========================
-   NUMBER CHECK
-========================= */
 
 function safeNumber(value){
 
     const number =
         Number(value);
 
-    return Number.isFinite(number) &&
-           number >= 0
+    return Number.isFinite(number)
         ? number
         : 0;
 
 }
 
-
-/* =========================
-   BUY PLAN
-========================= */
 
 async function buySecurePlan(
     name,
@@ -952,12 +953,20 @@ async function buySecurePlan(
 
     if(!username){
 
-        alert(
-            "Please login first."
-        );
-
         window.location.href =
             "login.html";
+
+        return;
+
+    }
+
+
+    if(
+        !getUserSessionToken() ||
+        !getUserCsrfToken()
+    ){
+
+        sessionExpired();
 
         return;
 
@@ -984,9 +993,9 @@ async function buySecurePlan(
 
 
     if(
-        !price ||
-        !dailyProfit ||
-        !days
+        price <= 0 ||
+        dailyProfit <= 0 ||
+        days <= 0
     ){
 
         alert(
@@ -998,38 +1007,38 @@ async function buySecurePlan(
     }
 
 
-    /*
-       Pehle database se latest balance
-       check karte hain.
-    */
-
     const balanceLoaded =
         await loadLiveBalance();
 
 
     if(!balanceLoaded){
 
-        alert(
-            "Balance load nahi ho saka. Please dobara try karein."
-        );
-
         return;
 
     }
 
 
+    const balanceText =
+        document.getElementById(
+            "availableBalance"
+        ).textContent
+        .replace("Rs","")
+        .replace(/,/g,"")
+        .trim();
+
+
     const balance =
-        getUserBalance(username);
+        Number(balanceText);
 
 
-    if(balance < price){
+    if(
+        !Number.isFinite(balance) ||
+        balance < price
+    ){
 
         alert(
-            "Aapka balance kam hai. Pehle approved deposit karein."
+            "Aapka balance is package ke liye kam hai."
         );
-
-        window.location.href =
-            "deposit.html";
 
         return;
 
@@ -1037,19 +1046,16 @@ async function buySecurePlan(
 
 
     selectedPlan = {
-
         name:name,
-
         price:price,
-
         dailyProfit:dailyProfit,
-
         days:days
-
     };
 
 
-    const details =
+    document.getElementById(
+        "purchaseDetails"
+    ).innerHTML =
 
         "<strong>Package:</strong> " +
         escapeHtml(name) +
@@ -1072,13 +1078,7 @@ async function buySecurePlan(
 
         "<br><br>" +
 
-        "Package price database balance se deduct hoga.";
-
-
-    document.getElementById(
-        "purchaseDetails"
-    ).innerHTML =
-        details;
+        "Package purchase server par verify hoga.";
 
 
     document.getElementById(
@@ -1088,10 +1088,6 @@ async function buySecurePlan(
 
 }
 
-
-/* =========================
-   HTML SAFETY
-========================= */
 
 function escapeHtml(value){
 
@@ -1105,10 +1101,6 @@ function escapeHtml(value){
 }
 
 
-/* =========================
-   CLOSE MODAL
-========================= */
-
 function closePurchaseModal(){
 
     if(purchaseInProgress){
@@ -1117,10 +1109,8 @@ function closePurchaseModal(){
 
     }
 
-
     selectedPlan =
         null;
-
 
     document.getElementById(
         "purchaseModal"
@@ -1130,13 +1120,12 @@ function closePurchaseModal(){
 }
 
 
-/* =========================
-   CONFIRM PURCHASE
-========================= */
-
 async function confirmPurchase(){
 
-    if(purchaseInProgress){
+    if(
+        purchaseInProgress ||
+        !selectedPlan
+    ){
 
         return;
 
@@ -1149,63 +1138,23 @@ async function confirmPurchase(){
 
     if(!username){
 
-        closePurchaseModal();
-
-        alert(
-            "Session expired. Please login again."
-        );
-
-        window.location.href =
-            "login.html";
+        sessionExpired();
 
         return;
 
     }
 
 
-    if(!selectedPlan){
+    const token =
+        getUserSessionToken();
 
-        closePurchaseModal();
-
-        return;
-
-    }
+    const csrfToken =
+        getUserCsrfToken();
 
 
-    const planToPurchase = {
-        name:
-            selectedPlan.name,
+    if(!token || !csrfToken){
 
-        price:
-            safeNumber(
-                selectedPlan.price
-            ),
-
-        dailyProfit:
-            safeNumber(
-                selectedPlan.dailyProfit
-            ),
-
-        days:
-            Math.floor(
-                safeNumber(
-                    selectedPlan.days
-                )
-            )
-    };
-
-
-    if(
-        !planToPurchase.price ||
-        !planToPurchase.dailyProfit ||
-        !planToPurchase.days
-    ){
-
-        closePurchaseModal();
-
-        alert(
-            "Invalid package details."
-        );
+        sessionExpired();
 
         return;
 
@@ -1221,42 +1170,23 @@ async function confirmPurchase(){
             "confirmPurchaseBtn"
         );
 
-
     const cancelButton =
         document.getElementById(
             "cancelPurchaseBtn"
         );
 
 
-    if(confirmButton){
+    confirmButton.disabled =
+        true;
 
-        confirmButton.disabled =
-            true;
+    cancelButton.disabled =
+        true;
 
-        confirmButton.textContent =
-            "PROCESSING...";
-
-    }
-
-
-    if(cancelButton){
-
-        cancelButton.disabled =
-            true;
-
-    }
+    confirmButton.textContent =
+        "PROCESSING...";
 
 
     try{
-
-        /*
-           IMPORTANT:
-           Balance yahan localStorage se
-           deduct nahi ho raha.
-
-           Actual deduction backend/database
-           karega.
-        */
 
         const response =
             await fetch(
@@ -1266,9 +1196,12 @@ async function confirmPurchase(){
                     method:"POST",
 
                     headers:{
+                        ...userHeaders(true),
                         "Content-Type":
                             "application/json"
                     },
+
+                    credentials:"include",
 
                     body:JSON.stringify({
 
@@ -1276,19 +1209,18 @@ async function confirmPurchase(){
                             username,
 
                         planName:
-                            planToPurchase.name,
+                            selectedPlan.name,
 
                         price:
-                            planToPurchase.price,
+                            selectedPlan.price,
 
                         dailyProfit:
-                            planToPurchase.dailyProfit,
+                            selectedPlan.dailyProfit,
 
                         days:
-                            planToPurchase.days
+                            selectedPlan.days
 
                     })
-
                 }
             );
 
@@ -1307,277 +1239,89 @@ async function confirmPurchase(){
         }
 
 
-        if(!response.ok){
-
-            if(
-                data.reason ===
-                "insufficient_balance"
-            ){
-
-                throw new Error(
-                    "INSUFFICIENT_BALANCE"
-                );
-
-            }
-
-
-            throw new Error(
-                data.message ||
-                "Plan purchase failed."
-            );
-
-        }
-
-
-        if(!data.success){
-
-            if(
-                data.reason ===
-                "insufficient_balance"
-            ){
-
-                throw new Error(
-                    "INSUFFICIENT_BALANCE"
-                );
-
-            }
-
-
-            throw new Error(
-                data.message ||
-                "Plan purchase failed."
-            );
-
-        }
-
-
-        /*
-           Server ne successful purchase ke
-           baad remaining balance diya.
-        */
-
-        const remainingBalance =
-            Number(
-                data.remainingBalance
-            );
+        updateSessionTokens(data);
 
 
         if(
-            !Number.isFinite(
-                remainingBalance
-            ) ||
-            remainingBalance < 0
+            response.status === 401 ||
+            response.status === 403
         ){
 
+            sessionExpired();
+
+            return;
+
+        }
+
+
+        if(!response.ok){
+
             throw new Error(
-                "Invalid remaining balance received."
+                data.message ||
+                "Plan purchase failed."
             );
 
         }
 
 
-        /*
-           Returned server balance ko sirf
-           cache/display ke liye save karte hain.
-        */
-
-        saveUserBalance(
-            username,
-            remainingBalance
-        );
-
-
-        /*
-           IMPORTANT:
-           Local active plan sirf successful
-           database purchase ke baad banega.
-        */
-
-        const plansKey =
-            getPlansKey(username);
-
-
-        let activePlans = [];
-
-
-        try{
-
-            const stored =
-                JSON.parse(
-                    localStorage.getItem(
-                        plansKey
-                    ) || "[]"
-                );
-
-
-            if(Array.isArray(stored)){
-
-                activePlans =
-                    stored;
-
-            }
-
-        }catch(error){
-
-            activePlans =
-                [];
-
-        }
-
-
-        const now =
-            Date.now();
-
-
-        const newPlan = {
-
-            id:
-                "plan_" +
-                now +
-                "_" +
-                Math.random()
-                    .toString(36)
-                    .slice(2,8),
-
-            name:
-                planToPurchase.name,
-
-            price:
-                planToPurchase.price,
-
-            daily:
-                planToPurchase.dailyProfit,
-
-            days:
-                planToPurchase.days,
-
-            daysPassed:
-                0,
-
-            startTime:
-                now,
-
-            lastProfitTime:
-                now,
-
-            endTime:
-                now +
-                planToPurchase.days *
-                DAY,
-
-            profitEarned:
-                0,
-
-            status:
-                "Active"
-
-        };
-
-
-        activePlans.push(
-            newPlan
-        );
-
-
-        localStorage.setItem(
-            plansKey,
-            JSON.stringify(
-                activePlans
-            )
-        );
-
-
-        /*
-           Plan history
-        */
-
-        const historyKey =
-            "userPlanHistory_" +
-            username;
-
-
-        let history = [];
-
-
-        try{
-
-            const storedHistory =
-                JSON.parse(
-                    localStorage.getItem(
-                        historyKey
-                    ) || "[]"
-                );
-
-
-            if(Array.isArray(storedHistory)){
-
-                history =
-                    storedHistory;
-
-            }
-
-        }catch(error){
-
-            history =
-                [];
-
-        }
-
-
-        history.push({
-
-            id:
-                newPlan.id,
-
-            username:
-                username,
-
-            name:
-                newPlan.name,
-
-            price:
-                newPlan.price,
-
-            daily:
-                newPlan.daily,
-
-            days:
-                newPlan.days,
-
-            date:
-                new Date(
-                    now
-                ).toLocaleString(),
-
-            status:
-                "Active"
-
-        });
-
-
-        localStorage.setItem(
-            historyKey,
-            JSON.stringify(
-                history
-            )
-        );
-
-
-        /*
-           Display remaining server balance.
-        */
-
-        document.getElementById(
-            "availableBalance"
-        ).textContent =
-            "Rs " +
-            remainingBalance.toLocaleString(
-                "en-PK",
-                {
-                    minimumFractionDigits:2,
-                    maximumFractionDigits:2
-                }
+        if(data.success === false){
+
+            throw new Error(
+                data.message ||
+                "Plan purchase failed."
             );
+
+        }
+
+
+        let remainingBalance = null;
+
+
+        if(
+            data.remainingBalance !== undefined
+        ){
+
+            remainingBalance =
+                Number(
+                    data.remainingBalance
+                );
+
+        }else if(
+            data.balance !== undefined
+        ){
+
+            remainingBalance =
+                Number(
+                    data.balance
+                );
+
+        }
+
+
+        if(
+            Number.isFinite(
+                remainingBalance
+            ) &&
+            remainingBalance >= 0
+        ){
+
+            document.getElementById(
+                "availableBalance"
+            ).textContent =
+                "Rs " +
+                remainingBalance.toLocaleString(
+                    "en-PK",
+                    {
+                        minimumFractionDigits:2,
+                        maximumFractionDigits:2
+                    }
+                );
+
+        }else{
+
+            await loadLiveBalance();
+
+        }
 
 
         selectedPlan =
@@ -1591,15 +1335,11 @@ async function confirmPurchase(){
 
 
         alert(
-            planToPurchase.name +
-            " kamyabi se activate ho gaya hai!\n\n" +
-            "Remaining Balance: Rs " +
-            remainingBalance.toFixed(2)
+            "Plan successfully activated."
         );
 
 
-        window.location.href =
-            "plans.html";
+        await loadLiveBalance();
 
 
     }catch(error){
@@ -1609,59 +1349,29 @@ async function confirmPurchase(){
             error
         );
 
-
-        if(
-            error.message ===
-            "INSUFFICIENT_BALANCE"
-        ){
-
-            alert(
-                "Aapka database balance is package ke liye kam hai."
-            );
-
-
-            await loadLiveBalance();
-
-        }else{
-
-            alert(
-                "Plan activate nahi ho saka. Please dobara try karein."
-            );
-
-        }
+        alert(
+            error.message ||
+            "Plan activate nahi ho saka. Please dobara try karein."
+        );
 
     }finally{
 
         purchaseInProgress =
             false;
 
+        confirmButton.disabled =
+            false;
 
-        if(confirmButton){
+        cancelButton.disabled =
+            false;
 
-            confirmButton.disabled =
-                false;
-
-            confirmButton.textContent =
-                "YES, ACTIVATE";
-
-        }
-
-
-        if(cancelButton){
-
-            cancelButton.disabled =
-                false;
-
-        }
+        confirmButton.textContent =
+            "YES, ACTIVATE";
 
     }
 
 }
 
-
-/* =========================
-   LOGOUT
-========================= */
 
 function logoutUser(){
 
@@ -1669,20 +1379,42 @@ function logoutUser(){
         "currentUser"
     );
 
+    sessionStorage.removeItem(
+        "userSessionToken"
+    );
+
+    sessionStorage.removeItem(
+        "userCsrfToken"
+    );
+
+    sessionStorage.removeItem(
+        "sessionToken"
+    );
+
+    sessionStorage.removeItem(
+        "csrfToken"
+    );
+
 }
 
-
-/* =========================
-   LOGIN CHECK
-========================= */
 
 function checkLogin(){
 
     const username =
         getCurrentUser();
 
+    const token =
+        getUserSessionToken();
 
-    if(!username){
+    const csrfToken =
+        getUserCsrfToken();
+
+
+    if(
+        !username ||
+        !token ||
+        !csrfToken
+    ){
 
         window.location.href =
             "login.html";
@@ -1697,10 +1429,6 @@ function checkLogin(){
 }
 
 
-/* =========================
-   PAGE LOAD
-========================= */
-
 document.addEventListener(
     "DOMContentLoaded",
     function(){
@@ -1711,36 +1439,11 @@ document.addEventListener(
 
         }
 
-
         loadLiveBalance();
 
     }
 );
 
-
-/* =========================
-   LIVE DATABASE BALANCE
-========================= */
-
-setInterval(
-    function(){
-
-        if(
-            getCurrentUser()
-        ){
-
-            loadLiveBalance();
-
-        }
-
-    },
-    5000
-);
-
-
-/* =========================
-   CLOSE MODAL OUTSIDE BOX
-========================= */
 
 document.getElementById(
     "purchaseModal"
@@ -1749,8 +1452,7 @@ document.getElementById(
     function(event){
 
         if(
-            event.target ===
-            this
+            event.target === this
         ){
 
             closePurchaseModal();
@@ -1760,7 +1462,5 @@ document.getElementById(
     }
 );
 
-</script>
-
-</body>
+</script></body>
 </html>
