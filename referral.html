@@ -2,12 +2,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Referral Program</title>
-<style>
+<title>Referral Program</title><style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f4f7f5;color:#222}
 .header{background:linear-gradient(135deg,#087f3d,#16a05d);color:white;padding:18px 15px;display:flex;align-items:center;gap:15px;font-size:20px;font-weight:bold}
-.back-btn{border:0;background:rgba(255,255,255,.18);color:white;padding:8px 13px;border-radius:8px;font-size:15px}
+.back-btn{border:0;background:rgba(255,255,255,.18);color:white;padding:8px 13px;border-radius:8px;font-size:15px;cursor:pointer}
 .container{max-width:600px;margin:auto;padding:15px}
 .banner{background:linear-gradient(135deg,#e7fff1,#d8f7e6);border-radius:15px;padding:22px 18px;text-align:center;margin-bottom:15px}
 .banner-icon{font-size:42px}
@@ -18,10 +17,11 @@ body{margin:0;font-family:Arial,sans-serif;background:#f4f7f5;color:#222}
 .info-row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #eee}
 .info-row:last-child{border-bottom:0}
 .label{color:#777}
-.value{font-weight:bold;word-break:break-word}
+.value{font-weight:bold;word-break:break-word;text-align:right}
 .link-box{display:flex;gap:8px}
 .link-box input{flex:1;min-width:0;padding:12px;border:1px solid #ddd;border-radius:9px;background:#f7f7f7}
-.copy-btn{border:0;background:#087f3d;color:white;padding:0 15px;border-radius:9px;font-weight:bold}
+.copy-btn{border:0;background:#087f3d;color:white;padding:0 15px;border-radius:9px;font-weight:bold;cursor:pointer}
+.copy-btn:disabled{opacity:.6;cursor:not-allowed}
 .copy-message{color:#087f3d;font-size:13px;margin-top:8px;min-height:18px}
 .level{border:1px solid #e4e4e4;border-radius:12px;padding:15px;margin-bottom:12px}
 .level:last-child{margin-bottom:0}
@@ -37,8 +37,8 @@ body{margin:0;font-family:Arial,sans-serif;background:#f4f7f5;color:#222}
 .note{background:#fff8df;border-left:4px solid #e0b000;padding:13px;border-radius:8px;color:#665400;line-height:1.6}
 .footer-space{height:20px}
 .error-message{text-align:center;color:#c62828;font-size:14px;margin:10px 0;min-height:20px}
-</style>
-</head><body><div class="header">
+.loading{opacity:.65}
+</style></head><body><div class="header">
     <button class="back-btn" onclick="goBack()">← Back</button>
     <div>Referral Program</div>
 </div><div class="container"><div class="banner">
@@ -49,93 +49,119 @@ body{margin:0;font-family:Arial,sans-serif;background:#f4f7f5;color:#222}
         register hone wale users aapki referral team mein
         automatically record honge.
     </p>
-</div><div class="error-message" id="errorMessage"></div><div class="card">
-    <div class="card-title">👤 Aapki Referral Details</div><div class="info-row">
-    <span class="label">Username</span>
-    <span class="value" id="username">Loading...</span>
 </div>
 
-<div class="info-row">
-    <span class="label">Referral ID</span>
-    <span class="value" id="referralId">Loading...</span>
-</div>
+<div class="error-message" id="errorMessage"></div>
 
-<div class="info-row">
-    <span class="label">Refer By</span>
-    <span class="value" id="referBy">Loading...</span>
-</div>
+<div class="card">
+    <div class="card-title">👤 Aapki Referral Details</div>
 
-</div><div class="card">
-    <div class="card-title">🔗 Referral Link</div><div class="link-box">
-    <input id="referralLink" readonly>
-    <button class="copy-btn" onclick="copyReferralLink()">Copy</button>
-</div>
-
-<div class="copy-message" id="copyMessage"></div>
-
-</div><div class="card">
-    <div class="card-title">📊 My Referral Team</div><div class="count-box">
-
-    <div class="count-item">
-        <div class="count-number" id="level1Count">0</div>
-        <div class="count-label">Level 1 Users</div>
+    <div class="info-row">
+        <span class="label">Username</span>
+        <span class="value loading" id="username">Loading...</span>
     </div>
 
-    <div class="count-item">
-        <div class="count-number" id="level2Count">0</div>
-        <div class="count-label">Level 2 Users</div>
+    <div class="info-row">
+        <span class="label">Referral ID</span>
+        <span class="value loading" id="referralId">Loading...</span>
     </div>
 
+    <div class="info-row">
+        <span class="label">Refer By</span>
+        <span class="value loading" id="referBy">Loading...</span>
+    </div>
 </div>
 
-</div><div class="card">
-    <div class="card-title">📊 Referral Levels</div><div class="level">
-    <div class="level-head">
-        <div class="level-name">Level 1</div>
-        <div class="percent">10%</div>
+<div class="card">
+    <div class="card-title">🔗 Referral Link</div>
+
+    <div class="link-box">
+        <input id="referralLink" readonly placeholder="Loading referral link...">
+        <button class="copy-btn" id="copyButton" onclick="copyReferralLink()" disabled>
+            Copy
+        </button>
     </div>
 
-    <p>
-        Aapke direct referral link se register hone wale
-        users Level 1 mein show honge.
-    </p>
+    <div class="copy-message" id="copyMessage"></div>
 </div>
 
-<div class="level">
-    <div class="level-head">
-        <div class="level-name">Level 2</div>
-        <div class="percent">5%</div>
+<div class="card">
+    <div class="card-title">📊 My Referral Team</div>
+
+    <div class="count-box">
+
+        <div class="count-item">
+            <div class="count-number" id="level1Count">0</div>
+            <div class="count-label">Level 1 Users</div>
+        </div>
+
+        <div class="count-item">
+            <div class="count-number" id="level2Count">0</div>
+            <div class="count-label">Level 2 Users</div>
+        </div>
+
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-title">📊 Referral Levels</div>
+
+    <div class="level">
+        <div class="level-head">
+            <div class="level-name">Level 1</div>
+            <div class="percent">10%</div>
+        </div>
+
+        <p>
+            Aapke direct referral link se register hone wale
+            users Level 1 mein show honge.
+        </p>
     </div>
 
-    <p>
-        Aapke Level 1 user ke referral se aane wale users
-        Level 2 mein show honge.
-    </p>
+    <div class="level">
+        <div class="level-head">
+            <div class="level-name">Level 2</div>
+            <div class="percent">5%</div>
+        </div>
+
+        <p>
+            Aapke Level 1 user ke referral se aane wale users
+            Level 2 mein show honge.
+        </p>
+    </div>
 </div>
 
-</div><div class="card">
-    <div class="card-title">📖 Referral System Kaise Kaam Karega?</div><ul class="detail-list">
-    <li>Aap apna referral link share karenge.</li>
-    <li>Aapke link se aane wala user aapka <b>Level 1</b> hoga.</li>
-    <li>Level 1 user ka referral aapka <b>Level 2</b> hoga.</li>
-    <li>Level 2 ke baad chain aapko show nahi hogi.</li>
-    <li>Har user apna referral link use karke unlimited users la sakta hai.</li>
-    <li>Har user ke liye sirf Level 1 aur Level 2 tracking hogi.</li>
-</ul>
+<div class="card">
+    <div class="card-title">📖 Referral System Kaise Kaam Karega?</div>
 
-</div><div class="card">
-    <div class="card-title">ℹ️ Important Details</div><div class="note">
-    Referral system mein Level 3 ya uske baad ke levels
-    show nahi honge.
-    <br><br>
-    Referral link par users ki koi fixed count limit nahi
-    rakhi gayi.
-    <br><br>
-    Is page par koi bonus claim, payout ya balance-add
-    action nahi hai.
+    <ul class="detail-list">
+        <li>Aap apna referral link share karenge.</li>
+        <li>Aapke link se aane wala user aapka <b>Level 1</b> hoga.</li>
+        <li>Level 1 user ka referral aapka <b>Level 2</b> hoga.</li>
+        <li>Level 2 ke baad chain aapko show nahi hogi.</li>
+        <li>Har user apna referral link use karke unlimited users la sakta hai.</li>
+        <li>Har user ke liye sirf Level 1 aur Level 2 tracking hogi.</li>
+    </ul>
 </div>
 
-</div><div class="footer-space"></div></div><script>
+<div class="card">
+    <div class="card-title">ℹ️ Important Details</div>
+
+    <div class="note">
+        Referral system mein Level 3 ya uske baad ke levels
+        show nahi honge.
+        <br><br>
+        Referral link par users ki koi fixed count limit nahi
+        rakhi gayi.
+        <br><br>
+        Is page par koi bonus claim, payout ya balance-add
+        action nahi hai.
+    </div>
+</div>
+
+<div class="footer-space"></div>
+
+</div><script>
 
 const BACKEND_URL =
     "https://aasan-rozgaar-backend.onrender.com";
@@ -165,12 +191,43 @@ function getAuthHeaders(){
     return headers;
 }
 
+function clearReferralData(){
+
+    document.getElementById("username").textContent = "-";
+    document.getElementById("referralId").textContent = "-";
+    document.getElementById("referBy").textContent = "-";
+
+    document.getElementById("level1Count").textContent = "0";
+    document.getElementById("level2Count").textContent = "0";
+
+    document.getElementById("referralLink").value = "";
+
+    document.getElementById("copyButton").disabled = true;
+
+    document.querySelectorAll(".loading").forEach(function(element){
+        element.classList.remove("loading");
+    });
+}
+
 async function loadReferralPage(){
 
     const errorMessage =
         document.getElementById("errorMessage");
 
     errorMessage.textContent = "";
+
+    const token =
+        sessionStorage.getItem("sessionToken");
+
+    if(!token){
+
+        clearReferralData();
+
+        errorMessage.textContent =
+            "Session nahi mili. Pehle login karein.";
+
+        return;
+    }
 
     document.getElementById("username").textContent =
         "Loading...";
@@ -189,18 +246,48 @@ async function loadReferralPage(){
                 {
                     method:"GET",
                     credentials:"include",
-                    headers:getAuthHeaders()
+                    headers:getAuthHeaders(),
+                    cache:"no-store"
                 }
             );
 
-        const result =
-            await response.json();
+        let result;
 
-        if(!response.ok || !result.success){
+        try{
+            result = await response.json();
+        }catch(e){
+            throw new Error(
+                "Backend se valid response nahi mila."
+            );
+        }
+
+        if(response.status === 401){
+
+            throw new Error(
+                "Session expire ho gayi. Dobara login karein."
+            );
+        }
+
+        if(response.status === 403){
+
+            throw new Error(
+                result.message ||
+                "Access denied."
+            );
+        }
+
+        if(!response.ok || result.success !== true){
 
             throw new Error(
                 result.message ||
                 "Referral information load nahi ho saki."
+            );
+        }
+
+        if(!result.referral){
+
+            throw new Error(
+                "Referral data nahi mila."
             );
         }
 
@@ -223,30 +310,21 @@ async function loadReferralPage(){
             Number(referral.level2Count || 0);
 
         const referralLink =
-            referral.referralLink || "";
+            String(referral.referralLink || "").trim();
 
         document.getElementById("referralLink").value =
             referralLink;
 
+        document.getElementById("copyButton").disabled =
+            !referralLink;
+
+        document.querySelectorAll(".loading").forEach(function(element){
+            element.classList.remove("loading");
+        });
+
     }catch(error){
 
-        document.getElementById("username").textContent =
-            "-";
-
-        document.getElementById("referralId").textContent =
-            "-";
-
-        document.getElementById("referBy").textContent =
-            "-";
-
-        document.getElementById("level1Count").textContent =
-            "0";
-
-        document.getElementById("level2Count").textContent =
-            "0";
-
-        document.getElementById("referralLink").value =
-            "";
+        clearReferralData();
 
         errorMessage.textContent =
             error.message ||
@@ -254,7 +332,7 @@ async function loadReferralPage(){
     }
 }
 
-function copyReferralLink(){
+async function copyReferralLink(){
 
     const input =
         document.getElementById("referralLink");
@@ -262,7 +340,13 @@ function copyReferralLink(){
     const message =
         document.getElementById("copyMessage");
 
-    if(!input.value){
+    const button =
+        document.getElementById("copyButton");
+
+    const link =
+        String(input.value || "").trim();
+
+    if(!link){
 
         message.textContent =
             "Referral link available nahi hai.";
@@ -270,55 +354,30 @@ function copyReferralLink(){
         return;
     }
 
-    if(navigator.clipboard){
-
-        navigator.clipboard.writeText(
-            input.value
-        )
-        .then(function(){
-
-            message.textContent =
-                "Referral link copied ✓";
-
-            setTimeout(function(){
-
-                message.textContent = "";
-
-            },2000);
-
-        })
-        .catch(function(){
-
-            fallbackCopy(
-                input,
-                message
-            );
-
-        });
-
-    }else{
-
-        fallbackCopy(
-            input,
-            message
-        );
-    }
-}
-
-function fallbackCopy(
-    input,
-    message
-){
-
-    input.select();
-    input.setSelectionRange(
-        0,
-        99999
-    );
+    button.disabled = true;
 
     try{
 
-        document.execCommand("copy");
+        if(
+            navigator.clipboard &&
+            window.isSecureContext
+        ){
+
+            await navigator.clipboard.writeText(link);
+
+        }else{
+
+            input.focus();
+            input.select();
+            input.setSelectionRange(0,99999);
+
+            const copied =
+                document.execCommand("copy");
+
+            if(!copied){
+                throw new Error("Copy failed");
+            }
+        }
 
         message.textContent =
             "Referral link copied ✓";
@@ -329,10 +388,14 @@ function fallbackCopy(
 
         },2000);
 
-    }catch(e){
+    }catch(error){
 
         message.textContent =
-            "Copy nahi ho saka.";
+            "Copy nahi ho saka. Link ko manually copy karein.";
+
+    }finally{
+
+        button.disabled = false;
     }
 }
 
