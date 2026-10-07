@@ -8,9 +8,12 @@ self.addEventListener("activate", function(event) {
     );
 });
 
-// IMPORTANT:
-// Website ki files offline cache nahi hongi.
-// Browser network se files load karega.
+// Network-only fetch handler
 self.addEventListener("fetch", function(event) {
-    // Network only
+    event.respondWith(
+        fetch(event.request).catch(function() {
+            // Optional fallback agar offline ho
+            return caches.match(event.request);
+        })
+    );
 });
