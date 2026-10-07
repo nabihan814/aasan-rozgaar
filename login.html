@@ -1,579 +1,561 @@
-<!DOCTYPE html><html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aasan Rozgaar - Secure Login Portal</title><style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }body {
-    background: linear-gradient(135deg, #f0fdf4 0%, #e2f8eb 100%);
-    color: #1e293b;
-    padding-bottom: 40px;
-    min-height: 100vh;
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aasan Rozgaar - Secure Login Portal</title><style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}body {
+background: linear-gradient(135deg, #f0fdf4 0%, #e2f8eb 100%);
+color: #1e293b;
+padding-bottom: 40px;
+min-height: 100vh;
+
 }
 
 .top-header {
-    background: linear-gradient(135deg, #064e3b 0%, #0b6623 50%, #15803d 100%);
-    color: white;
-    padding: 18px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
-    box-shadow: 0 6px 20px rgba(11, 102, 35, 0.25);
+background: linear-gradient(135deg, #064e3b 0%, #0b6623 50%, #15803d 100%);
+color: white;
+padding: 18px 20px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+border-bottom-left-radius: 25px;
+border-bottom-right-radius: 25px;
+box-shadow: 0 6px 20px rgba(11, 102, 35, 0.25);
 }
 
 .back-link {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    background: rgba(255, 255, 255, 0.15);
-    width: 35px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
+color: white;
+text-decoration: none;
+font-size: 18px;
+font-weight: bold;
+background: rgba(255, 255, 255, 0.15);
+width: 35px;
+height: 35px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%;
 }
 
 .header-title-link {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+color: white;
+text-decoration: none;
+font-size: 18px;
+font-weight: 800;
+letter-spacing: 0.5px;
+display: flex;
+align-items: center;
+gap: 6px;
 }
 
 .container {
-    padding: 25px 20px;
-    max-width: 500px;
-    margin: 0 auto;
+padding: 25px 20px;
+max-width: 500px;
+margin: 0 auto;
 }
 
 .brand-logo-box {
-    text-align: center;
-    margin-bottom: 25px;
-    margin-top: 10px;
+text-align: center;
+margin-bottom: 25px;
+margin-top: 10px;
 }
 
 .app-avatar {
-    width: 75px;
-    height: 75px;
-    background: linear-gradient(135deg, #0b6623, #15803d);
-    color: white;
-    font-size: 32px;
-    font-weight: 900;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 22px;
-    margin: 0 auto 15px auto;
-    box-shadow: 0 8px 20px rgba(11, 102, 35, 0.25);
-    border: 3px solid #bbf7d0;
+width: 75px;
+height: 75px;
+background: linear-gradient(135deg, #0b6623, #15803d);
+color: white;
+font-size: 32px;
+font-weight: 900;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 22px;
+margin: 0 auto 15px auto;
+box-shadow: 0 8px 20px rgba(11, 102, 35, 0.25);
+border: 3px solid #bbf7d0;
 }
 
 .brand-logo-box h1 {
-    font-size: 24px;
-    color: #064e3b;
-    font-weight: 900;
-    margin-bottom: 4px;
+font-size: 24px;
+color: #064e3b;
+font-weight: 900;
+margin-bottom: 4px;
 }
 
 .brand-logo-box p {
-    font-size: 13px;
-    color: #64748b;
-    font-weight: 500;
+font-size: 13px;
+color: #64748b;
+font-weight: 500;
 }
 
 .saved-accounts-box {
-    background: white;
-    border: 1.5px solid #bbf7d0;
-    border-radius: 18px;
-    padding: 18px;
-    margin-bottom: 22px;
-    box-shadow: 0 6px 20px rgba(0, 100, 0, 0.05);
+background: white;
+border: 1.5px solid #bbf7d0;
+border-radius: 18px;
+padding: 18px;
+margin-bottom: 22px;
+box-shadow: 0 6px 20px rgba(0, 100, 0, 0.05);
 }
 
 .saved-accounts-box h4 {
-    font-size: 14px;
-    color: #0b6623;
-    margin-bottom: 6px;
-    font-weight: 700;
+font-size: 14px;
+color: #0b6623;
+margin-bottom: 6px;
+font-weight: 700;
 }
 
 .saved-accounts-box p {
-    font-size: 12px;
-    color: #64748b;
-    margin-bottom: 12px;
-    line-height: 1.5;
+font-size: 12px;
+color: #64748b;
+margin-bottom: 12px;
+line-height: 1.5;
 }
 
 .no-account-badge {
-    background: #f8fafc;
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-size: 12px;
-    color: #475569;
-    border: 1px solid #e2e8f0;
-    text-align: center;
-    font-weight: 500;
+background: #f8fafc;
+padding: 10px 12px;
+border-radius: 10px;
+font-size: 12px;
+color: #475569;
+border: 1px solid #e2e8f0;
+text-align: center;
+font-weight: 500;
 }
 
 .login-card {
-    background: white;
-    padding: 22px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 100, 0, 0.06);
-    border: 1.5px solid #d4ebd9;
+background: white;
+padding: 22px;
+border-radius: 20px;
+box-shadow: 0 10px 25px rgba(0, 100, 0, 0.06);
+border: 1.5px solid #d4ebd9;
 }
 
 .input-group {
-    position: relative;
-    margin-bottom: 18px;
+position: relative;
+margin-bottom: 18px;
 }
 
 .input-group input {
-    width: 100%;
-    padding: 15px 15px 15px 48px;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 14px;
-    font-size: 14px;
-    background: #f8fafc;
-    outline: none;
-    color: #1e293b;
-    font-weight: 600;
+width: 100%;
+padding: 15px 15px 15px 48px;
+border: 1.5px solid #cbd5e1;
+border-radius: 14px;
+font-size: 14px;
+background: #f8fafc;
+outline: none;
+color: #1e293b;
+font-weight: 600;
 }
 
 .phone-group input {
-    padding-left: 80px;
+padding-left: 80px;
 }
 
 .phone-prefix {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #0b6623;
-    font-weight: 800;
-    font-size: 14px;
-    background: #dcfce7;
-    padding: 4px 8px;
-    border-radius: 8px;
+position: absolute;
+left: 15px;
+top: 50%;
+transform: translateY(-50%);
+color: #0b6623;
+font-weight: 800;
+font-size: 14px;
+background: #dcfce7;
+padding: 4px 8px;
+border-radius: 8px;
 }
 
 .input-icon {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #0b6623;
-    font-size: 18px;
+position: absolute;
+left: 15px;
+top: 50%;
+transform: translateY(-50%);
+color: #0b6623;
+font-size: 18px;
 }
 
 .btn-login-now {
-    background: linear-gradient(135deg, #0b6623, #15803d);
-    color: white;
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 14px;
-    font-size: 16px;
-    font-weight: 800;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    box-shadow: 0 6px 20px rgba(11, 102, 35, 0.3);
-    margin-top: 10px;
+background: linear-gradient(135deg, #0b6623, #15803d);
+color: white;
+width: 100%;
+padding: 15px;
+border: none;
+border-radius: 14px;
+font-size: 16px;
+font-weight: 800;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+box-shadow: 0 6px 20px rgba(11, 102, 35, 0.3);
+margin-top: 10px;
 }
 
 .divider-or {
-    text-align: center;
-    margin: 22px 0;
-    position: relative;
+text-align: center;
+margin: 22px 0;
+position: relative;
 }
 
 .divider-or span {
-    background: white;
-    padding: 0 12px;
-    font-size: 12px;
-    color: #64748b;
-    position: relative;
-    z-index: 1;
-    font-weight: 700;
-    letter-spacing: 1px;
+background: white;
+padding: 0 12px;
+font-size: 12px;
+color: #64748b;
+position: relative;
+z-index: 1;
+font-weight: 700;
+letter-spacing: 1px;
 }
 
 .divider-or::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1.5px;
-    background: #e2e8f0;
-    z-index: 0;
+content: "";
+position: absolute;
+top: 50%;
+left: 0;
+width: 100%;
+height: 1.5px;
+background: #e2e8f0;
+z-index: 0;
 }
 
 .register-redirect {
-    text-align: center;
-    font-size: 13px;
-    color: #475569;
-    margin-top: 5px;
-    font-weight: 500;
+text-align: center;
+font-size: 13px;
+color: #475569;
+margin-top: 5px;
+font-weight: 500;
 }
 
 .register-redirect a {
-    color: #0b6623;
-    text-decoration: none;
-    font-weight: 800;
+color: #0b6623;
+text-decoration: none;
+font-weight: 800;
 }
 
 .footer-features {
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-    background: white;
-    padding: 16px 10px;
-    border-radius: 18px;
-    box-shadow: 0 6px 20px rgba(0, 100, 0, 0.05);
-    margin-top: 20px;
-    border: 1.5px solid #d4ebd9;
+display: flex;
+justify-content: space-around;
+text-align: center;
+background: white;
+padding: 16px 10px;
+border-radius: 18px;
+box-shadow: 0 6px 20px rgba(0, 100, 0, 0.05);
+margin-top: 20px;
+border: 1.5px solid #d4ebd9;
 }
 
 .feature-item {
-    flex: 1;
-    padding: 4px;
+flex: 1;
+padding: 4px;
 }
 
 .feature-icon {
-    font-size: 20px;
-    margin-bottom: 4px;
+font-size: 20px;
+margin-bottom: 4px;
 }
 
 .feature-item h5 {
-    font-size: 11px;
-    color: #1e293b;
-    font-weight: 700;
-    margin-top: 2px;
+font-size: 11px;
+color: #1e293b;
+font-weight: 700;
+margin-top: 2px;
 }
 
 .feature-item p {
-    font-size: 9px;
-    color: #64748b;
-    font-weight: 500;
+font-size: 9px;
+color: #64748b;
+font-weight: 500;
 }
 
 </style></head><body><div class="top-header">
-    <a href="index.html" class="back-link">&#8592;</a><a href="index.html" class="header-title-link">
-    <span>🛡️</span>
-    Aasan Rozgaar
+<a href="index.html" class="back-link">←</a><a href="index.html" class="header-title-link">
+<span>🛡️</span>
+Aasan Rozgaar
 </a>
 
-<div style="width:35px;"></div>
+<div style="width:35px;"></div></div><div class="container"><div class="brand-logo-box">
+    <div class="app-avatar">AR</div><h1>Login Account</h1>
 
-</div><div class="container"><div class="brand-logo-box">
-    <div class="app-avatar">AR</div>
+<p>
+    Welcome back! Securely sign in to your dashboard
+</p>
 
-    <h1>Login Account</h1>
+</div><div class="saved-accounts-box"><h4>🔑 Account Login</h4>
 
-    <p>
-        Welcome back! Securely sign in to your dashboard
-    </p>
+<p>
+    Your account is securely verified through the Aasan Rozgaar backend.
+</p>
+
+<div class="no-account-badge">
+    Enter your registered phone number and password below.
 </div>
 
-<div class="saved-accounts-box">
+</div><div class="login-card"><form id="loginForm">
 
-    <h4>🔑 Account Login</h4>
+    <div class="input-group phone-group">
 
-    <p>
-        Your account is securely verified through the Aasan Rozgaar backend.
-    </p>
+        <span class="phone-prefix">+92</span>
 
-    <div class="no-account-badge">
-        Enter your registered phone number and password below.
-    </div>
-
-</div>
-
-<div class="login-card">
-
-    <form id="loginForm">
-
-        <div class="input-group phone-group">
-
-            <span class="phone-prefix">+92</span>
-
-            <span
-                class="input-icon"
-                style="left:55px;"
-            >
-                📱
-            </span>
-
-            <input
-                type="tel"
-                id="loginPhone"
-                placeholder="3001234567"
-                maxlength="10"
-                inputmode="numeric"
-                autocomplete="tel"
-                required
-            >
-
-        </div>
-
-        <div class="input-group">
-
-            <span class="input-icon">🔒</span>
-
-            <input
-                type="password"
-                id="loginPass"
-                placeholder="Enter your password"
-                autocomplete="current-password"
-                required
-            >
-
-        </div>
-
-        <button
-            type="submit"
-            class="btn-login-now"
-            id="loginButton"
+        <span
+            class="input-icon"
+            style="left:55px;"
         >
-            Login Now <span>&rarr;</span>
-        </button>
+            📱
+        </span>
 
-    </form>
+        <input
+            type="tel"
+            id="loginPhone"
+            placeholder="3001234567"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel"
+            required
+        >
 
-    <div class="divider-or">
-        <span>OR</span>
     </div>
 
-    <div class="register-redirect">
-        Don't have an account?
+    <div class="input-group">
 
-        <a href="register.html">
-            Register Now
-        </a>
+        <span class="input-icon">🔒</span>
+
+        <input
+            type="password"
+            id="loginPass"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+        >
+
     </div>
 
-</div>
-
-<div class="footer-features">
-
-    <div class="feature-item">
-        <div class="feature-icon">🛡️</div>
-        <h5>Secure</h5>
-        <p>Protected login</p>
-    </div>
-
-    <div class="feature-item">
-        <div class="feature-icon">⚡</div>
-        <h5>Fast</h5>
-        <p>Quick access</p>
-    </div>
-
-    <div
-        class="feature-item"
-        onclick="window.open('https://api.whatsapp.com/send?phone=447718486232', '_blank')"
+    <button
+        type="submit"
+        class="btn-login-now"
+        id="loginButton"
     >
-        <div class="feature-icon">💬</div>
-        <h5>Support</h5>
-        <p>Live assistance</p>
-    </div>
+        Login Now <span>&rarr;</span>
+    </button>
 
+</form>
+
+<div class="divider-or">
+    <span>OR</span>
 </div>
 
-</div><script>
-var BACKEND_URL = "https://aasan-rozgaar-backend.onrender.com";
+<div class="register-redirect">
+    Don't have an account?
 
-var loginForm = document.getElementById("loginForm");
+    <a href="register.html">
+        Register Now
+    </a>
+</div>
+
+</div><div class="footer-features"><div class="feature-item">
+    <div class="feature-icon">🛡️</div>
+    <h5>Secure</h5>
+    <p>Protected login</p>
+</div>
+
+<div class="feature-item">
+    <div class="feature-icon">⚡</div>
+    <h5>Fast</h5>
+    <p>Quick access</p>
+</div>
+
+<div
+    class="feature-item"
+    onclick="window.open('https://api.whatsapp.com/send?phone=447718486232', '_blank')"
+>
+    <div class="feature-icon">💬</div>
+    <h5>Support</h5>
+    <p>Live assistance</p>
+</div>
+
+</div></div><script>
+var BACKEND_URL = "https://aasan-rozgaar-backend.onrender.com";var loginForm = document.getElementById("loginForm");
 var loginPhone = document.getElementById("loginPhone");
 var loginPass = document.getElementById("loginPass");
 var loginButton = document.getElementById("loginButton");
 
 loginPhone.addEventListener("input", function () {
-    this.value = this.value.replace(/[^0-9]/g, "");
+this.value = this.value.replace(/[^0-9]/g, "");
 });
 
 loginForm.addEventListener("submit", function (event) {
-    event.preventDefault();
+event.preventDefault();
 
-    var phone = loginPhone.value.trim();
-    var password = loginPass.value;
+var phone = loginPhone.value.trim();
+var password = loginPass.value;
 
-    if (!/^[0-9]{10}$/.test(phone)) {
-        alert("Please enter a valid 10-digit phone number.");
+if (!/^[0-9]{10}$/.test(phone)) {
+    alert("Please enter a valid 10-digit phone number.");
+    return;
+}
+
+if (!password) {
+    alert("Please enter your password.");
+    return;
+}
+
+loginButton.disabled = true;
+loginButton.innerHTML = "Logging in...";
+
+var request = new XMLHttpRequest();
+
+request.open(
+    "POST",
+    BACKEND_URL + "/api/login",
+    true
+);
+
+request.withCredentials = true;
+
+request.setRequestHeader(
+    "Content-Type",
+    "application/json"
+);
+
+request.setRequestHeader(
+    "Accept",
+    "application/json"
+);
+
+request.onreadystatechange = function () {
+
+    if (request.readyState !== 4) {
         return;
     }
 
-    if (!password) {
-        alert("Please enter your password.");
-        return;
-    }
+    if (request.status < 200 || request.status >= 300) {
+        loginButton.disabled = false;
+        loginButton.innerHTML = 'Login Now <span>&rarr;</span>';
 
-    loginButton.disabled = true;
-    loginButton.innerHTML = "Logging in...";
+        var message = "Login failed.";
 
-    var request = new XMLHttpRequest();
+        try {
+            var errorData = JSON.parse(request.responseText);
 
-    request.open(
-        "POST",
-        BACKEND_URL + "/api/login",
-        true
-    );
-
-    request.withCredentials = true;
-
-    request.setRequestHeader(
-        "Content-Type",
-        "application/json"
-    );
-
-    request.setRequestHeader(
-        "Accept",
-        "application/json"
-    );
-
-    request.onreadystatechange = function () {
-
-        if (request.readyState !== 4) {
-            return;
-        }
-
-        if (request.status < 200 || request.status >= 300) {
-            loginButton.disabled = false;
-            loginButton.innerHTML = 'Login Now <span>&rarr;</span>';
-
-            var message = "Login failed.";
-
-            try {
-                var errorData = JSON.parse(request.responseText);
-
-                if (errorData.message) {
-                    message = errorData.message;
-                }
-            } catch (error) {
+            if (errorData.message) {
+                message = errorData.message;
             }
-
-            alert(message);
-            return;
-        }
-
-        var data;
-
-        try {
-            data = JSON.parse(request.responseText);
         } catch (error) {
-            loginButton.disabled = false;
-            loginButton.innerHTML = 'Login Now <span>&rarr;</span>';
-            alert("Invalid response from server.");
-            return;
         }
 
-        if (
-            data.success !== true ||
-            !data.data ||
-            !data.data.user ||
-            !data.data.sessionToken ||
-            !data.data.csrfToken
-        ) {
-            loginButton.disabled = false;
-            loginButton.innerHTML = 'Login Now <span>&rarr;</span>';
+        alert(message);
+        return;
+    }
 
-            alert(
-                data.message ||
-                "Login response is incomplete."
-            );
+    var data;
 
-            return;
-        }
+    try {
+        data = JSON.parse(request.responseText);
+    } catch (error) {
+        loginButton.disabled = false;
+        loginButton.innerHTML = 'Login Now <span>&rarr;</span>';
+        alert("Invalid response from server.");
+        return;
+    }
 
-        try {
-            sessionStorage.setItem(
-                "userSessionToken",
-                data.data.sessionToken
-            );
-
-            sessionStorage.setItem(
-                "sessionToken",
-                data.data.sessionToken
-            );
-
-            sessionStorage.setItem(
-                "userCsrfToken",
-                data.data.csrfToken
-            );
-
-            sessionStorage.setItem(
-                "csrfToken",
-                data.data.csrfToken
-            );
-
-            var loggedInUser =
-                data.data.user.username || "";
-
-            sessionStorage.setItem(
-                "username",
-                loggedInUser
-            );
-
-            sessionStorage.setItem(
-                "currentUser",
-                loggedInUser
-            );
-
-            localStorage.setItem(
-                "currentUser",
-                loggedInUser
-            );
-
-            localStorage.setItem(
-                "backendUser",
-                JSON.stringify(data.data.user)
-            );
-
-            localStorage.setItem(
-                "isLoggedIn",
-                "true"
-            );
-
-            loginButton.innerHTML = "Login Successful";
-
-            window.location.replace("./home.html");
-
-        } catch (error) {
-            loginButton.disabled = false;
-            loginButton.innerHTML = 'Login Now <span>&rarr;</span>';
-            alert("Could not save login session.");
-        }
-    };
-
-    request.onerror = function () {
+    if (
+        data.success !== true ||
+        !data.user ||
+        !data.sessionToken ||
+        !data.csrfToken
+    ) {
         loginButton.disabled = false;
         loginButton.innerHTML = 'Login Now <span>&rarr;</span>';
 
         alert(
-            "Unable to connect to Aasan Rozgaar server."
+            data.message ||
+            "Login response is incomplete."
         );
-    };
 
-    request.send(
-        JSON.stringify({
-            phone: "+92" + phone,
-            password: password
-        })
+        return;
+    }
+
+    try {
+        sessionStorage.setItem(
+            "userSessionToken",
+            data.sessionToken
+        );
+
+        sessionStorage.setItem(
+            "sessionToken",
+            data.sessionToken
+        );
+
+        sessionStorage.setItem(
+            "userCsrfToken",
+            data.csrfToken
+        );
+
+        sessionStorage.setItem(
+            "csrfToken",
+            data.csrfToken
+        );
+
+        var loggedInUser =
+            data.user.username || "";
+
+        sessionStorage.setItem(
+            "username",
+            loggedInUser
+        );
+
+        sessionStorage.setItem(
+            "currentUser",
+            loggedInUser
+        );
+
+        localStorage.setItem(
+            "currentUser",
+            loggedInUser
+        );
+
+        localStorage.setItem(
+            "backendUser",
+            JSON.stringify(data.user)
+        );
+
+        localStorage.setItem(
+            "isLoggedIn",
+            "true"
+        );
+
+        loginButton.innerHTML = "Login Successful";
+
+        window.location.replace("./home.html");
+
+    } catch (error) {
+        loginButton.disabled = false;
+        loginButton.innerHTML = 'Login Now <span>&rarr;</span>';
+        alert("Could not save login session.");
+    }
+};
+
+request.onerror = function () {
+    loginButton.disabled = false;
+    loginButton.innerHTML = 'Login Now <span>&rarr;</span>';
+
+    alert(
+        "Unable to connect to Aasan Rozgaar server."
     );
+};
+
+request.send(
+    JSON.stringify({
+        phone: "+92" + phone,
+        password: password
+    })
+);
+
 });
 </script></body>
-</html>
+
+    </html>
