@@ -2,261 +2,263 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aasan Rozgaar - Deposit History</title>
-<style>
+<title>Deposit History - Aasan Rozgaar</title><style>
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-}body{
-background:#f4f7f6;
-color:#333;
-padding:20px;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f7f5;
+    color:#222;
+}
+
+.header{
+    background:linear-gradient(135deg,#087f5b,#12a878);
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+.header h1{
+    font-size:24px;
+    margin-bottom:5px;
+}
+
+.header p{
+    font-size:14px;
+    opacity:.9;
 }
 
 .container{
-max-width:480px;
-margin:0 auto;
-background:#fff;
-padding:20px;
-border-radius:14px;
-box-shadow:0 4px 15px rgba(0,0,0,.06);
+    max-width:700px;
+    margin:20px auto;
+    padding:0 15px;
 }
 
-h2{
-text-align:center;
-color:#1b5e20;
-font-size:22px;
-margin-bottom:6px;
+.user-box{
+    background:white;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:15px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-.account-name{
-text-align:center;
-color:#777;
-font-size:13px;
-margin-bottom:20px;
+.user-box strong{
+    color:#087f5b;
+}
+
+.loading{
+    text-align:center;
+    padding:30px;
+    color:#666;
+}
+
+.error{
+    background:#ffe5e5;
+    color:#b00020;
+    padding:15px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.empty{
+    background:white;
+    padding:30px 20px;
+    border-radius:12px;
+    text-align:center;
+    color:#777;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
 }
 
 .history-card{
-padding:15px;
-margin-bottom:13px;
-border-radius:10px;
-background:#fafafa;
-border-left:5px solid #9e9e9e;
-box-shadow:0 2px 7px rgba(0,0,0,.04);
-}
-
-.history-card.Pending{
-background:#fff9e6;
-border-left-color:#ff9800;
-}
-
-.history-card.Inprocess{
-background:#e3f2fd;
-border-left-color:#1976d2;
-}
-
-.history-card.Approved{
-background:#e8f5e9;
-border-left-color:#2e7d32;
-}
-
-.history-card.Rejected{
-background:#ffebee;
-border-left-color:#d32f2f;
+    background:white;
+    border-radius:12px;
+    padding:16px;
+    margin-bottom:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.07);
 }
 
 .row{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-gap:12px;
-margin-bottom:8px;
-font-size:14px;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:7px 0;
+    border-bottom:1px solid #eee;
 }
 
-.row span:first-child{
-color:#555;
-min-width:110px;
+.row:last-child{
+    border-bottom:none;
 }
 
-.row span:last-child{
-text-align:right;
-word-break:break-word;
+.label{
+    color:#777;
+    font-size:14px;
 }
 
-.amount{
-font-weight:700;
-color:#1b5e20;
+.value{
+    font-weight:bold;
+    text-align:right;
+    word-break:break-word;
 }
 
 .status{
-font-weight:800;
-text-transform:uppercase;
-font-size:12px;
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
 }
 
-.status.Pending{
-color:#f57c00;
+.status-pending{
+    background:#fff3cd;
+    color:#856404;
 }
 
-.status.Inprocess{
-color:#1976d2;
+.status-inprocess{
+    background:#dbeafe;
+    color:#1d4ed8;
 }
 
-.status.Approved{
-color:#2e7d32;
+.status-approved{
+    background:#d1fae5;
+    color:#047857;
 }
 
-.status.Rejected{
-color:#c62828;
+.status-rejected{
+    background:#fee2e2;
+    color:#b91c1c;
 }
 
-.date-row{
-margin-top:10px;
-padding-top:8px;
-border-top:1px solid rgba(0,0,0,.12);
-font-size:11px;
-color:#777;
+.back-btn{
+    display:block;
+    width:100%;
+    border:none;
+    background:#087f5b;
+    color:white;
+    padding:13px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+    margin-top:20px;
+    cursor:pointer;
 }
 
-.deposit-id{
-font-size:11px;
-color:#888;
-margin-top:8px;
-word-break:break-all;
+.back-btn:active{
+    transform:scale(.98);
 }
+</style></head><body><div class="header">
+    <h1>Deposit History</h1>
+    <p>Your deposit records</p>
+</div><div class="container"><div class="user-box">
+    Username:
+    <strong id="username">Loading...</strong>
+</div>
 
-.empty-msg{
-text-align:center;
-color:#777;
-padding:35px 10px;
-font-size:15px;
-}
+<div id="historyContainer">
+    <div class="loading">Loading deposit history...</div>
+</div>
 
-.login-msg{
-text-align:center;
-color:#c62828;
-padding:35px 10px;
-font-size:15px;
-}
+<button class="back-btn" onclick="goBack()">Back</button>
 
-.error-msg{
-text-align:center;
-color:#c62828;
-padding:35px 10px;
-font-size:14px;
-}
-
-.loading-msg{
-text-align:center;
-color:#777;
-padding:35px 10px;
-font-size:15px;
-}
-
-.back-link{
-display:block;
-text-align:center;
-margin-top:20px;
-color:#555;
-text-decoration:none;
-font-size:14px;
-font-weight:600;
-}
-
-.back-link:hover{
-text-decoration:underline;
-}
-
-.refresh-note{
-text-align:center;
-font-size:11px;
-color:#999;
-margin-top:12px;
-}
-</style>
-
-</head><body><div class="container"><h2>Deposit History & Logs</h2><div id="accountName" class="account-name"></div><div id="depositHistoryContainer"></div><div class="refresh-note">
-Deposit status automatically updates when changed.
-</div><a href="home.html" class="back-link">
-&larr; Back to Dashboard
-</a></div><script>
-
-const API_URL =
-    "https://aasan-rozgaar-backend.onrender.com";
-
+</div><script>
+const API_URL = "https://aasan-rozgaar-backend.onrender.com";
 
 function getCurrentUser(){
-
-    return localStorage.getItem(
-        "currentUser"
-    );
+    return localStorage.getItem("currentUser") || "";
 }
-
 
 function getUserSessionToken(){
-
     return (
-        sessionStorage.getItem(
-            "userSessionToken"
-        ) ||
-        sessionStorage.getItem(
-            "sessionToken"
-        ) ||
+        sessionStorage.getItem("userSessionToken") ||
+        sessionStorage.getItem("sessionToken") ||
         ""
     );
 }
-
 
 function getUserCsrfToken(){
-
     return (
-        sessionStorage.getItem(
-            "userCsrfToken"
-        ) ||
-        sessionStorage.getItem(
-            "csrfToken"
-        ) ||
+        sessionStorage.getItem("userCsrfToken") ||
+        sessionStorage.getItem("csrfToken") ||
         ""
     );
 }
 
-
-function userHeaders(){
-
-    const token =
-        getUserSessionToken();
-
-    const csrfToken =
-        getUserCsrfToken();
+function authHeaders(){
+    const token = getUserSessionToken();
+    const csrfToken = getUserCsrfToken();
 
     const headers = {
-        "Accept":
-            "application/json"
+        "Accept":"application/json"
     };
 
     if(token){
-
-        headers["Authorization"] =
-            "Bearer " + token;
-
+        headers["Authorization"] = "Bearer " + token;
     }
 
     if(csrfToken){
-
-        headers["X-CSRF-Token"] =
-            csrfToken;
-
+        headers["X-CSRF-Token"] = csrfToken;
     }
 
     return headers;
 }
 
+function normalizeStatus(status){
+    const value = String(status || "")
+        .trim()
+        .toLowerCase();
+
+    if(value === "pending"){
+        return "Pending";
+    }
+
+    if(
+        value === "inprocess" ||
+        value === "in_process" ||
+        value === "in-process" ||
+        value === "in process"
+    ){
+        return "Inprocess";
+    }
+
+    if(
+        value === "approved" ||
+        value === "approve"
+    ){
+        return "Approved";
+    }
+
+    if(
+        value === "rejected" ||
+        value === "reject"
+    ){
+        return "Rejected";
+    }
+
+    return status || "Pending";
+}
+
+function getStatusClass(status){
+    const normalized = normalizeStatus(status);
+
+    if(normalized === "Approved"){
+        return "status-approved";
+    }
+
+    if(normalized === "Rejected"){
+        return "status-rejected";
+    }
+
+    if(normalized === "Inprocess"){
+        return "status-inprocess";
+    }
+
+    return "status-pending";
+}
 
 function escapeHTML(value){
-
     return String(value ?? "")
         .replace(/&/g,"&amp;")
         .replace(/</g,"&lt;")
@@ -265,130 +267,86 @@ function escapeHTML(value){
         .replace(/'/g,"&#039;");
 }
 
+function formatAmount(amount){
+    const number = Number(amount);
 
-function displayDateTime(value){
+    if(!Number.isFinite(number)){
+        return "Rs 0.00";
+    }
 
-    if(!value){
+    return "Rs " + number.toFixed(2);
+}
+
+function formatDate(dateValue){
+    if(!dateValue){
         return "-";
     }
 
-    const date =
-        new Date(value);
+    const date = new Date(dateValue);
 
-    if(isNaN(date.getTime())){
-        return String(value);
+    if(Number.isNaN(date.getTime())){
+        return escapeHTML(dateValue);
     }
 
-    return date.toLocaleString(
-        "en-PK",
-        {
-            day:"2-digit",
-            month:"2-digit",
-            year:"numeric",
-            hour:"2-digit",
-            minute:"2-digit",
-            second:"2-digit",
-            hour12:true
-        }
-    );
+    return date.toLocaleString();
 }
-
 
 async function loadDepositHistory(){
 
+    const username = getCurrentUser();
+
+    const usernameElement =
+        document.getElementById("username");
+
     const container =
-        document.getElementById(
-            "depositHistoryContainer"
-        );
+        document.getElementById("historyContainer");
 
-    const accountName =
-        document.getElementById(
-            "accountName"
-        );
+    if(!username){
+        usernameElement.textContent = "Not logged in";
 
-    const currentUser =
-        getCurrentUser();
-
-    if(!currentUser){
-
-        accountName.textContent = "";
-
-        container.innerHTML = `
-            <div class="login-msg">
-                Please login first to view
-                your deposit history.
-            </div>
-        `;
+        container.innerHTML =
+            '<div class="error">Please login first.</div>';
 
         return;
     }
 
-    accountName.textContent =
-        "Account: " + currentUser;
+    usernameElement.textContent = username;
 
-    const sessionToken =
-        getUserSessionToken();
-
-    if(!sessionToken){
-
-        container.innerHTML = `
-            <div class="login-msg">
-                Your login session has expired.
-                <br><br>
-                Please login again.
-            </div>
-        `;
-
-        return;
-    }
-
-    container.innerHTML = `
-        <div class="loading-msg">
-            Loading deposit history...
-        </div>
-    `;
+    container.innerHTML =
+        '<div class="loading">Loading deposit history...</div>';
 
     try{
 
-        const response =
-            await fetch(
-                API_URL +
-                "/api/deposits/" +
-                encodeURIComponent(
-                    currentUser
-                ),
-                {
-                    method:"GET",
-                    headers:userHeaders(),
-                    credentials:"include",
-                    cache:"no-store"
-                }
-            );
+        const response = await fetch(
+            API_URL +
+            "/api/deposits/" +
+            encodeURIComponent(username),
+            {
+                method:"GET",
+                headers:authHeaders(),
+                credentials:"include"
+            }
+        );
 
-        const data =
-            await response.json()
-            .catch(function(){
-                return {};
-            });
+        let data = {};
+
+        try{
+            data = await response.json();
+        }catch(error){
+            data = {};
+        }
 
         if(
             response.status === 401 ||
             response.status === 403
         ){
-
-            container.innerHTML = `
-                <div class="login-msg">
-                    Your login session has expired.
-                    <br><br>
-                    Please login again.
-                </div>
-            `;
+            container.innerHTML =
+                '<div class="error">Session expired. Please login again.</div>';
 
             return;
         }
 
         if(!response.ok){
-
             throw new Error(
                 data.message ||
                 "Failed to load deposit history"
@@ -396,7 +354,6 @@ async function loadDepositHistory(){
         }
 
         if(data.sessionToken){
-
             sessionStorage.setItem(
                 "userSessionToken",
                 data.sessionToken
@@ -409,7 +366,6 @@ async function loadDepositHistory(){
         }
 
         if(data.csrfToken){
-
             sessionStorage.setItem(
                 "userCsrfToken",
                 data.csrfToken
@@ -421,270 +377,132 @@ async function loadDepositHistory(){
             );
         }
 
-        const userRequests =
-            Array.isArray(
-                data.deposits
-            )
-            ? data.deposits
-            : [];
+        let deposits = [];
 
-        if(userRequests.length === 0){
-
-            container.innerHTML = `
-                <div class="empty-msg">
-                    Abhi tak koi deposit request
-                    nahi lagai gayi.
-                </div>
-            `;
-
-            return;
+        if(Array.isArray(data)){
+            deposits = data;
+        }else if(Array.isArray(data.deposits)){
+            deposits = data.deposits;
+        }else if(Array.isArray(data.data)){
+            deposits = data.data;
         }
 
-        userRequests.sort(
-            function(a,b){
+        deposits.sort(function(a,b){
 
-                return new Date(
-                    b.createdAt ||
-                    b.created_at ||
-                    0
-                ).getTime()
-                -
+            const dateA =
                 new Date(
                     a.createdAt ||
                     a.created_at ||
                     0
                 ).getTime();
 
-            }
-        );
+            const dateB =
+                new Date(
+                    b.createdAt ||
+                    b.created_at ||
+                    0
+                ).getTime();
 
-        container.innerHTML = "";
+            return dateB - dateA;
+        });
 
-        userRequests.forEach(
-            function(req){
+        if(deposits.length === 0){
 
-                const rawStatus =
-                    String(
-                        req.status ||
-                        "Pending"
-                    ).trim();
+            container.innerHTML =
+                '<div class="empty">' +
+                'No deposit history found.' +
+                '</div>';
 
-                let safeStatus =
-                    "Pending";
+            return;
+        }
 
-                if(
-                    rawStatus === "Approved" ||
-                    rawStatus === "approved" ||
-                    rawStatus === "Approve"
-                ){
+        container.innerHTML =
+            deposits.map(function(deposit){
 
-                    safeStatus = "Approved";
-
-                }else if(
-                    rawStatus === "Rejected" ||
-                    rawStatus === "rejected" ||
-                    rawStatus === "Reject"
-                ){
-
-                    safeStatus = "Rejected";
-
-                }else if(
-                    rawStatus === "Inprocess" ||
-                    rawStatus === "inprocess" ||
-                    rawStatus === "In Process" ||
-                    rawStatus === "in_process"
-                ){
-
-                    safeStatus = "Inprocess";
-
-                }
+                const status =
+                    normalizeStatus(deposit.status);
 
                 const amount =
-                    Number(
-                        req.amount
-                    ) || 0;
+                    deposit.amount;
 
                 const method =
-                    req.method || "-";
+                    deposit.method || "-";
 
-                const trxid =
-                    req.transactionId ||
-                    req.transaction_id ||
+                const transactionId =
+                    deposit.transactionId ||
+                    deposit.transaction_id ||
                     "-";
 
                 const createdAt =
-                    req.createdAt ||
-                    req.created_at ||
-                    "";
+                    deposit.createdAt ||
+                    deposit.created_at;
 
-                const date =
-                    displayDateTime(
-                        createdAt
-                    );
+                return `
+                    <div class="history-card">
 
-                const card =
-                    document.createElement(
-                        "div"
-                    );
+                        <div class="row">
+                            <span class="label">Amount</span>
+                            <span class="value">
+                                ${formatAmount(amount)}
+                            </span>
+                        </div>
 
-                card.className =
-                    "history-card " +
-                    safeStatus;
+                        <div class="row">
+                            <span class="label">Method</span>
+                            <span class="value">
+                                ${escapeHTML(method)}
+                            </span>
+                        </div>
 
-                card.innerHTML = `
+                        <div class="row">
+                            <span class="label">Transaction ID</span>
+                            <span class="value">
+                                ${escapeHTML(transactionId)}
+                            </span>
+                        </div>
 
-                    <div class="row">
+                        <div class="row">
+                            <span class="label">Status</span>
+                            <span class="value">
+                                <span class="status ${getStatusClass(status)}">
+                                    ${escapeHTML(status)}
+                                </span>
+                            </span>
+                        </div>
 
-                        <span>
-                            <strong>Method:</strong>
-                        </span>
-
-                        <span>
-                            ${escapeHTML(
-                                method
-                            )}
-                        </span>
-
-                    </div>
-
-                    <div class="row">
-
-                        <span>
-                            <strong>Amount:</strong>
-                        </span>
-
-                        <span class="amount">
-                            Rs ${amount.toLocaleString(
-                                "en-PK",
-                                {
-                                    minimumFractionDigits:2,
-                                    maximumFractionDigits:2
-                                }
-                            )}
-                        </span>
-
-                    </div>
-
-                    <div class="row">
-
-                        <span>
-                            <strong>TRX ID:</strong>
-                        </span>
-
-                        <span>
-                            ${escapeHTML(
-                                trxid
-                            )}
-                        </span>
-
-                    </div>
-
-                    <div class="row">
-
-                        <span>
-                            <strong>Status:</strong>
-                        </span>
-
-                        <span class="status ${safeStatus}">
-                            ${escapeHTML(
-                                safeStatus
-                            )}
-                        </span>
-
-                    </div>
-
-                    <div class="row">
-
-                        <span>
-                            <strong>Payment Details:</strong>
-                        </span>
-
-                        <span>
-                            ${escapeHTML(
-                                method
-                            )}
-                        </span>
-
-                    </div>
-
-                    <div class="row date-row">
-
-                        <span>
-                            Date & Time:
-                        </span>
-
-                        <span>
-                            ${escapeHTML(
-                                date
-                            )}
-                        </span>
-
-                    </div>
-
-                    <div class="deposit-id">
-
-                        Deposit ID:
-                        ${escapeHTML(
-                            req.id || "-"
-                        )}
+                        <div class="row">
+                            <span class="label">Date</span>
+                            <span class="value">
+                                ${formatDate(createdAt)}
+                            </span>
+                        </div>
 
                     </div>
                 `;
 
-                container.appendChild(
-                    card
-                );
-            }
-        );
+            }).join("");
 
     }catch(error){
 
-        console.error(
-            "Deposit history error:",
-            error
-        );
-
-        container.innerHTML = `
-            <div class="error-msg">
-                Deposit history load nahi ho rahi.
-                <br>
-                <small>
-                    ${escapeHTML(
-                        error.message ||
-                        "Backend connection error"
-                    )}
-                </small>
-            </div>
-        `;
+        container.innerHTML =
+            '<div class="error">' +
+            escapeHTML(
+                error.message ||
+                "Unable to load deposit history."
+            ) +
+            '</div>';
     }
 }
 
+function goBack(){
+    window.history.back();
+}
 
 window.addEventListener(
     "DOMContentLoaded",
     function(){
-
         loadDepositHistory();
-
     }
 );
-
-
-setInterval(
-    function(){
-
-        if(
-            document.visibilityState ===
-            "visible"
-        ){
-
-            loadDepositHistory();
-
-        }
-
-    },
-    5000
-);
-
 </script></body>
 </html>
