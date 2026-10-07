@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Withdrawal History</title>
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Withdrawal History</title><style>
 *{
   box-sizing:border-box;
   margin:0;
@@ -19,7 +14,6 @@ body{
   color:#222;
 }
 
-/* HEADER */
 .header{
   position:relative;
   background:#0b8f55;
@@ -49,14 +43,12 @@ body{
   transform:scale(.96);
 }
 
-/* CONTAINER */
 .container{
   max-width:650px;
   margin:auto;
   padding:16px 12px 30px;
 }
 
-/* SUMMARY */
 .summary{
   background:white;
   border-radius:14px;
@@ -83,7 +75,6 @@ body{
   margin-top:6px;
 }
 
-/* EMPTY */
 .empty{
   background:white;
   border-radius:14px;
@@ -103,7 +94,6 @@ body{
   margin-bottom:7px;
 }
 
-/* RECORD */
 .record{
   background:white;
   border-radius:14px;
@@ -177,7 +167,6 @@ body{
   word-break:break-word;
 }
 
-/* ID */
 .request-id{
   margin-top:10px;
   padding:9px;
@@ -188,7 +177,6 @@ body{
   word-break:break-all;
 }
 
-/* REFUND */
 .refund{
   margin-top:10px;
   padding:9px;
@@ -199,7 +187,6 @@ body{
   font-weight:bold;
 }
 
-/* REFRESH */
 .refresh-btn{
   width:100%;
   height:45px;
@@ -216,68 +203,69 @@ body{
 .refresh-btn:active{
   transform:scale(.98);
 }
-</style>
-</head>
 
-<body>
+.loading{
+  background:white;
+  border-radius:14px;
+  padding:35px 20px;
+  text-align:center;
+  color:#777;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
 
-<div class="header">
+.error{
+  background:#ffe8e8;
+  color:#b42318;
+  border-radius:14px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
+</style></head><body><div class="header"><button
+class="back-btn"
+onclick="goBack()"
 
-  <button
-    class="back-btn"
-    onclick="goBack()"
-  >
-    ← Back
-  </button>
+«»
 
-  Withdrawal History
+← Back
 
+  </button>Withdrawal History
+
+</div><div class="container"><button
+class="refresh-btn"
+onclick="loadHistory()"
+
+«»
+
+↻ Refresh History
+
+  </button>  <div class="summary"><div class="summary-title">
+  Total Withdrawal Requested
 </div>
 
-
-<div class="container">
-
-  <button
-    class="refresh-btn"
-    onclick="loadHistory()"
-  >
-    ↻ Refresh History
-  </button>
-
-
-  <div class="summary">
-
-    <div class="summary-title">
-      Total Withdrawal Requested
-    </div>
-
-    <div
-      class="summary-amount"
-      id="totalAmount"
-    >
-      PKR 0.00
-    </div>
-
-    <div
-      class="summary-count"
-      id="totalCount"
-    >
-      0 withdrawals
-    </div>
-
-  </div>
-
-
-  <div id="historyContainer"></div>
-
+<div
+  class="summary-amount"
+  id="totalAmount"
+>
+  PKR 0.00
 </div>
 
+<div
+  class="summary-count"
+  id="totalCount"
+>
+  0 withdrawals
+</div>
 
-<script>
+  </div>  <div id="historyContainer">
+    <div class="loading">
+      Loading withdrawal history...
+    </div>
+  </div></div><script>
 
-/* =========================================
-   CURRENT USER
-========================================= */
+const API_URL =
+  "https://aasan-rozgaar-backend.onrender.com";
+
 
 function getCurrentUser(){
 
@@ -290,9 +278,66 @@ function getCurrentUser(){
 }
 
 
-/* =========================================
-   BACK
-========================================= */
+function getUserSessionToken(){
+
+  return (
+    sessionStorage.getItem(
+      "userSessionToken"
+    ) ||
+    sessionStorage.getItem(
+      "sessionToken"
+    ) ||
+    ""
+  );
+
+}
+
+
+function getUserCsrfToken(){
+
+  return (
+    sessionStorage.getItem(
+      "userCsrfToken"
+    ) ||
+    sessionStorage.getItem(
+      "csrfToken"
+    ) ||
+    ""
+  );
+
+}
+
+
+function userHeaders(){
+
+  const token =
+    getUserSessionToken();
+
+  const csrfToken =
+    getUserCsrfToken();
+
+  const headers = {
+    "Accept":"application/json"
+  };
+
+  if(token){
+
+    headers["Authorization"] =
+      "Bearer " + token;
+
+  }
+
+  if(csrfToken){
+
+    headers["X-CSRF-Token"] =
+      csrfToken;
+
+  }
+
+  return headers;
+
+}
+
 
 function goBack(){
 
@@ -314,9 +359,17 @@ function goBack(){
 }
 
 
-/* =========================================
-   DATE FORMAT
-========================================= */
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
 
 function formatDate(value){
 
@@ -330,30 +383,11 @@ function formatDate(value){
 
   }
 
-
-  let date;
-
-
-  if(
-    typeof value === "number" ||
-    !isNaN(Number(value))
-  ){
-
-    date =
-      new Date(
-        Number(value)
-      );
-
-  }else{
-
-    date =
-      new Date(value);
-
-  }
-
+  const date =
+    new Date(value);
 
   if(
-    isNaN(
+    Number.isNaN(
       date.getTime()
     )
   ){
@@ -361,7 +395,6 @@ function formatDate(value){
     return String(value);
 
   }
-
 
   return date.toLocaleString(
     "en-PK",
@@ -378,17 +411,12 @@ function formatDate(value){
 }
 
 
-/* =========================================
-   STATUS CLASS
-========================================= */
-
 function getStatusClass(status){
 
   const s =
     String(status || "")
       .toLowerCase()
-      .replace(/\s+/g,"");
-
+      .replace(/[\s_-]/g,"");
 
   if(s === "approved"){
     return "approved";
@@ -403,8 +431,13 @@ function getStatusClass(status){
 
   }
 
-  if(s === "rejected"){
+  if(
+    s === "rejected" ||
+    s === "reject"
+  ){
+
     return "rejected";
+
   }
 
   return "pending";
@@ -412,23 +445,60 @@ function getStatusClass(status){
 }
 
 
-/* =========================================
-   LOAD HISTORY
-========================================= */
+function getStatusText(status){
 
-function loadHistory(){
+  const s =
+    String(status || "")
+      .toLowerCase()
+      .replace(/[\s_-]/g,"");
+
+  if(s === "approved"){
+    return "Approved";
+  }
+
+  if(
+    s === "inprocess" ||
+    s === "processing"
+  ){
+
+    return "Inprocess";
+
+  }
+
+  if(
+    s === "rejected" ||
+    s === "reject"
+  ){
+
+    return "Rejected";
+
+  }
+
+  return "Pending";
+
+}
+
+
+async function loadHistory(){
 
   const username =
     getCurrentUser();
-
 
   const container =
     document.getElementById(
       "historyContainer"
     );
 
+  const totalAmount =
+    document.getElementById(
+      "totalAmount"
+    );
 
-  /* LOGIN CHECK */
+  const totalCount =
+    document.getElementById(
+      "totalCount"
+    );
+
 
   if(!username){
 
@@ -448,14 +518,10 @@ function loadHistory(){
       </div>
     `;
 
-    document.getElementById(
-      "totalAmount"
-    ).textContent =
+    totalAmount.textContent =
       "PKR 0.00";
 
-    document.getElementById(
-      "totalCount"
-    ).textContent =
+    totalCount.textContent =
       "0 withdrawals";
 
     return;
@@ -463,371 +529,466 @@ function loadHistory(){
   }
 
 
-  /* GET ALL REQUESTS */
-
-  let requests = [];
-
-
-  try{
-
-    requests =
-      JSON.parse(
-        localStorage.getItem(
-          "withdrawRequests"
-        ) || "[]"
-      );
+  container.innerHTML = `
+    <div class="loading">
+      Loading withdrawal history...
+    </div>
+  `;
 
 
-    if(
-      !Array.isArray(requests)
-    ){
+  const token =
+    getUserSessionToken();
 
-      requests = [];
-
-    }
-
-  }catch(error){
-
-    requests = [];
-
-  }
+  const csrfToken =
+    getUserCsrfToken();
 
 
-  /*
-    IMPORTANT:
-    Only current user's records
-  */
-
-  const userRequests =
-    requests.filter(
-      function(request){
-
-        return String(
-          request.username || ""
-        ).trim() === username;
-
-      }
-    );
-
-
-  /* NEWEST FIRST */
-
-  userRequests.sort(
-    function(a,b){
-
-      return (
-        Number(
-          b.createdAt || 0
-        ) -
-        Number(
-          a.createdAt || 0
-        )
-      );
-
-    }
-  );
-
-
-  /* TOTAL */
-
-  let total = 0;
-
-
-  userRequests.forEach(
-    function(request){
-
-      const amount =
-        parseFloat(
-          request.amount
-        ) || 0;
-
-      total += amount;
-
-    }
-  );
-
-
-  document.getElementById(
-    "totalAmount"
-  ).textContent =
-    "PKR " +
-    total.toLocaleString(
-      "en-PK",
-      {
-        minimumFractionDigits:2,
-        maximumFractionDigits:2
-      }
-    );
-
-
-  document.getElementById(
-    "totalCount"
-  ).textContent =
-    userRequests.length +
-    (
-      userRequests.length === 1
-        ? " withdrawal"
-        : " withdrawals"
-    );
-
-
-  /* EMPTY */
-
-  if(
-    userRequests.length === 0
-  ){
+  if(!token){
 
     container.innerHTML = `
-      <div class="empty">
-
-        <div class="empty-icon">
-          💸
-        </div>
-
-        <h3>No Withdrawal History</h3>
-
-        <p>
-          Your withdrawal requests will appear here.
-        </p>
-
+      <div class="error">
+        Session expired. Please login again.
       </div>
     `;
+
+    totalAmount.textContent =
+      "PKR 0.00";
+
+    totalCount.textContent =
+      "0 withdrawals";
 
     return;
 
   }
 
 
-  /* RECORDS */
+  try{
 
-  container.innerHTML =
-    userRequests.map(
-      function(request){
+    const response =
+      await fetch(
+        API_URL +
+        "/api/withdrawals/" +
+        encodeURIComponent(username),
+        {
+          method:"GET",
+          headers:userHeaders(),
+          credentials:"include"
+        }
+      );
 
-        const amount =
-          parseFloat(
-            request.amount
-          ) || 0;
 
+    let data = {};
 
-        const status =
-          request.status ||
-          "Pending";
+    try{
 
+      data =
+        await response.json();
 
-        const statusClass =
-          getStatusClass(
-            status
-          );
+    }catch(error){
 
-
-        const createdDate =
-          formatDate(
-            request.createdAt ||
-            request.date
-          );
-
-
-        const updatedDate =
-          request.updatedAt
-            ? formatDate(
-                request.updatedAt
-              )
-            : "—";
-
-
-        const method =
-          request.method ||
-          "—";
-
-
-        const accountName =
-          request.accountName ||
-          "—";
-
-
-        const accountNumber =
-          request.accountNumber ||
-          "—";
-
-
-        const requestId =
-          request.id ||
-          "—";
-
-
-        const refundHTML =
-          request.refunded === true
-            ? `
-              <div class="refund">
-                ✓ Amount refunded to your balance
-              </div>
-            `
-            : "";
-
-
-        return `
-
-          <div class="record">
-
-            <div class="record-top">
-
-              <div class="amount">
-                PKR
-                ${amount.toLocaleString(
-                  "en-PK",
-                  {
-                    minimumFractionDigits:2,
-                    maximumFractionDigits:2
-                  }
-                )}
-              </div>
-
-              <div class="status ${statusClass}">
-                ${escapeHTML(status)}
-              </div>
-
-            </div>
-
-
-            <div class="details">
-
-              <div class="row">
-
-                <span class="label">
-                  Payment Method
-                </span>
-
-                <span class="value">
-                  ${escapeHTML(method)}
-                </span>
-
-              </div>
-
-
-              <div class="row">
-
-                <span class="label">
-                  Account Name
-                </span>
-
-                <span class="value">
-                  ${escapeHTML(accountName)}
-                </span>
-
-              </div>
-
-
-              <div class="row">
-
-                <span class="label">
-                  Account Number
-                </span>
-
-                <span class="value">
-                  ${escapeHTML(accountNumber)}
-                </span>
-
-              </div>
-
-
-              <div class="row">
-
-                <span class="label">
-                  Request Date
-                </span>
-
-                <span class="value">
-                  ${escapeHTML(createdDate)}
-                </span>
-
-              </div>
-
-
-              <div class="row">
-
-                <span class="label">
-                  Last Update
-                </span>
-
-                <span class="value">
-                  ${escapeHTML(updatedDate)}
-                </span>
-
-              </div>
-
-            </div>
-
-
-            <div class="request-id">
-
-              Request ID:
-              ${escapeHTML(requestId)}
-
-            </div>
-
-
-            ${refundHTML}
-
-          </div>
-
-        `;
-
-      }
-    ).join("");
-
-}
-
-
-/* =========================================
-   SECURITY / HTML ESCAPE
-========================================= */
-
-function escapeHTML(value){
-
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================================
-   AUTO REFRESH
-========================================= */
-
-window.addEventListener(
-  "storage",
-  function(event){
-
-    if(
-      event.key ===
-      "withdrawRequests"
-      ||
-      event.key ===
-      "currentUser"
-    ){
-
-      loadHistory();
+      data = {};
 
     }
 
+
+    if(
+      response.status === 401 ||
+      response.status === 403
+    ){
+
+      container.innerHTML = `
+        <div class="error">
+          Session expired. Please login again.
+        </div>
+      `;
+
+      totalAmount.textContent =
+        "PKR 0.00";
+
+      totalCount.textContent =
+        "0 withdrawals";
+
+      return;
+
+    }
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.message ||
+        "Failed to load withdrawal history."
+      );
+
+    }
+
+
+    if(data.sessionToken){
+
+      sessionStorage.setItem(
+        "userSessionToken",
+        data.sessionToken
+      );
+
+      sessionStorage.setItem(
+        "sessionToken",
+        data.sessionToken
+      );
+
+    }
+
+
+    if(data.csrfToken){
+
+      sessionStorage.setItem(
+        "userCsrfToken",
+        data.csrfToken
+      );
+
+      sessionStorage.setItem(
+        "csrfToken",
+        data.csrfToken
+      );
+
+    }
+
+
+    let requests = [];
+
+
+    if(Array.isArray(data)){
+
+      requests =
+        data;
+
+    }else if(
+      Array.isArray(
+        data.withdrawals
+      )
+    ){
+
+      requests =
+        data.withdrawals;
+
+    }else if(
+      Array.isArray(
+        data.data
+      )
+    ){
+
+      requests =
+        data.data;
+
+    }
+
+
+    requests =
+      requests.filter(
+        function(request){
+
+          return String(
+            request.username ||
+            ""
+          ).trim().toLowerCase()
+          ===
+          username.trim().toLowerCase();
+
+        }
+      );
+
+
+    requests.sort(
+      function(a,b){
+
+        const dateA =
+          new Date(
+            a.createdAt ||
+            a.created_at ||
+            0
+          ).getTime();
+
+        const dateB =
+          new Date(
+            b.createdAt ||
+            b.created_at ||
+            0
+          ).getTime();
+
+        return dateB - dateA;
+
+      }
+    );
+
+
+    let total = 0;
+
+
+    requests.forEach(
+      function(request){
+
+        total +=
+          Number(
+            request.amount
+          ) || 0;
+
+      }
+    );
+
+
+    totalAmount.textContent =
+      "PKR " +
+      total.toLocaleString(
+        "en-PK",
+        {
+          minimumFractionDigits:2,
+          maximumFractionDigits:2
+        }
+      );
+
+
+    totalCount.textContent =
+      requests.length +
+      (
+        requests.length === 1
+          ? " withdrawal"
+          : " withdrawals"
+      );
+
+
+    if(requests.length === 0){
+
+      container.innerHTML = `
+        <div class="empty">
+
+          <div class="empty-icon">
+            💸
+          </div>
+
+          <h3>No Withdrawal History</h3>
+
+          <p>
+            Your withdrawal requests will appear here.
+          </p>
+
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      requests.map(
+        function(request){
+
+          const amount =
+            Number(
+              request.amount
+            ) || 0;
+
+
+          const status =
+            getStatusText(
+              request.status
+            );
+
+
+          const statusClass =
+            getStatusClass(
+              request.status
+            );
+
+
+          const method =
+            request.method ||
+            "—";
+
+
+          const accountName =
+            request.accountName ||
+            request.account_name ||
+            "—";
+
+
+          const accountNumber =
+            request.accountNumber ||
+            request.account_number ||
+            "—";
+
+
+          const createdDate =
+            formatDate(
+              request.createdAt ||
+              request.created_at
+            );
+
+
+          const approvedDate =
+            formatDate(
+              request.approvedAt ||
+              request.approved_at
+            );
+
+
+          const requestId =
+            request.id ||
+            "—";
+
+
+          const refunded =
+            Boolean(
+              request.refundedAt ||
+              request.refunded_at
+            );
+
+
+          const refundHTML =
+            refunded
+              ? `
+                <div class="refund">
+                  ✓ Amount refunded to your balance
+                </div>
+              `
+              : "";
+
+
+          return `
+
+            <div class="record">
+
+              <div class="record-top">
+
+                <div class="amount">
+
+                  PKR
+                  ${amount.toLocaleString(
+                    "en-PK",
+                    {
+                      minimumFractionDigits:2,
+                      maximumFractionDigits:2
+                    }
+                  )}
+
+                </div>
+
+                <div
+                  class="status ${statusClass}"
+                >
+                  ${escapeHTML(status)}
+                </div>
+
+              </div>
+
+
+              <div class="details">
+
+                <div class="row">
+
+                  <span class="label">
+                    Payment Method
+                  </span>
+
+                  <span class="value">
+                    ${escapeHTML(method)}
+                  </span>
+
+                </div>
+
+
+                <div class="row">
+
+                  <span class="label">
+                    Account Name
+                  </span>
+
+                  <span class="value">
+                    ${escapeHTML(accountName)}
+                  </span>
+
+                </div>
+
+
+                <div class="row">
+
+                  <span class="label">
+                    Account Number
+                  </span>
+
+                  <span class="value">
+                    ${escapeHTML(accountNumber)}
+                  </span>
+
+                </div>
+
+
+                <div class="row">
+
+                  <span class="label">
+                    Request Date
+                  </span>
+
+                  <span class="value">
+                    ${escapeHTML(createdDate)}
+                  </span>
+
+                </div>
+
+
+                <div class="row">
+
+                  <span class="label">
+                    Approved Date
+                  </span>
+
+                  <span class="value">
+                    ${escapeHTML(approvedDate)}
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="request-id">
+
+                Request ID:
+                ${escapeHTML(requestId)}
+
+              </div>
+
+
+              ${refundHTML}
+
+            </div>
+
+          `;
+
+        }
+      ).join("");
+
+
+  }catch(error){
+
+    container.innerHTML = `
+      <div class="error">
+        ${escapeHTML(
+          error.message ||
+          "Unable to load withdrawal history."
+        )}
+      </div>
+    `;
+
+    totalAmount.textContent =
+      "PKR 0.00";
+
+    totalCount.textContent =
+      "0 withdrawals";
+
   }
-);
 
+}
 
-/* Refresh every 2 seconds */
-
-setInterval(
-  loadHistory,
-  2000
-);
-
-
-/* PAGE LOAD */
 
 document.addEventListener(
   "DOMContentLoaded",
@@ -838,7 +999,5 @@ document.addEventListener(
   }
 );
 
-</script>
-
-</body>
+</script></body>
 </html>
