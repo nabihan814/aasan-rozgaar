@@ -1,512 +1,155 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Team</title>
-
+<title>My Team - Aasan Rozgaar</title>
 <style>
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f3f7f5;
-    color:#1f2937;
-}
-
-.header{
-    background:linear-gradient(135deg,#087f3d,#16a05d);
-    color:white;
-    padding:17px 15px;
-    display:flex;
-    align-items:center;
-    gap:14px;
-    box-shadow:0 3px 12px rgba(0,0,0,.12);
-}
-
-.back-btn{
-    border:0;
-    background:rgba(255,255,255,.18);
-    color:white;
-    padding:8px 13px;
-    border-radius:9px;
-    font-size:15px;
-    cursor:pointer;
-}
-
-.header-title{
-    font-size:21px;
-    font-weight:bold;
-}
-
-.container{
-    max-width:650px;
-    margin:auto;
-    padding:15px;
-}
-
-.banner{
-    background:linear-gradient(135deg,#e9fff1,#d7f7e5);
-    border-radius:18px;
-    padding:22px 18px;
-    text-align:center;
-    margin-bottom:16px;
-    border:1px solid #d2efde;
-}
-
-.banner-icon{
-    width:70px;
-    height:70px;
-    margin:auto;
-    border-radius:50%;
-    background:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:38px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-}
-
-.banner h2{
-    margin:12px 0 7px;
-    color:#087f3d;
-    font-size:22px;
-}
-
-.banner p{
-    margin:0;
-    color:#5f6f66;
-    line-height:1.55;
-    font-size:14px;
-}
-
-.bonus-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    margin-bottom:16px;
-}
-
-.bonus-card{
-    background:white;
-    border-radius:16px;
-    padding:17px 14px;
-    box-shadow:0 3px 13px rgba(0,0,0,.06);
-    border:1px solid #edf1ee;
-}
-
-.bonus-icon{
-    width:46px;
-    height:46px;
-    border-radius:13px;
-    background:#e8f8ef;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:25px;
-    margin-bottom:12px;
-}
-
-.bonus-title{
-    font-size:15px;
-    font-weight:bold;
-    color:#333;
-    line-height:1.35;
-}
-
-.bonus-rate{
-    color:#087f3d;
-    font-size:23px;
-    font-weight:bold;
-    margin-top:7px;
-}
-
-.bonus-small{
-    color:#7a847e;
-    font-size:12px;
-    margin-top:4px;
-}
-
-.summary{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    margin-bottom:16px;
-}
-
-.summary-card{
-    background:white;
-    border-radius:16px;
-    padding:17px;
-    text-align:center;
-    box-shadow:0 3px 13px rgba(0,0,0,.06);
-}
-
-.summary-icon{
-    font-size:27px;
-}
-
-.summary-number{
-    margin-top:7px;
-    font-size:25px;
-    font-weight:bold;
-    color:#087f3d;
-}
-
-.summary-label{
-    margin-top:4px;
-    color:#7a847e;
-    font-size:13px;
-}
-
-.section{
-    background:white;
-    border-radius:17px;
-    padding:18px;
-    margin-bottom:16px;
-    box-shadow:0 3px 13px rgba(0,0,0,.06);
-}
-
-.section-title{
-    display:flex;
-    align-items:center;
-    gap:9px;
-    color:#087f3d;
-    font-size:18px;
-    font-weight:bold;
-    margin-bottom:15px;
-}
-
-.saturday{
-    background:linear-gradient(135deg,#fffbea,#fff6cf);
-    border:1px solid #f1df91;
-    border-radius:14px;
-    padding:15px;
-    color:#665600;
-    line-height:1.55;
-    font-size:14px;
-}
-
-.saturday-title{
-    font-size:16px;
-    font-weight:bold;
-    margin-bottom:5px;
-}
-
-.member{
-    border:1px solid #e7ece9;
-    border-radius:15px;
-    padding:15px;
-    margin-bottom:13px;
-    background:#fcfefd;
-}
-
-.member:last-child{
-    margin-bottom:0;
-}
-
-.member-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    margin-bottom:13px;
-}
-
-.member-left{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    min-width:0;
-}
-
-.avatar{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    background:linear-gradient(135deg,#087f3d,#18a862);
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:21px;
-    flex-shrink:0;
-}
-
-.member-name{
-    font-size:16px;
-    font-weight:bold;
-    color:#222;
-    word-break:break-word;
-}
-
-.level{
-    background:#e5f8ed;
-    color:#087f3d;
-    padding:6px 10px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:bold;
-    white-space:nowrap;
-}
-
-.member-row{
-    display:flex;
-    justify-content:space-between;
-    gap:12px;
-    padding:9px 0;
-    border-bottom:1px solid #edf0ee;
-    font-size:13px;
-}
-
-.member-row:last-child{
-    border-bottom:0;
-}
-
-.member-label{
-    color:#7b8580;
-}
-
-.member-value{
-    font-weight:bold;
-    text-align:right;
-    word-break:break-word;
-}
-
-.bonus-value{
-    color:#087f3d;
-}
-
-.empty{
-    text-align:center;
-    padding:32px 18px;
-    color:#7a847e;
-}
-
-.empty-icon{
-    font-size:48px;
-    margin-bottom:10px;
-}
-
-.empty-title{
-    color:#333;
-    font-weight:bold;
-    font-size:17px;
-    margin-bottom:6px;
-}
-
-.empty-text{
-    font-size:13px;
-    line-height:1.5;
-}
-
-.note{
-    background:#f5f9f6;
-    border-left:4px solid #087f3d;
-    border-radius:8px;
-    padding:12px;
-    color:#59655e;
-    font-size:13px;
-    line-height:1.55;
-}
-
-.footer-space{
-    height:20px;
-}
-
-.loading{
-    text-align:center;
-    padding:30px 15px;
-    color:#087f3d;
-    font-size:14px;
-    font-weight:bold;
-}
-
-.error{
-    text-align:center;
-    padding:25px 15px;
-    color:#dc2626;
-    font-size:14px;
-    line-height:1.5;
-}
-
-@media(max-width:420px){
-    .bonus-grid{
-        grid-template-columns:1fr;
-    }
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f7f5;color:#1f2937}
+.header{background:linear-gradient(135deg,#087f3d,#16a05d);color:white;padding:17px 15px;display:flex;align-items:center;gap:14px;box-shadow:0 3px 12px rgba(0,0,0,.12)}
+.back-btn{border:0;background:rgba(255,255,255,.18);color:white;padding:8px 13px;border-radius:9px;font-size:15px;cursor:pointer}
+.header-title{font-size:21px;font-weight:bold}
+.container{max-width:650px;margin:auto;padding:15px}
+.banner{background:linear-gradient(135deg,#e9fff1,#d7f7e5);border-radius:18px;padding:22px 18px;text-align:center;margin-bottom:16px;border:1px solid #d2efde}
+.banner-icon{width:70px;height:70px;margin:auto;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:38px;box-shadow:0 5px 15px rgba(0,0,0,.08)}
+.banner h2{margin:12px 0 7px;color:#087f3d;font-size:22px}
+.banner p{margin:0;color:#5f6f66;line-height:1.55;font-size:14px}
+.bonus-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.bonus-card{background:white;border-radius:16px;padding:17px 14px;box-shadow:0 3px 13px rgba(0,0,0,.06);border:1px solid #edf1ee}
+.bonus-icon{width:46px;height:46px;border-radius:13px;background:#e8f8ef;display:flex;align-items:center;justify-content:center;font-size:25px;margin-bottom:12px}
+.bonus-title{font-size:15px;font-weight:bold;color:#333;line-height:1.35}
+.bonus-rate{color:#087f3d;font-size:23px;font-weight:bold;margin-top:7px}
+.bonus-small{color:#7a847e;font-size:12px;margin-top:4px}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.summary-card{background:white;border-radius:16px;padding:17px;text-align:center;box-shadow:0 3px 13px rgba(0,0,0,.06)}
+.summary-icon{font-size:27px}
+.summary-number{margin-top:7px;font-size:25px;font-weight:bold;color:#087f3d}
+.summary-label{margin-top:4px;color:#7a847e;font-size:13px}
+.section{background:white;border-radius:17px;padding:18px;margin-bottom:16px;box-shadow:0 3px 13px rgba(0,0,0,.06)}
+.section-title{display:flex;align-items:center;gap:9px;color:#087f3d;font-size:18px;font-weight:bold;margin-bottom:15px}
+.release-box{background:linear-gradient(135deg,#fffbea,#fff6cf);border:1px solid #f1df91;border-radius:14px;padding:15px;color:#665600;line-height:1.55;font-size:14px}
+.release-title{font-size:16px;font-weight:bold;margin-bottom:5px}
+.member{border:1px solid #e7ece9;border-radius:15px;padding:15px;margin-bottom:13px;background:#fcfefd}
+.member:last-child{margin-bottom:0}
+.member-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}
+.member-left{display:flex;align-items:center;gap:10px;min-width:0}
+.avatar{width:45px;height:45px;border-radius:50%;background:linear-gradient(135deg,#087f3d,#18a862);color:white;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
+.member-name{font-size:16px;font-weight:bold;color:#222;word-break:break-word}
+.level{background:#e5f8ed;color:#087f3d;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:bold;white-space:nowrap}
+.member-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #edf0ee;font-size:13px}
+.member-row:last-child{border-bottom:0}
+.member-label{color:#7b8580}
+.member-value{font-weight:bold;text-align:right;word-break:break-word}
+.empty{text-align:center;padding:32px 18px;color:#7a847e}
+.empty-icon{font-size:48px;margin-bottom:10px}
+.empty-title{color:#333;font-weight:bold;font-size:17px;margin-bottom:6px}
+.empty-text{font-size:13px;line-height:1.5}
+.note{background:#f5f9f6;border-left:4px solid #087f3d;border-radius:8px;padding:12px;color:#59655e;font-size:13px;line-height:1.55}
+.footer-space{height:20px}
+.loading{text-align:center;padding:30px 15px;color:#087f3d;font-size:14px;font-weight:bold}
+.error{text-align:center;padding:25px 15px;color:#dc2626;font-size:14px;line-height:1.5}
+@media(max-width:420px){.bonus-grid{grid-template-columns:1fr}}
 </style>
-</head>
-
-<body>
-
-<div class="header">
+</head><body><div class="header">
     <button class="back-btn" onclick="goBack()">← Back</button>
     <div class="header-title">My Team</div>
+</div><div class="container"><div class="banner">
+    <div class="banner-icon">👥</div>
+    <h2>My Referral Team</h2>
+    <p>
+        Aapke referral link se register hone wale
+        users aur unki team details yahan show hongi.
+    </p>
 </div>
 
-<div class="container">
-
-    <div class="banner">
-        <div class="banner-icon">👥</div>
-
-        <h2>My Referral Team</h2>
-
-        <p>
-            Yahan aapke referral link se register hone wale
-            users aur unki referral details show hongi.
-        </p>
+<div class="bonus-grid">
+    <div class="bonus-card">
+        <div class="bonus-icon">🎁</div>
+        <div class="bonus-title">Referral Inviting Bonus</div>
+        <div class="bonus-rate">L1 10%</div>
+        <div class="bonus-small">Level 2 — 5%</div>
     </div>
 
-    <div class="bonus-grid">
-
-        <div class="bonus-card">
-            <div class="bonus-icon">🎁</div>
-
-            <div class="bonus-title">
-                Referral Inviting Bonus
-            </div>
-
-            <div class="bonus-rate">
-                L1 10%
-            </div>
-
-            <div class="bonus-small">
-                Level 2 — 5%
-            </div>
-        </div>
-
-        <div class="bonus-card">
-            <div class="bonus-icon">📈</div>
-
-            <div class="bonus-title">
-                Daily Profit Bonus
-            </div>
-
-            <div class="bonus-rate">
-                L1 10%
-            </div>
-
-            <div class="bonus-small">
-                Level 2 — 5%
-            </div>
-        </div>
-
+    <div class="bonus-card">
+        <div class="bonus-icon">📈</div>
+        <div class="bonus-title">Daily Profit Bonus</div>
+        <div class="bonus-rate">L1 10%</div>
+        <div class="bonus-small">Level 2 — 5%</div>
     </div>
-
-    <div class="summary">
-
-        <div class="summary-card">
-            <div class="summary-icon">👤</div>
-
-            <div
-                class="summary-number"
-                id="level1Count">
-                0
-            </div>
-
-            <div class="summary-label">
-                Level 1 Members
-            </div>
-        </div>
-
-        <div class="summary-card">
-            <div class="summary-icon">👥</div>
-
-            <div
-                class="summary-number"
-                id="level2Count">
-                0
-            </div>
-
-            <div class="summary-label">
-                Level 2 Members
-            </div>
-        </div>
-
-    </div>
-
-    <div class="section">
-
-        <div class="section-title">
-            🗓️ Weekly Release
-        </div>
-
-        <div class="saturday">
-
-            <div class="saturday-title">
-                Saturday Release
-            </div>
-
-            Referral commission aur daily-profit bonus ka
-            eligible amount weekly cycle ke mutabiq
-            <b>har Saturday</b> release ke liye calculate
-            kiya jayega.
-
-        </div>
-
-    </div>
-
-    <div class="section">
-
-        <div class="section-title">
-            👥 Team Members
-        </div>
-
-        <div id="teamList">
-            <div class="loading">
-                Loading team...
-            </div>
-        </div>
-
-    </div>
-
-    <div class="section">
-
-        <div class="section-title">
-            ℹ️ Bonus Details
-        </div>
-
-        <div class="note">
-
-            <b>Referral Inviting Bonus:</b>
-            Level 1 = 10%, Level 2 = 5%.
-
-            <br><br>
-
-            <b>Daily Profit Bonus:</b>
-            Level 1 = daily profit ka 10%,
-            Level 2 = daily profit ka 5%.
-
-            <br><br>
-
-            Daily profit ka cycle har 24 ghante ka hai aur
-            weekly release cycle Saturday ka hai.
-
-        </div>
-
-    </div>
-
-    <div class="footer-space"></div>
-
 </div>
 
-<script>
+<div class="summary">
+    <div class="summary-card">
+        <div class="summary-icon">👤</div>
+        <div class="summary-number" id="level1Count">0</div>
+        <div class="summary-label">Level 1 Members</div>
+    </div>
 
+    <div class="summary-card">
+        <div class="summary-icon">👥</div>
+        <div class="summary-number" id="level2Count">0</div>
+        <div class="summary-label">Level 2 Members</div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">🗓️ Weekly Release</div>
+
+    <div class="release-box">
+        <div class="release-title">Saturday Release</div>
+        Referral commission aur daily-profit bonus ki
+        policy information yahan show hoti hai.
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">👥 Team Members</div>
+
+    <div id="teamList">
+        <div class="loading">Loading team...</div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">ℹ️ Bonus Details</div>
+
+    <div class="note">
+        <b>Referral Inviting Bonus:</b>
+        Level 1 = 10%, Level 2 = 5%.
+        <br><br>
+        <b>Daily Profit Bonus:</b>
+        Level 1 = 10%, Level 2 = 5%.
+        <br><br>
+        Actual bonus calculation/accounting backend side par
+        handle ki jayegi.
+    </div>
+</div>
+
+<div class="footer-space"></div>
+
+</div><script>
 const BACKEND_URL =
     "https://aasan-rozgaar-backend.onrender.com";
 
 function getCurrentUser(){
-    return localStorage.getItem("currentUser") || "";
+    return (
+        sessionStorage.getItem("username") ||
+        sessionStorage.getItem("currentUser") ||
+        localStorage.getItem("currentUser") ||
+        ""
+    ).trim();
+}
+
+function getSessionToken(){
+    return (
+        sessionStorage.getItem("userSessionToken") ||
+        sessionStorage.getItem("sessionToken") ||
+        ""
+    );
 }
 
 function getAuthHeaders(){
-
-    const token =
-        sessionStorage.getItem("sessionToken");
+    const token = getSessionToken();
 
     const headers = {
         "Accept":"application/json"
@@ -520,14 +163,112 @@ function getAuthHeaders(){
     return headers;
 }
 
-function escapeHtml(value){
+function clearSession(){
+    sessionStorage.removeItem("userSessionToken");
+    sessionStorage.removeItem("sessionToken");
+    sessionStorage.removeItem("userCsrfToken");
+    sessionStorage.removeItem("csrfToken");
+    sessionStorage.removeItem("username");
+    sessionStorage.removeItem("currentUser");
+    localStorage.removeItem("currentUser");
+}
 
+function escapeHtml(value){
     return String(value)
         .replace(/&/g,"&amp;")
         .replace(/</g,"&lt;")
         .replace(/>/g,"&gt;")
         .replace(/"/g,"&quot;")
         .replace(/'/g,"&#039;");
+}
+
+function formatDate(value){
+    if(!value || value === "-"){
+        return "-";
+    }
+
+    const date = new Date(value);
+
+    if(Number.isNaN(date.getTime())){
+        return String(value);
+    }
+
+    return date.toLocaleDateString(
+        "en-PK",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+}
+
+function showEmpty(icon,title,text){
+    document.getElementById("teamList").innerHTML = `
+        <div class="empty">
+            <div class="empty-icon">${icon}</div>
+            <div class="empty-title">${escapeHtml(title)}</div>
+            <div class="empty-text">${escapeHtml(text)}</div>
+        </div>
+    `;
+}
+
+function createMemberCard(member){
+
+    const username =
+        member.username || "Unknown User";
+
+    const level =
+        Number(member.level || 1);
+
+    const createdAt =
+        member.createdAt || "-";
+
+    const referralCode =
+        member.referralCode || "-";
+
+    return `
+        <div class="member">
+
+            <div class="member-head">
+
+                <div class="member-left">
+                    <div class="avatar">👤</div>
+
+                    <div class="member-name">
+                        ${escapeHtml(username)}
+                    </div>
+                </div>
+
+                <div class="level">
+                    Level ${level}
+                </div>
+
+            </div>
+
+            <div class="member-row">
+                <span class="member-label">Join Date</span>
+                <span class="member-value">
+                    ${escapeHtml(formatDate(createdAt))}
+                </span>
+            </div>
+
+            <div class="member-row">
+                <span class="member-label">Referral Code</span>
+                <span class="member-value">
+                    ${escapeHtml(referralCode)}
+                </span>
+            </div>
+
+            <div class="member-row">
+                <span class="member-label">Level</span>
+                <span class="member-value">
+                    Level ${level}
+                </span>
+            </div>
+
+        </div>
+    `;
 }
 
 async function loadTeam(){
@@ -539,12 +280,19 @@ async function loadTeam(){
         document.getElementById("teamList");
 
     if(!username){
-
         showEmpty(
             "🔐",
             "Login Required",
             "Team dekhne ke liye pehle login karein."
         );
+        return;
+    }
+
+    if(!getSessionToken()){
+        clearSession();
+
+        window.location.href =
+            "login.html";
 
         return;
     }
@@ -566,33 +314,32 @@ async function loadTeam(){
                 }
             );
 
-        let result = null;
+        let result = {};
 
         try{
             result = await response.json();
         }catch(error){
-            result = null;
+            result = {};
+        }
+
+        if(
+            response.status === 401 ||
+            response.status === 403
+        ){
+            clearSession();
+
+            window.location.href =
+                "login.html";
+
+            return;
         }
 
         if(
             !response.ok ||
-            !result ||
             !result.success
         ){
-
-            if(response.status === 401){
-
-                showEmpty(
-                    "🔐",
-                    "Session Expired",
-                    "Please login again to view your team."
-                );
-
-                return;
-            }
-
             throw new Error(
-                result?.message ||
+                result.message ||
                 "Unable to load team."
             );
         }
@@ -616,13 +363,11 @@ async function loadTeam(){
             Number(team.level2Count || 0);
 
         if(members.length === 0){
-
             showEmpty(
                 "👥",
                 "No Team Members Yet",
-                "Jab koi new user aapke referral link se register karega, woh yahan show hoga."
+                "Jab koi user aapke referral link se register karega, woh yahan show hoga."
             );
-
             return;
         }
 
@@ -647,225 +392,14 @@ async function loadTeam(){
     }
 }
 
-function createMemberCard(item){
-
-    const username =
-        item.username ||
-        "Unknown User";
-
-    const level =
-        Number(item.level || 1);
-
-    const date =
-        item.createdAt ||
-        "-";
-
-    const packName =
-        item.packName ||
-        item.planName ||
-        item.plan ||
-        "Not Purchased";
-
-    const packPrice =
-        item.packPrice ??
-        item.planPrice ??
-        item.price ??
-        "-";
-
-    const referralBonus =
-        item.referralBonus ??
-        item.referralCommission ??
-        "—";
-
-    const dailyProfitBonus =
-        item.dailyProfitBonus ??
-        "—";
-
-    return `
-
-        <div class="member">
-
-            <div class="member-head">
-
-                <div class="member-left">
-
-                    <div class="avatar">
-                        👤
-                    </div>
-
-                    <div class="member-name">
-                        ${escapeHtml(username)}
-                    </div>
-
-                </div>
-
-                <div class="level">
-                    Level ${level}
-                </div>
-
-            </div>
-
-            <div class="member-row">
-
-                <span class="member-label">
-                    Join Date
-                </span>
-
-                <span class="member-value">
-                    ${escapeHtml(formatDate(date))}
-                </span>
-
-            </div>
-
-            <div class="member-row">
-
-                <span class="member-label">
-                    Purchased Pack
-                </span>
-
-                <span class="member-value">
-                    ${escapeHtml(String(packName))}
-                </span>
-
-            </div>
-
-            <div class="member-row">
-
-                <span class="member-label">
-                    Pack Price
-                </span>
-
-                <span class="member-value">
-                    ${escapeHtml(
-                        formatAmount(packPrice)
-                    )}
-                </span>
-
-            </div>
-
-            <div class="member-row">
-
-                <span class="member-label">
-                    Referral Inviting Bonus
-                </span>
-
-                <span class="member-value bonus-value">
-                    ${escapeHtml(
-                        String(referralBonus)
-                    )}
-                </span>
-
-            </div>
-
-            <div class="member-row">
-
-                <span class="member-label">
-                    Daily Profit Bonus
-                </span>
-
-                <span class="member-value bonus-value">
-                    ${escapeHtml(
-                        String(dailyProfitBonus)
-                    )}
-                </span>
-
-            </div>
-
-        </div>
-
-    `;
-}
-
-function formatAmount(value){
-
-    if(
-        value === null ||
-        value === undefined ||
-        value === "-" ||
-        value === ""
-    ){
-        return "-";
-    }
-
-    const number =
-        Number(value);
-
-    if(!Number.isFinite(number)){
-        return String(value);
-    }
-
-    return "Rs " +
-        number.toLocaleString(
-            "en-PK",
-            {
-                minimumFractionDigits:2,
-                maximumFractionDigits:2
-            }
-        );
-}
-
-function formatDate(value){
-
-    if(!value || value === "-"){
-        return "-";
-    }
-
-    const date =
-        new Date(value);
-
-    if(Number.isNaN(date.getTime())){
-        return String(value);
-    }
-
-    return date.toLocaleDateString(
-        "en-PK",
-        {
-            day:"2-digit",
-            month:"short",
-            year:"numeric"
-        }
-    );
-}
-
-function showEmpty(
-    icon,
-    title,
-    text
-){
-
-    document.getElementById(
-        "teamList"
-    ).innerHTML = `
-
-        <div class="empty">
-
-            <div class="empty-icon">
-                ${icon}
-            </div>
-
-            <div class="empty-title">
-                ${escapeHtml(title)}
-            </div>
-
-            <div class="empty-text">
-                ${escapeHtml(text)}
-            </div>
-
-        </div>
-    `;
-}
-
 function goBack(){
 
     if(
         document.referrer &&
         document.referrer !== window.location.href
     ){
-
         history.back();
-
     }else{
-
         window.location.href =
             "./home.html";
     }
@@ -875,8 +409,5 @@ document.addEventListener(
     "DOMContentLoaded",
     loadTeam
 );
-
-</script>
-
-</body>
-</html>
+</script></body>
+        </html>
