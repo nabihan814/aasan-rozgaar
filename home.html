@@ -67,7 +67,7 @@ body{background-color:#f2f7f3;color:#333;padding-bottom:90px}
 </style></head><body><div class="header">
     <div class="user-welcome-box">
         <div class="user-profile">
-            <div class="user-avatar">A</div>
+            <div class="user-avatar" id="userAvatar">A</div>
             <div class="user-info">
                 <h4>Welcome Back!</h4>
                 <span id="userNameDisplay">Loading...</span>
@@ -84,6 +84,7 @@ body{background-color:#f2f7f3;color:#333;padding-bottom:90px}
 </div>
 
 </div><div class="container"><div class="top-grid">
+
     <a href="team.html" class="top-menu-card">
         <span>&#128101;</span>
         Team
@@ -99,13 +100,15 @@ body{background-color:#f2f7f3;color:#333;padding-bottom:90px}
         <span style="color:#0b6623;font-weight:bold;">Plans</span>
     </a>
 
-    <a href="login.html" class="top-menu-card" onclick="logoutUser()">
+    <a href="login.html" class="top-menu-card" onclick="logoutUser(event)">
         <span>&#128682;</span>
         Logout
     </a>
+
 </div>
 
 <div class="banner-row">
+
     <a href="#" class="banner-box" id="installAppBtn">
         <div class="banner-text">
             <span>APP DOWNLOAD</span>
@@ -122,6 +125,7 @@ body{background-color:#f2f7f3;color:#333;padding-bottom:90px}
         </div>
         <div class="banner-icon-badge">BONUS</div>
     </a>
+
 </div>
 
 <div class="section-title">
@@ -195,11 +199,12 @@ body{background-color:#f2f7f3;color:#333;padding-bottom:90px}
         <div id="profitMessage" class="modal-text"></div>
         <button class="modal-btn" onclick="closeProfitModal()">Theek hai</button>
     </div>
-</div><div class="bottom-nav">
-    <a href="home.html" class="nav-item active">
-        <span class="nav-icon">&#127968;</span>
-        Home
-    </a><a href="plans.html" class="nav-item">
+</div><div class="bottom-nav"><a href="home.html" class="nav-item active">
+    <span class="nav-icon">&#127968;</span>
+    Home
+</a>
+
+<a href="plans.html" class="nav-item">
     <span class="nav-icon">&#128200;</span>
     Plans
 </a>
@@ -209,7 +214,7 @@ body{background-color:#f2f7f3;color:#333;padding-bottom:90px}
     Team
 </a>
 
-<a href="login.html" class="nav-item" onclick="logoutUser()">
+<a href="login.html" class="nav-item" onclick="logoutUser(event)">
     <span class="nav-icon">&#128682;</span>
     Logout
 </a>
@@ -217,17 +222,23 @@ body{background-color:#f2f7f3;color:#333;padding-bottom:90px}
 </div><script>
 
 const DAY = 24 * 60 * 60 * 1000;
-
 const API_URL = "https://aasan-rozgaar-backend.onrender.com";
 
 let activePlans = [];
 let lastProfitRefresh = 0;
 
 function getCurrentUser(){
-    return localStorage.getItem("currentUser");
+
+    return (
+        sessionStorage.getItem("currentUser") ||
+        sessionStorage.getItem("username") ||
+        localStorage.getItem("currentUser") ||
+        ""
+    ).trim();
 }
 
 function getUserSessionToken(){
+
     return (
         sessionStorage.getItem("userSessionToken") ||
         sessionStorage.getItem("sessionToken") ||
@@ -236,6 +247,7 @@ function getUserSessionToken(){
 }
 
 function getUserCsrfToken(){
+
     return (
         sessionStorage.getItem("userCsrfToken") ||
         sessionStorage.getItem("csrfToken") ||
@@ -253,11 +265,15 @@ function authHeaders(includeCsrf = false){
     };
 
     if(token){
-        headers["Authorization"] = "Bearer " + token;
+
+        headers["Authorization"] =
+            "Bearer " + token;
     }
 
     if(includeCsrf && csrfToken){
-        headers["X-CSRF-Token"] = csrfToken;
+
+        headers["X-CSRF-Token"] =
+            csrfToken;
     }
 
     return headers;
@@ -267,18 +283,21 @@ function safeNumber(value){
 
     const number = Number(value);
 
-    return Number.isFinite(number) ? number : 0;
+    return Number.isFinite(number)
+        ? number
+        : 0;
 }
 
 function formatMoney(value){
 
-    return "Rs " + safeNumber(value).toLocaleString(
-        "en-PK",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    );
+    return "Rs " +
+        safeNumber(value).toLocaleString(
+            "en-PK",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        );
 }
 
 function escapeHtml(value){
@@ -292,6 +311,10 @@ function escapeHtml(value){
 }
 
 function saveSessionData(data){
+
+    if(!data || typeof data !== "object"){
+        return;
+    }
 
     if(data.sessionToken){
 
@@ -326,50 +349,64 @@ async function loadLiveBalance(username){
         return;
     }
 
-    const token = getUserSessionToken();
+    const token =
+        getUserSessionToken();
 
     if(!token){
-        console.log("User session token missing");
+        window.location.replace("login.html");
         return;
     }
 
     try{
 
-        const response = await fetch(
-            API_URL +
-            "/api/balance/" +
-            encodeURIComponent(username),
-            {
-                method:"GET",
-                headers:authHeaders(false),
-                credentials:"include"
-            }
-        );
+        const response =
+            await fetch(
+                API_URL +
+                "/api/balance/" +
+                encodeURIComponent(username),
+                {
+                    method:"GET",
+                    headers:authHeaders(false),
+                    credentials:"include"
+                }
+            );
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
         saveSessionData(data);
+
+        if(
+            response.status === 401 ||
+            response.status === 403
+        ){
+
+            logoutUser();
+            return;
+        }
 
         if(!response.ok || !data.success){
 
             console.log(
                 "Balance request failed:",
-                data.message || "Unknown error"
+                data?.message || "Unknown error"
             );
 
             return;
         }
 
-        const balance = safeNumber(data.balance);
+        const balance =
+            safeNumber(data.balance);
 
         const balanceElement =
-            document.getElementById("dashBalance");
+            document.getElementById(
+                "dashBalance"
+            );
 
         if(balanceElement){
 
             balanceElement.innerText =
                 formatMoney(balance);
-
         }
 
     }catch(error){
@@ -378,52 +415,59 @@ async function loadLiveBalance(username){
             "Live balance error:",
             error
         );
-
     }
 }
 
 async function loadActivePlans(username){
 
     if(!username){
+
         activePlans = [];
         updateActivePlanUI();
         return;
     }
 
-    const token = getUserSessionToken();
+    const token =
+        getUserSessionToken();
 
     if(!token){
-        console.log("User session token missing");
+
         activePlans = [];
         updateActivePlanUI();
+        window.location.replace("login.html");
         return;
     }
 
     try{
 
-        const response = await fetch(
-            API_URL + "/api/plans/active",
-            {
-                method:"GET",
-                headers:authHeaders(false),
-                credentials:"include"
-            }
-        );
+        const response =
+            await fetch(
+                API_URL + "/api/plans/active",
+                {
+                    method:"GET",
+                    headers:authHeaders(false),
+                    credentials:"include"
+                }
+            );
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
         saveSessionData(data);
 
-        if(!response.ok || !data.success){
+        if(
+            response.status === 401 ||
+            response.status === 403
+        ){
 
-            console.log(
-                "Active plans request failed:",
-                data.message || "Unknown error"
-            );
+            logoutUser();
+            return;
+        }
+
+        if(!response.ok || !data.success){
 
             activePlans = [];
             updateActivePlanUI();
-
             return;
         }
 
@@ -443,6 +487,92 @@ async function loadActivePlans(username){
 
         activePlans = [];
         updateActivePlanUI();
+    }
+}
+
+async function loadReferralDetails(username){
+
+    if(!username){
+        return;
+    }
+
+    const token =
+        getUserSessionToken();
+
+    if(!token){
+        return;
+    }
+
+    const tag =
+        document.getElementById(
+            "referrerTag"
+        );
+
+    try{
+
+        const response =
+            await fetch(
+                API_URL + "/api/referral/me",
+                {
+                    method:"GET",
+                    headers:authHeaders(false),
+                    credentials:"include"
+                }
+            );
+
+        const data =
+            await response.json();
+
+        saveSessionData(data);
+
+        if(
+            response.status === 401 ||
+            response.status === 403
+        ){
+
+            logoutUser();
+            return;
+        }
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            if(tag){
+                tag.innerText =
+                    "Refer by: None";
+            }
+
+            return;
+        }
+
+        const referral =
+            data.referral || {};
+
+        const referrer =
+            referral.referredBy;
+
+        if(tag){
+
+            tag.innerText =
+                referrer
+                    ? "Refer by: " + referrer
+                    : "Refer by: None";
+        }
+
+    }catch(error){
+
+        console.error(
+            "Referral details error:",
+            error
+        );
+
+        if(tag){
+
+            tag.innerText =
+                "Refer by: None";
+        }
     }
 }
 
@@ -492,15 +622,24 @@ function getRemainingTime(dateValue){
 function formatCountdown(milliseconds){
 
     let remaining =
-        Math.max(0,Math.floor(milliseconds / 1000));
+        Math.max(
+            0,
+            Math.floor(
+                milliseconds / 1000
+            )
+        );
 
     const hours =
-        Math.floor(remaining / 3600);
+        Math.floor(
+            remaining / 3600
+        );
 
     remaining %= 3600;
 
     const minutes =
-        Math.floor(remaining / 60);
+        Math.floor(
+            remaining / 60
+        );
 
     const seconds =
         remaining % 60;
@@ -516,18 +655,18 @@ function formatCountdown(milliseconds){
 
 function calculateRemainingDays(dateValue){
 
-    const remaining =
-        getRemainingTime(dateValue);
-
     return Math.ceil(
-        remaining / DAY
+        getRemainingTime(dateValue) /
+        DAY
     );
 }
 
 function updateCountdownDisplays(){
 
     document
-        .querySelectorAll("[data-next-profit]")
+        .querySelectorAll(
+            "[data-next-profit]"
+        )
         .forEach(function(element){
 
             const nextProfit =
@@ -535,15 +674,18 @@ function updateCountdownDisplays(){
                     "data-next-profit"
                 );
 
-            const remaining =
-                getRemainingTime(nextProfit);
-
             element.innerText =
-                formatCountdown(remaining);
+                formatCountdown(
+                    getRemainingTime(
+                        nextProfit
+                    )
+                );
         });
 
     document
-        .querySelectorAll("[data-remaining-days]")
+        .querySelectorAll(
+            "[data-remaining-days]"
+        )
         .forEach(function(element){
 
             const nextProfit =
@@ -557,7 +699,8 @@ function updateCountdownDisplays(){
                 );
 
             element.innerText =
-                days + " Day" +
+                days +
+                " Day" +
                 (days === 1 ? "" : "s");
         });
 }
@@ -596,22 +739,31 @@ function renderPlansInModal(){
                 safeNumber(plan.price);
 
             const dailyProfit =
-                safeNumber(plan.dailyProfit);
+                safeNumber(
+                    plan.dailyProfit
+                );
 
             const durationDays =
                 safeNumber(plan.days);
 
             const remainingDays =
+                safeNumber(
+                    plan.remainingDays
+                ) ||
                 calculateRemainingDays(
                     plan.nextProfitAt
                 );
 
             htmlContent += `
                 <div class="plan-card-item">
+
                     <p>
                         <b>
                             Plan ${index + 1}:
-                            ${escapeHtml(plan.name || "Package")}
+                            ${escapeHtml(
+                                plan.name ||
+                                "Package"
+                            )}
                         </b>
                     </p>
 
@@ -632,8 +784,11 @@ function renderPlansInModal(){
 
                     <p>
                         📅 Remaining:
-                        <span data-remaining-days
-                              data-next-profit="${escapeHtml(plan.nextProfitAt)}">
+                        <span
+                            data-remaining-days
+                            data-next-profit="${escapeHtml(
+                                plan.nextProfitAt
+                            )}">
                             ${remainingDays} Days
                         </span>
                     </p>
@@ -645,20 +800,25 @@ function renderPlansInModal(){
                     </p>
 
                     <div class="countdown-box">
+
                         <span class="countdown-label">
                             Next Daily Profit
                         </span>
 
                         <span
                             class="countdown-time"
-                            data-next-profit="${escapeHtml(plan.nextProfitAt)}">
+                            data-next-profit="${escapeHtml(
+                                plan.nextProfitAt
+                            )}">
                             ${formatCountdown(
                                 getRemainingTime(
                                     plan.nextProfitAt
                                 )
                             )}
                         </span>
+
                     </div>
+
                 </div>
             `;
         }
@@ -672,13 +832,11 @@ function renderPlansInModal(){
 
 function checkActivePlans(){
 
-    const username =
-        getCurrentUser();
+    if(!getUserSessionToken()){
 
-    if(!username){
-
-        window.location.href =
-            "login.html";
+        window.location.replace(
+            "login.html"
+        );
 
         return;
     }
@@ -690,49 +848,13 @@ function checkActivePlans(){
     ).style.display = "flex";
 }
 
-async function refreshAfterProfitTime(){
-
-    const username =
-        getCurrentUser();
-
-    if(!username){
-        return;
-    }
-
-    const now =
-        Date.now();
-
-    if(
-        now - lastProfitRefresh <
-        5000
-    ){
-        return;
-    }
-
-    lastProfitRefresh = now;
-
-    await loadActivePlans(username);
-    await loadLiveBalance(username);
-
-    if(
-        document.getElementById(
-            "customModal"
-        ).style.display === "flex"
-    ){
-
-        renderPlansInModal();
-    }
-}
-
 function showProfitDetails(){
 
-    const username =
-        getCurrentUser();
+    if(!getUserSessionToken()){
 
-    if(!username){
-
-        window.location.href =
-            "login.html";
+        window.location.replace(
+            "login.html"
+        );
 
         return;
     }
@@ -761,7 +883,9 @@ function showProfitDetails(){
 
                 const days =
                     Math.min(
-                        safeNumber(plan.days),
+                        safeNumber(
+                            plan.days
+                        ),
                         Math.floor(
                             elapsed / DAY
                         )
@@ -773,14 +897,6 @@ function showProfitDetails(){
         }
     );
 
-    const teamProfit = 0;
-    const referralBonus = 0;
-
-    const totalProfit =
-        planProfit +
-        teamProfit +
-        referralBonus;
-
     const profitMessage =
         document.getElementById(
             "profitMessage"
@@ -788,6 +904,7 @@ function showProfitDetails(){
 
     profitMessage.innerHTML = `
         <div class="profit-card">
+
             <div class="profit-card-left">
                 <span>Plans Profit</span>
                 <strong>Plan activity</strong>
@@ -796,9 +913,11 @@ function showProfitDetails(){
             <div class="profit-card-right">
                 ${formatMoney(planProfit)}
             </div>
+
         </div>
 
         <div class="profit-card">
+
             <div class="profit-card-left">
                 <span>Team Profit</span>
                 <strong>Team activity</strong>
@@ -807,9 +926,11 @@ function showProfitDetails(){
             <div class="profit-card-right">
                 Rs 0.00
             </div>
+
         </div>
 
         <div class="profit-card">
+
             <div class="profit-card-left">
                 <span>Referral Bonus</span>
                 <strong>Referral rewards</strong>
@@ -818,14 +939,17 @@ function showProfitDetails(){
             <div class="profit-card-right">
                 Rs 0.00
             </div>
+
         </div>
 
         <div class="total-profit-card">
+
             <span>TOTAL PROFIT</span>
 
             <strong>
-                ${formatMoney(totalProfit)}
+                ${formatMoney(planProfit)}
             </strong>
+
         </div>
     `;
 
@@ -848,118 +972,87 @@ function closeProfitModal(){
     ).style.display = "none";
 }
 
-function getReferralRecords(){
+async function logoutUser(event){
+
+    if(event){
+        event.preventDefault();
+    }
+
+    const token =
+        getUserSessionToken();
+
+    const csrfToken =
+        getUserCsrfToken();
 
     try{
 
-        const referrals =
-            JSON.parse(
-                localStorage.getItem(
-                    "referrals"
-                ) || "[]"
+        if(token){
+
+            await fetch(
+                API_URL + "/api/logout",
+                {
+                    method:"POST",
+                    headers:{
+                        "Accept":
+                            "application/json",
+                        "Authorization":
+                            "Bearer " + token,
+                        "X-CSRF-Token":
+                            csrfToken
+                    },
+                    credentials:"include"
+                }
             );
-
-        return Array.isArray(referrals)
-            ? referrals
-            : [];
-
-    }catch(error){
-
-        return [];
-    }
-}
-
-function getDirectReferrer(username){
-
-    if(!username){
-        return "";
-    }
-
-    try{
-
-        const users =
-            JSON.parse(
-                localStorage.getItem(
-                    "aasanRozgaarUsers"
-                ) || "[]"
-            );
-
-        if(Array.isArray(users)){
-
-            const user =
-                users.find(
-                    function(item){
-                        return item.username === username;
-                    }
-                );
-
-            if(
-                user &&
-                user.referredBy &&
-                user.referredBy !== username
-            ){
-
-                return user.referredBy;
-            }
         }
 
     }catch(error){
 
         console.log(
-            "User referral lookup error:",
+            "Logout request error:",
             error
         );
-    }
 
-    const referrals =
-        getReferralRecords();
+    }finally{
 
-    const level1Record =
-        referrals.find(
-            function(record){
-
-                return(
-                    record.username === username &&
-                    Number(record.level) === 1 &&
-                    record.referrer &&
-                    record.referrer !== username
-                );
-            }
+        sessionStorage.removeItem(
+            "sessionToken"
         );
 
-    if(level1Record){
-        return level1Record.referrer;
-    }
-
-    return "";
-}
-
-function loadReferrer(){
-
-    const username =
-        getCurrentUser();
-
-    const tag =
-        document.getElementById(
-            "referrerTag"
+        sessionStorage.removeItem(
+            "userSessionToken"
         );
 
-    if(!tag){
-        return;
-    }
+        sessionStorage.removeItem(
+            "csrfToken"
+        );
 
-    const referrer =
-        getDirectReferrer(username);
+        sessionStorage.removeItem(
+            "userCsrfToken"
+        );
 
-    if(referrer){
+        sessionStorage.removeItem(
+            "currentUser"
+        );
 
-        tag.innerText =
-            "Refer by: " + referrer;
+        sessionStorage.removeItem(
+            "username"
+        );
 
-    }else{
+        localStorage.removeItem(
+            "currentUser"
+        );
 
-        tag.innerText =
-            "Refer by: None";
+        localStorage.removeItem(
+            "isLoggedIn"
+        );
+
+        localStorage.removeItem(
+            "backendUser"
+        );
+
+        window.location.replace(
+            "login.html"
+        );
     }
 }
 
@@ -968,55 +1061,46 @@ async function loadDashboardData(){
     const username =
         getCurrentUser();
 
-    if(!username){
+    const token =
+        getUserSessionToken();
 
-        document.getElementById(
-            "userNameDisplay"
-        ).innerText = "Guest";
+    if(!username || !token){
 
-        document.getElementById(
-            "dashBalance"
-        ).innerText = "Rs 0.00";
-
-        activePlans = [];
-
-        updateActivePlanUI();
-        loadReferrer();
+        window.location.replace(
+            "login.html"
+        );
 
         return;
     }
 
-    document.getElementById(
-        "userNameDisplay"
-    ).innerText = username;
+    const display =
+        document.getElementById(
+            "userNameDisplay"
+        );
 
-    loadReferrer();
+    if(display){
+        display.innerText =
+            username;
+    }
 
-    await loadLiveBalance(username);
-    await loadActivePlans(username);
-}
+    const avatar =
+        document.getElementById(
+            "userAvatar"
+        );
 
-function logoutUser(){
+    if(avatar){
 
-    localStorage.removeItem(
-        "currentUser"
-    );
+        avatar.innerText =
+            username
+                .charAt(0)
+                .toUpperCase();
+    }
 
-    sessionStorage.removeItem(
-        "userSessionToken"
-    );
-
-    sessionStorage.removeItem(
-        "userCsrfToken"
-    );
-
-    sessionStorage.removeItem(
-        "sessionToken"
-    );
-
-    sessionStorage.removeItem(
-        "csrfToken"
-    );
+    await Promise.all([
+        loadLiveBalance(username),
+        loadActivePlans(username),
+        loadReferralDetails(username)
+    ]);
 }
 
 document.getElementById(
@@ -1066,20 +1150,24 @@ window.addEventListener(
 
         event.preventDefault();
 
-        deferredInstallPrompt = event;
+        deferredInstallPrompt =
+            event;
 
         if(installAppBtn){
+
             installAppBtn.classList.add(
                 "install-ready"
             );
         }
 
         if(installStatus){
+
             installStatus.innerText =
                 "Ready to install";
         }
 
         if(installBadge){
+
             installBadge.innerText =
                 "INSTALL";
         }
@@ -1116,7 +1204,8 @@ if(installAppBtn){
                     );
                 }
 
-                deferredInstallPrompt = null;
+                deferredInstallPrompt =
+                    null;
 
                 return;
             }
@@ -1148,18 +1237,19 @@ window.addEventListener(
     "appinstalled",
     function(){
 
-        console.log(
-            "Aasan Rozgaar App installed successfully."
-        );
-
-        deferredInstallPrompt = null;
+        deferredInstallPrompt =
+            null;
 
         if(installStatus){
-            installStatus.innerText = "Installed";
+
+            installStatus.innerText =
+                "Installed";
         }
 
         if(installBadge){
-            installBadge.innerText = "OPEN";
+
+            installBadge.innerText =
+                "OPEN";
         }
     }
 );
@@ -1171,22 +1261,23 @@ if("serviceWorker" in navigator){
         function(){
 
             navigator.serviceWorker
-                .register("./service-worker.js")
-                .then(
-                    function(){
-                        console.log(
-                            "Aasan Rozgaar Service Worker registered."
-                        );
-                    }
+                .register(
+                    "./service-worker.js"
                 )
-                .catch(
-                    function(error){
-                        console.log(
-                            "Service Worker registration failed:",
-                            error
-                        );
-                    }
-                );
+                .then(function(){
+
+                    console.log(
+                        "Service Worker registered."
+                    );
+
+                })
+                .catch(function(error){
+
+                    console.log(
+                        "Service Worker registration failed:",
+                        error
+                    );
+                });
         }
     );
 }
@@ -1196,18 +1287,24 @@ loadDashboardData();
 setInterval(
     function(){
 
+        const username =
+            getCurrentUser();
+
+        if(!username ||
+           !getUserSessionToken()){
+
+            return;
+        }
+
         updateCountdownDisplays();
 
-        if(getCurrentUser()){
+        loadLiveBalance(
+            username
+        );
 
-            loadLiveBalance(
-                getCurrentUser()
-            );
-
-            loadActivePlans(
-                getCurrentUser()
-            );
-        }
+        loadActivePlans(
+            username
+        );
 
     },
     5000
@@ -1216,7 +1313,10 @@ setInterval(
 setInterval(
     function(){
 
-        if(getCurrentUser()){
+        if(
+            getCurrentUser() &&
+            getUserSessionToken()
+        ){
 
             let shouldRefresh = false;
 
@@ -1236,30 +1336,31 @@ setInterval(
 
             if(shouldRefresh){
 
-                refreshAfterProfitTime();
+                const now =
+                    Date.now();
+
+                if(
+                    now -
+                    lastProfitRefresh >=
+                    5000
+                ){
+
+                    lastProfitRefresh =
+                        now;
+
+                    loadActivePlans(
+                        getCurrentUser()
+                    );
+
+                    loadLiveBalance(
+                        getCurrentUser()
+                    );
+                }
             }
         }
 
     },
     1000
-);
-
-window.addEventListener(
-    "storage",
-    function(event){
-
-        if(!event.key){
-            return;
-        }
-
-        if(
-            event.key === "referrals" ||
-            event.key === "aasanRozgaarUsers"
-        ){
-
-            loadReferrer();
-        }
-    }
 );
 
 </script></body>
