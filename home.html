@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html><html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aasan Rozgaar - Dashboard</title>
@@ -43,6 +44,9 @@ body{background-color:#f2f7f3;color:#333;padding-bottom:90px}
 .plan-card-item{background:#f8fafc;border:1px solid #cbd5e1;padding:12px;border-radius:12px;margin-bottom:10px;text-align:left}
 .plan-card-item p{margin:4px 0;font-size:12px}
 .plan-status{display:inline-block;background:#dcfce7;color:#15803d;padding:4px 9px;border-radius:20px;font-size:10px;font-weight:bold}
+.countdown-box{background:#d1e7dd;border:1px solid #9bd0ae;border-radius:10px;padding:9px;margin-top:8px;text-align:center}
+.countdown-label{display:block;font-size:10px;color:#0b6623;margin-bottom:3px}
+.countdown-time{display:block;font-size:17px;color:#0b6623;font-weight:bold;letter-spacing:1px}
 .profit-card{background:#f8fafc;border:1px solid #d4ebd9;border-radius:13px;padding:13px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
 .profit-card-left{text-align:left}
 .profit-card-left span{display:block;font-size:11px;color:#64748b;margin-bottom:3px}
@@ -61,115 +65,163 @@ body{background-color:#f2f7f3;color:#333;padding-bottom:90px}
 #installAppBtn.install-ready{border:2px solid #0b6623;background:#f0fdf4}
 .install-status{font-size:9px;color:#15803d;display:block;margin-top:2px;font-weight:bold}
 </style></head><body><div class="header">
-<div class="user-welcome-box">
-<div class="user-profile">
-<div class="user-avatar">A</div>
-<div class="user-info">
-<h4>Welcome Back!</h4>
-<span id="userNameDisplay">Loading...</span>
+    <div class="user-welcome-box">
+        <div class="user-profile">
+            <div class="user-avatar">A</div>
+            <div class="user-info">
+                <h4>Welcome Back!</h4>
+                <span id="userNameDisplay">Loading...</span>
+            </div>
+        </div>
+        <div class="referrer-tag" id="referrerTag">Refer by: None</div>
+    </div><div style="font-size:12px;color:#64748b;font-weight:600;">TOTAL BALANCE</div>
+<div class="balance-box" id="dashBalance">Rs 0.00</div>
+<div class="active-badge" id="activePlansCount">0 Active Plans</div>
+
+<div class="action-buttons">
+    <a href="deposit.html" class="btn btn-deposit">Deposit</a>
+    <a href="withdraw.html" class="btn btn-withdraw">Withdraw</a>
 </div>
+
+</div><div class="container"><div class="top-grid">
+    <a href="team.html" class="top-menu-card">
+        <span>&#128101;</span>
+        Team
+    </a>
+
+    <a href="https://wa.me/447718486232?s=t" class="top-menu-card" target="_blank" rel="noopener noreferrer">
+        <span>&#128222;</span>
+        WhatsApp
+    </a>
+
+    <a href="plans.html" class="top-menu-card" style="border:2px solid #0b6623;background:#f0fdf4;">
+        <span style="color:#0b6623;">&#128202;</span>
+        <span style="color:#0b6623;font-weight:bold;">Plans</span>
+    </a>
+
+    <a href="login.html" class="top-menu-card" onclick="logoutUser()">
+        <span>&#128682;</span>
+        Logout
+    </a>
 </div>
-<div class="referrer-tag" id="referrerTag">Refer by: None</div>
-</div><div style="font-size:12px;color:#64748b;font-weight:600;">TOTAL BALANCE</div><div class="balance-box" id="dashBalance">Rs 0.00</div><div class="active-badge" id="activePlansCount">0 Active Plans</div><div class="action-buttons">
-<a href="deposit.html" class="btn btn-deposit">Deposit</a>
-<a href="withdraw.html" class="btn btn-withdraw">Withdraw</a>
+
+<div class="banner-row">
+    <a href="#" class="banner-box" id="installAppBtn">
+        <div class="banner-text">
+            <span>APP DOWNLOAD</span>
+            <h4>Download App</h4>
+            <span class="install-status" id="installStatus"></span>
+        </div>
+        <div class="banner-icon-badge" id="installBadge">INSTALL</div>
+    </a>
+
+    <a href="#" class="banner-box">
+        <div class="banner-text">
+            <span>Task Complete</span>
+            <h4>Claim Volume</h4>
+        </div>
+        <div class="banner-icon-badge">BONUS</div>
+    </a>
 </div>
-</div><div class="container"><div class="top-grid"><a href="team.html" class="top-menu-card">
-<span>&#128101;</span>
-Team
-</a><a href="https://wa.me/447718486232?s=t" class="top-menu-card" target="_blank" rel="noopener noreferrer">
-<span>&#128222;</span>
-WhatsApp
-</a><a href="plans.html" class="top-menu-card" style="border:2px solid #0b6623;background:#f0fdf4;">
-<span style="color:#0b6623;">&#128202;</span>
-<span style="color:#0b6623;font-weight:bold;">Plans</span>
-</a><a href="login.html" class="top-menu-card" onclick="logoutUser()">
-<span>&#128682;</span>
-Logout
-</a></div><div class="banner-row"><a href="#" class="banner-box" id="installAppBtn">
-<div class="banner-text">
-<span>APP DOWNLOAD</span>
-<h4>Download App</h4>
-<span class="install-status" id="installStatus"></span>
+
+<div class="section-title">
+    Account Stats
+    <span>Overview</span>
 </div>
-<div class="banner-icon-badge" id="installBadge">INSTALL</div>
-</a><a href="#" class="banner-box">
-<div class="banner-text">
-<span>Task Complete</span>
-<h4>Claim Volume</h4>
+
+<div class="large-stats-grid">
+
+    <a href="deposit-history.html" class="stat-3d-card">
+        <div class="stat-icon-box">&#9202;</div>
+        <div class="stat-text-info">
+            <span>Pending Deposit</span>
+            <h4>Rs 0</h4>
+        </div>
+    </a>
+
+    <a href="withdraw-history.html" class="stat-3d-card">
+        <div class="stat-icon-box">&#8987;</div>
+        <div class="stat-text-info">
+            <span>Pending Withdraw</span>
+            <h4>Rs 0</h4>
+        </div>
+    </a>
+
+    <div onclick="checkActivePlans()" class="stat-3d-card">
+        <div class="stat-icon-box">&#128200;</div>
+        <div class="stat-text-info">
+            <span>Active Plans</span>
+            <h4 id="dashActivePlansText">0 Active</h4>
+        </div>
+    </div>
+
+    <a href="lucky-draw.html" class="stat-3d-card">
+        <div class="stat-icon-box">🎁</div>
+        <div class="stat-text-info">
+            <span>Lucky Draw</span>
+            <h4>Try Your Luck</h4>
+        </div>
+    </a>
+
+    <div onclick="showProfitDetails()" class="stat-3d-card">
+        <div class="stat-icon-box">&#128201;</div>
+        <div class="stat-text-info">
+            <span>Profit</span>
+            <h4 id="dashProfitDisplay">Rs 0.00</h4>
+        </div>
+    </div>
+
+    <a href="referral.html" class="stat-3d-card">
+        <div class="stat-icon-box">&#127873;</div>
+        <div class="stat-text-info">
+            <span>Refer Bonus</span>
+            <h4 id="refBonusDisplay">Rs 0.00</h4>
+        </div>
+    </a>
+
 </div>
-<div class="banner-icon-badge">BONUS</div>
-</a></div><div class="section-title">
-Account Stats
-<span>Overview</span>
-</div><div class="large-stats-grid"><a href="deposit-history.html" class="stat-3d-card">
-<div class="stat-icon-box">&#9202;</div>
-<div class="stat-text-info">
-<span>Pending Deposit</span>
-<h4>Rs 0</h4>
-</div>
-</a><a href="withdraw-history.html" class="stat-3d-card">
-<div class="stat-icon-box">&#8987;</div>
-<div class="stat-text-info">
-<span>Pending Withdraw</span>
-<h4>Rs 0</h4>
-</div>
-</a><div onclick="checkActivePlans()" class="stat-3d-card">
-<div class="stat-icon-box">&#128200;</div>
-<div class="stat-text-info">
-<span>Active Plans</span>
-<h4 id="dashActivePlansText">0 Active</h4>
-</div>
-</div><a href="lucky-draw.html" class="stat-3d-card">
-<div class="stat-icon-box">🎁</div>
-<div class="stat-text-info">
-<span>Lucky Draw</span>
-<h4>Try Your Luck</h4>
-</div>
-</a><div onclick="showProfitDetails()" class="stat-3d-card">
-<div class="stat-icon-box">&#128201;</div>
-<div class="stat-text-info">
-<span>Profit</span>
-<h4 id="dashProfitDisplay">Rs 0.00</h4>
-</div>
-</div><a href="referral.html" class="stat-3d-card">
-<div class="stat-icon-box">&#127873;</div>
-<div class="stat-text-info">
-<span>Refer Bonus</span>
-<h4 id="refBonusDisplay">Rs 0.00</h4>
-</div>
-</a></div>
+
 </div><div id="customModal" class="modal-overlay">
-<div class="modal-box">
-<div class="modal-icon">📊</div>
-<div class="modal-title">Active Plans</div>
-<div id="modalMessage" class="modal-text">Plan active nahi hai!</div>
-<button class="modal-btn" onclick="closeModal()">Theek hai</button>
-</div>
+    <div class="modal-box">
+        <div class="modal-icon">📊</div>
+        <div class="modal-title">Active Plans</div>
+        <div id="modalMessage" class="modal-text">Plan active nahi hai!</div>
+        <button class="modal-btn" onclick="closeModal()">Theek hai</button>
+    </div>
 </div><div id="profitModal" class="modal-overlay">
-<div class="modal-box">
-<div class="modal-icon">💰</div>
-<div class="modal-title">Profit Details</div>
-<div id="profitMessage" class="modal-text"></div>
-<button class="modal-btn" onclick="closeProfitModal()">Theek hai</button>
-</div>
-</div><div class="bottom-nav"><a href="home.html" class="nav-item active">
-<span class="nav-icon">&#127968;</span>
-Home
-</a><a href="plans.html" class="nav-item">
-<span class="nav-icon">&#128200;</span>
-Plans
-</a><a href="team.html" class="nav-item">
-<span class="nav-icon">&#128101;</span>
-Team
-</a><a href="login.html" class="nav-item" onclick="logoutUser()">
-<span class="nav-icon">&#128682;</span>
-Logout
-</a></div><script>
+    <div class="modal-box">
+        <div class="modal-icon">💰</div>
+        <div class="modal-title">Profit Details</div>
+        <div id="profitMessage" class="modal-text"></div>
+        <button class="modal-btn" onclick="closeProfitModal()">Theek hai</button>
+    </div>
+</div><div class="bottom-nav">
+    <a href="home.html" class="nav-item active">
+        <span class="nav-icon">&#127968;</span>
+        Home
+    </a><a href="plans.html" class="nav-item">
+    <span class="nav-icon">&#128200;</span>
+    Plans
+</a>
+
+<a href="team.html" class="nav-item">
+    <span class="nav-icon">&#128101;</span>
+    Team
+</a>
+
+<a href="login.html" class="nav-item" onclick="logoutUser()">
+    <span class="nav-icon">&#128682;</span>
+    Logout
+</a>
+
+</div><script>
 
 const DAY = 24 * 60 * 60 * 1000;
 
 const API_URL = "https://aasan-rozgaar-backend.onrender.com";
+
+let activePlans = [];
+let lastProfitRefresh = 0;
 
 function getCurrentUser(){
     return localStorage.getItem("currentUser");
@@ -211,57 +263,61 @@ function authHeaders(includeCsrf = false){
     return headers;
 }
 
-function getBalanceKey(username){
-    return "userBalance_" + username;
-}
-
-function getPlansKey(username){
-    return "userActivePlans_" + username;
-}
-
-function getProfitKey(username){
-    return "userTotalProfit_" + username;
-}
-
 function safeNumber(value){
 
     const number = Number(value);
 
     return Number.isFinite(number) ? number : 0;
-
 }
 
-function getUserBalance(username){
+function formatMoney(value){
 
-    if(!username){
-        return 0;
-    }
-
-    const value = parseFloat(
-        localStorage.getItem(
-            getBalanceKey(username)
-        )
+    return "Rs " + safeNumber(value).toLocaleString(
+        "en-PK",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
     );
-
-    if(!Number.isFinite(value) || value < 0){
-        return 0;
-    }
-
-    return value;
-
 }
 
-function saveUserBalance(username,balance){
+function escapeHtml(value){
 
-    if(!username){
-        return;
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+function saveSessionData(data){
+
+    if(data.sessionToken){
+
+        sessionStorage.setItem(
+            "userSessionToken",
+            data.sessionToken
+        );
+
+        sessionStorage.setItem(
+            "sessionToken",
+            data.sessionToken
+        );
     }
 
-    localStorage.setItem(
-        getBalanceKey(username),
-        String(Math.max(0,balance))
-    );
+    if(data.csrfToken){
 
+        sessionStorage.setItem(
+            "userCsrfToken",
+            data.csrfToken
+        );
+
+        sessionStorage.setItem(
+            "csrfToken",
+            data.csrfToken
+        );
+    }
 }
 
 async function loadLiveBalance(username){
@@ -292,31 +348,7 @@ async function loadLiveBalance(username){
 
         const data = await response.json();
 
-        if(
-            data.sessionToken
-        ){
-            sessionStorage.setItem(
-                "userSessionToken",
-                data.sessionToken
-            );
-            sessionStorage.setItem(
-                "sessionToken",
-                data.sessionToken
-            );
-        }
-
-        if(
-            data.csrfToken
-        ){
-            sessionStorage.setItem(
-                "userCsrfToken",
-                data.csrfToken
-            );
-            sessionStorage.setItem(
-                "csrfToken",
-                data.csrfToken
-            );
-        }
+        saveSessionData(data);
 
         if(!response.ok || !data.success){
 
@@ -330,27 +362,15 @@ async function loadLiveBalance(username){
 
         const balance = safeNumber(data.balance);
 
-        const balanceText =
-            "Rs " +
-            balance.toLocaleString(
-                "en-PK",
-                {
-                    minimumFractionDigits:2,
-                    maximumFractionDigits:2
-                }
-            );
-
         const balanceElement =
             document.getElementById("dashBalance");
 
         if(balanceElement){
-            balanceElement.innerText = balanceText;
-        }
 
-        saveUserBalance(
-            username,
-            balance
-        );
+            balanceElement.innerText =
+                formatMoney(balance);
+
+        }
 
     }catch(error){
 
@@ -360,189 +380,484 @@ async function loadLiveBalance(username){
         );
 
     }
-
 }
 
-function getUserPlans(username){
+async function loadActivePlans(username){
 
     if(!username){
-        return [];
+        activePlans = [];
+        updateActivePlanUI();
+        return;
     }
 
-    let plans = [];
+    const token = getUserSessionToken();
+
+    if(!token){
+        console.log("User session token missing");
+        activePlans = [];
+        updateActivePlanUI();
+        return;
+    }
 
     try{
 
-        const saved = JSON.parse(
-            localStorage.getItem(
-                getPlansKey(username)
-            )
+        const response = await fetch(
+            API_URL + "/api/plans/active",
+            {
+                method:"GET",
+                headers:authHeaders(false),
+                credentials:"include"
+            }
         );
 
-        if(Array.isArray(saved)){
-            plans = saved;
-        }
+        const data = await response.json();
 
-    }catch(error){
+        saveSessionData(data);
 
-        plans = [];
+        if(!response.ok || !data.success){
 
-    }
+            console.log(
+                "Active plans request failed:",
+                data.message || "Unknown error"
+            );
 
-    return plans;
+            activePlans = [];
+            updateActivePlanUI();
 
-}
-
-function saveUserPlans(username,plans){
-
-    if(!username){
-        return;
-    }
-
-    localStorage.setItem(
-        getPlansKey(username),
-        JSON.stringify(plans)
-    );
-
-}
-
-function processPlanProfits(){
-
-    const username = getCurrentUser();
-
-    if(!username){
-        return;
-    }
-
-    let plans = getUserPlans(username);
-
-    if(plans.length === 0){
-        return;
-    }
-
-    let balance = getUserBalance(username);
-
-    let totalProfit = safeNumber(
-        localStorage.getItem(
-            getProfitKey(username)
-        )
-    );
-
-    const now = Date.now();
-
-    let changed = false;
-
-    plans.forEach(function(plan){
-
-        const startTime =
-            safeNumber(plan.startTime);
-
-        if(!startTime){
             return;
         }
 
-        const durationDays =
-            Math.max(
-                1,
-                Math.floor(
-                    safeNumber(plan.days) || 60
-                )
-            );
+        activePlans =
+            Array.isArray(data.activePlans)
+                ? data.activePlans
+                : [];
 
-        const endTime =
-            safeNumber(plan.endTime) ||
-            (
-                startTime +
-                durationDays * DAY
-            );
+        updateActivePlanUI();
 
-        let lastProfitTime =
-            safeNumber(plan.lastProfitTime) ||
-            startTime;
+    }catch(error){
 
-        const effectiveNow =
-            Math.min(now,endTime);
-
-        const elapsed =
-            effectiveNow -
-            lastProfitTime;
-
-        const daysToAdd =
-            Math.floor(elapsed / DAY);
-
-        const dailyProfit =
-            safeNumber(plan.daily);
-
-        if(
-            daysToAdd > 0 &&
-            dailyProfit > 0
-        ){
-
-            const profitToAdd =
-                daysToAdd * dailyProfit;
-
-            balance += profitToAdd;
-
-            plan.profitEarned =
-                safeNumber(plan.profitEarned) +
-                profitToAdd;
-
-            plan.daysPassed =
-                safeNumber(plan.daysPassed) +
-                daysToAdd;
-
-            plan.lastProfitTime =
-                lastProfitTime +
-                daysToAdd * DAY;
-
-            totalProfit += profitToAdd;
-
-            changed = true;
-
-        }
-
-        if(now >= endTime){
-            plan.status = "Completed";
-            changed = true;
-        }else{
-            plan.status = "Active";
-        }
-
-    });
-
-    const activePlans =
-        plans.filter(function(plan){
-            return plan.status === "Active";
-        });
-
-    if(changed){
-
-        saveUserBalance(
-            username,
-            balance
+        console.error(
+            "Active plans error:",
+            error
         );
 
-        localStorage.setItem(
-            getProfitKey(username),
-            String(totalProfit)
+        activePlans = [];
+        updateActivePlanUI();
+    }
+}
+
+function updateActivePlanUI(){
+
+    const count =
+        activePlans.length;
+
+    const countElement =
+        document.getElementById(
+            "activePlansCount"
         );
 
+    if(countElement){
+
+        countElement.innerText =
+            count + " Active Plans";
     }
 
-    saveUserPlans(
-        username,
-        activePlans
+    const textElement =
+        document.getElementById(
+            "dashActivePlansText"
+        );
+
+    if(textElement){
+
+        textElement.innerText =
+            count + " Active";
+    }
+}
+
+function getRemainingTime(dateValue){
+
+    const target =
+        new Date(dateValue).getTime();
+
+    if(!Number.isFinite(target)){
+        return 0;
+    }
+
+    return Math.max(
+        0,
+        target - Date.now()
+    );
+}
+
+function formatCountdown(milliseconds){
+
+    let remaining =
+        Math.max(0,Math.floor(milliseconds / 1000));
+
+    const hours =
+        Math.floor(remaining / 3600);
+
+    remaining %= 3600;
+
+    const minutes =
+        Math.floor(remaining / 60);
+
+    const seconds =
+        remaining % 60;
+
+    return (
+        String(hours).padStart(2,"0") +
+        ":" +
+        String(minutes).padStart(2,"0") +
+        ":" +
+        String(seconds).padStart(2,"0")
+    );
+}
+
+function calculateRemainingDays(dateValue){
+
+    const remaining =
+        getRemainingTime(dateValue);
+
+    return Math.ceil(
+        remaining / DAY
+    );
+}
+
+function updateCountdownDisplays(){
+
+    document
+        .querySelectorAll("[data-next-profit]")
+        .forEach(function(element){
+
+            const nextProfit =
+                element.getAttribute(
+                    "data-next-profit"
+                );
+
+            const remaining =
+                getRemainingTime(nextProfit);
+
+            element.innerText =
+                formatCountdown(remaining);
+        });
+
+    document
+        .querySelectorAll("[data-remaining-days]")
+        .forEach(function(element){
+
+            const nextProfit =
+                element.getAttribute(
+                    "data-next-profit"
+                );
+
+            const days =
+                calculateRemainingDays(
+                    nextProfit
+                );
+
+            element.innerText =
+                days + " Day" +
+                (days === 1 ? "" : "s");
+        });
+}
+
+function renderPlansInModal(){
+
+    const msgBox =
+        document.getElementById(
+            "modalMessage"
+        );
+
+    if(!msgBox){
+        return;
+    }
+
+    if(activePlans.length === 0){
+
+        msgBox.innerHTML =
+            "<p style='text-align:center;color:#64748b;'>" +
+            "Filhal aapka koi active plan nahi hai." +
+            "<br><br>" +
+            "<a href='plans.html' style='color:#0b6623;font-weight:bold;text-decoration:none;'>" +
+            "Plans page par jayein →" +
+            "</a>" +
+            "</p>";
+
+        return;
+    }
+
+    let htmlContent = "";
+
+    activePlans.forEach(
+        function(plan,index){
+
+            const price =
+                safeNumber(plan.price);
+
+            const dailyProfit =
+                safeNumber(plan.dailyProfit);
+
+            const durationDays =
+                safeNumber(plan.days);
+
+            const remainingDays =
+                calculateRemainingDays(
+                    plan.nextProfitAt
+                );
+
+            htmlContent += `
+                <div class="plan-card-item">
+                    <p>
+                        <b>
+                            Plan ${index + 1}:
+                            ${escapeHtml(plan.name || "Package")}
+                        </b>
+                    </p>
+
+                    <p>
+                        💰 Invested:
+                        ${formatMoney(price)}
+                    </p>
+
+                    <p>
+                        📈 Daily Profit:
+                        ${formatMoney(dailyProfit)}
+                    </p>
+
+                    <p>
+                        ⏳ Duration:
+                        ${durationDays} Days
+                    </p>
+
+                    <p>
+                        📅 Remaining:
+                        <span data-remaining-days
+                              data-next-profit="${escapeHtml(plan.nextProfitAt)}">
+                            ${remainingDays} Days
+                        </span>
+                    </p>
+
+                    <p style="margin-top:7px;">
+                        <span class="plan-status">
+                            ACTIVE
+                        </span>
+                    </p>
+
+                    <div class="countdown-box">
+                        <span class="countdown-label">
+                            Next Daily Profit
+                        </span>
+
+                        <span
+                            class="countdown-time"
+                            data-next-profit="${escapeHtml(plan.nextProfitAt)}">
+                            ${formatCountdown(
+                                getRemainingTime(
+                                    plan.nextProfitAt
+                                )
+                            )}
+                        </span>
+                    </div>
+                </div>
+            `;
+        }
     );
 
+    msgBox.innerHTML =
+        htmlContent;
+
+    updateCountdownDisplays();
+}
+
+function checkActivePlans(){
+
+    const username =
+        getCurrentUser();
+
+    if(!username){
+
+        window.location.href =
+            "login.html";
+
+        return;
+    }
+
+    renderPlansInModal();
+
+    document.getElementById(
+        "customModal"
+    ).style.display = "flex";
+}
+
+async function refreshAfterProfitTime(){
+
+    const username =
+        getCurrentUser();
+
+    if(!username){
+        return;
+    }
+
+    const now =
+        Date.now();
+
+    if(
+        now - lastProfitRefresh <
+        5000
+    ){
+        return;
+    }
+
+    lastProfitRefresh = now;
+
+    await loadActivePlans(username);
+    await loadLiveBalance(username);
+
+    if(
+        document.getElementById(
+            "customModal"
+        ).style.display === "flex"
+    ){
+
+        renderPlansInModal();
+    }
+}
+
+function showProfitDetails(){
+
+    const username =
+        getCurrentUser();
+
+    if(!username){
+
+        window.location.href =
+            "login.html";
+
+        return;
+    }
+
+    let planProfit = 0;
+
+    activePlans.forEach(
+        function(plan){
+
+            const daily =
+                safeNumber(
+                    plan.dailyProfit
+                );
+
+            const elapsed =
+                Date.now() -
+                new Date(
+                    plan.startedAt
+                ).getTime();
+
+            if(
+                Number.isFinite(elapsed) &&
+                elapsed > 0 &&
+                daily > 0
+            ){
+
+                const days =
+                    Math.min(
+                        safeNumber(plan.days),
+                        Math.floor(
+                            elapsed / DAY
+                        )
+                    );
+
+                planProfit +=
+                    days * daily;
+            }
+        }
+    );
+
+    const teamProfit = 0;
+    const referralBonus = 0;
+
+    const totalProfit =
+        planProfit +
+        teamProfit +
+        referralBonus;
+
+    const profitMessage =
+        document.getElementById(
+            "profitMessage"
+        );
+
+    profitMessage.innerHTML = `
+        <div class="profit-card">
+            <div class="profit-card-left">
+                <span>Plans Profit</span>
+                <strong>Plan activity</strong>
+            </div>
+
+            <div class="profit-card-right">
+                ${formatMoney(planProfit)}
+            </div>
+        </div>
+
+        <div class="profit-card">
+            <div class="profit-card-left">
+                <span>Team Profit</span>
+                <strong>Team activity</strong>
+            </div>
+
+            <div class="profit-card-right">
+                Rs 0.00
+            </div>
+        </div>
+
+        <div class="profit-card">
+            <div class="profit-card-left">
+                <span>Referral Bonus</span>
+                <strong>Referral rewards</strong>
+            </div>
+
+            <div class="profit-card-right">
+                Rs 0.00
+            </div>
+        </div>
+
+        <div class="total-profit-card">
+            <span>TOTAL PROFIT</span>
+
+            <strong>
+                ${formatMoney(totalProfit)}
+            </strong>
+        </div>
+    `;
+
+    document.getElementById(
+        "profitModal"
+    ).style.display = "flex";
+}
+
+function closeModal(){
+
+    document.getElementById(
+        "customModal"
+    ).style.display = "none";
+}
+
+function closeProfitModal(){
+
+    document.getElementById(
+        "profitModal"
+    ).style.display = "none";
 }
 
 function getReferralRecords(){
 
     try{
 
-        const referrals = JSON.parse(
-            localStorage.getItem("referrals") || "[]"
-        );
+        const referrals =
+            JSON.parse(
+                localStorage.getItem(
+                    "referrals"
+                ) || "[]"
+            );
 
         return Array.isArray(referrals)
             ? referrals
@@ -551,9 +866,7 @@ function getReferralRecords(){
     }catch(error){
 
         return [];
-
     }
-
 }
 
 function getDirectReferrer(username){
@@ -564,19 +877,21 @@ function getDirectReferrer(username){
 
     try{
 
-        const users = JSON.parse(
-            localStorage.getItem(
-                "aasanRozgaarUsers"
-            ) || "[]"
-        );
+        const users =
+            JSON.parse(
+                localStorage.getItem(
+                    "aasanRozgaarUsers"
+                ) || "[]"
+            );
 
         if(Array.isArray(users)){
 
-            const user = users.find(
-                function(item){
-                    return item.username === username;
-                }
-            );
+            const user =
+                users.find(
+                    function(item){
+                        return item.username === username;
+                    }
+                );
 
             if(
                 user &&
@@ -585,9 +900,7 @@ function getDirectReferrer(username){
             ){
 
                 return user.referredBy;
-
             }
-
         }
 
     }catch(error){
@@ -596,7 +909,6 @@ function getDirectReferrer(username){
             "User referral lookup error:",
             error
         );
-
     }
 
     const referrals =
@@ -612,7 +924,6 @@ function getDirectReferrer(username){
                     record.referrer &&
                     record.referrer !== username
                 );
-
             }
         );
 
@@ -621,7 +932,6 @@ function getDirectReferrer(username){
     }
 
     return "";
-
 }
 
 function loadReferrer(){
@@ -630,7 +940,9 @@ function loadReferrer(){
         getCurrentUser();
 
     const tag =
-        document.getElementById("referrerTag");
+        document.getElementById(
+            "referrerTag"
+        );
 
     if(!tag){
         return;
@@ -648,46 +960,7 @@ function loadReferrer(){
 
         tag.innerText =
             "Refer by: None";
-
     }
-
-}
-
-function getReferralCounts(username){
-
-    const referrals =
-        getReferralRecords();
-
-    let level1 = 0;
-    let level2 = 0;
-
-    referrals.forEach(
-        function(record){
-
-            if(record.referrer !== username){
-                return;
-            }
-
-            const level =
-                Number(record.level);
-
-            if(level === 1){
-                level1++;
-            }
-
-            if(level === 2){
-                level2++;
-            }
-
-        }
-    );
-
-    return {
-        level1:level1,
-        level2:level2,
-        total:level1 + level2
-    };
-
 }
 
 async function loadDashboardData(){
@@ -705,10 +978,12 @@ async function loadDashboardData(){
             "dashBalance"
         ).innerText = "Rs 0.00";
 
+        activePlans = [];
+
+        updateActivePlanUI();
         loadReferrer();
 
         return;
-
     }
 
     document.getElementById(
@@ -717,293 +992,8 @@ async function loadDashboardData(){
 
     loadReferrer();
 
-    getReferralCounts(username);
-
-    processPlanProfits();
-
     await loadLiveBalance(username);
-
-    const planProfit =
-        safeNumber(
-            localStorage.getItem(
-                getProfitKey(username)
-            )
-        );
-
-    document.getElementById(
-        "dashProfitDisplay"
-    ).innerText =
-        "Rs " +
-        planProfit.toLocaleString(
-            "en-PK",
-            {
-                minimumFractionDigits:2,
-                maximumFractionDigits:2
-            }
-        );
-
-    document.getElementById(
-        "refBonusDisplay"
-    ).innerText =
-        "Rs 0.00";
-
-    const activePlans =
-        getUserPlans(username);
-
-    document.getElementById(
-        "activePlansCount"
-    ).innerText =
-        activePlans.length +
-        " Active Plans";
-
-    document.getElementById(
-        "dashActivePlansText"
-    ).innerText =
-        activePlans.length +
-        " Active";
-
-}
-
-function checkActivePlans(){
-
-    const username =
-        getCurrentUser();
-
-    if(!username){
-
-        window.location.href =
-            "login.html";
-
-        return;
-
-    }
-
-    processPlanProfits();
-
-    const plans =
-        getUserPlans(username);
-
-    const msgBox =
-        document.getElementById(
-            "modalMessage"
-        );
-
-    if(plans.length === 0){
-
-        msgBox.innerHTML =
-            "<p style='text-align:center;color:#64748b;'>" +
-            "Filhal aapka koi active plan nahi hai." +
-            "<br><br>" +
-            "<a href='plans.html' style='color:#0b6623;font-weight:bold;text-decoration:none;'>" +
-            "Plans page par jayein →" +
-            "</a>" +
-            "</p>";
-
-    }else{
-
-        let htmlContent = "";
-
-        plans.forEach(
-            function(plan,index){
-
-                const now = Date.now();
-
-                const startTime =
-                    safeNumber(plan.startTime);
-
-                const endTime =
-                    safeNumber(plan.endTime) ||
-                    (
-                        startTime +
-                        safeNumber(plan.days) *
-                        DAY
-                    );
-
-                let remaining =
-                    Math.max(
-                        0,
-                        endTime - now
-                    );
-
-                const remainingDays =
-                    Math.floor(
-                        remaining / DAY
-                    );
-
-                remaining -=
-                    remainingDays * DAY;
-
-                const remainingHours =
-                    Math.floor(
-                        remaining /
-                        (1000 * 60 * 60)
-                    );
-
-                const lastProfitTime =
-                    safeNumber(
-                        plan.lastProfitTime
-                    ) ||
-                    startTime;
-
-                const nextProfitTime =
-                    lastProfitTime + DAY;
-
-                let timeUntilProfit =
-                    Math.max(
-                        0,
-                        nextProfitTime - now
-                    );
-
-                const profitHours =
-                    Math.floor(
-                        timeUntilProfit /
-                        (1000 * 60 * 60)
-                    );
-
-                timeUntilProfit %=
-                    (1000 * 60 * 60);
-
-                const profitMinutes =
-                    Math.floor(
-                        timeUntilProfit /
-                        (1000 * 60)
-                    );
-
-                htmlContent += `
-                    <div class="plan-card-item">
-                        <p><b>Plan ${index + 1}: ${escapeHtml(plan.name || "Package")}</b></p>
-                        <p>💰 Price: Rs ${safeNumber(plan.price).toLocaleString("en-PK")}</p>
-                        <p>📈 Daily Profit: Rs ${safeNumber(plan.daily).toLocaleString("en-PK",{minimumFractionDigits:2,maximumFractionDigits:2})}</p>
-                        <p>⏳ Duration: ${safeNumber(plan.days)} Days</p>
-                        <p>💵 Profit Earned: Rs ${safeNumber(plan.profitEarned).toLocaleString("en-PK",{minimumFractionDigits:2,maximumFractionDigits:2})}</p>
-                        <p>📅 Remaining: ${remainingDays} Days ${remainingHours} Hours</p>
-                        <p style="margin-top:7px;"><span class="plan-status">ACTIVE</span></p>
-                        <p style="color:#0b6623;font-weight:bold;margin-top:8px;">
-                            ⏰ Next Daily Profit: ${profitHours}h ${profitMinutes}m
-                        </p>
-                    </div>
-                `;
-
-            }
-        );
-
-        msgBox.innerHTML =
-            htmlContent;
-
-    }
-
-    document.getElementById(
-        "customModal"
-    ).style.display = "flex";
-
-}
-
-function showProfitDetails(){
-
-    const username =
-        getCurrentUser();
-
-    if(!username){
-
-        window.location.href =
-            "login.html";
-
-        return;
-
-    }
-
-    processPlanProfits();
-
-    const plansProfit =
-        safeNumber(
-            localStorage.getItem(
-                getProfitKey(username)
-            )
-        );
-
-    const teamProfit = 0;
-    const referralBonus = 0;
-
-    const totalProfit =
-        plansProfit +
-        teamProfit +
-        referralBonus;
-
-    const profitMessage =
-        document.getElementById(
-            "profitMessage"
-        );
-
-    profitMessage.innerHTML = `
-        <div class="profit-card">
-            <div class="profit-card-left">
-                <span>Plans Profit</span>
-                <strong>Active plans se earned</strong>
-            </div>
-            <div class="profit-card-right">
-                Rs ${plansProfit.toLocaleString("en-PK",{minimumFractionDigits:2,maximumFractionDigits:2})}
-            </div>
-        </div>
-
-        <div class="profit-card">
-            <div class="profit-card-left">
-                <span>Team Profit</span>
-                <strong>Team activity</strong>
-            </div>
-            <div class="profit-card-right">
-                Rs ${teamProfit.toFixed(2)}
-            </div>
-        </div>
-
-        <div class="profit-card">
-            <div class="profit-card-left">
-                <span>Referral Bonus</span>
-                <strong>Referral rewards</strong>
-            </div>
-            <div class="profit-card-right">
-                Rs ${referralBonus.toFixed(2)}
-            </div>
-        </div>
-
-        <div class="total-profit-card">
-            <span>TOTAL PROFIT</span>
-            <strong>
-                Rs ${totalProfit.toLocaleString("en-PK",{minimumFractionDigits:2,maximumFractionDigits:2})}
-            </strong>
-        </div>
-    `;
-
-    document.getElementById(
-        "profitModal"
-    ).style.display = "flex";
-
-}
-
-function escapeHtml(value){
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-function closeModal(){
-
-    document.getElementById(
-        "customModal"
-    ).style.display = "none";
-
-}
-
-function closeProfitModal(){
-
-    document.getElementById(
-        "profitModal"
-    ).style.display = "none";
-
+    await loadActivePlans(username);
 }
 
 function logoutUser(){
@@ -1027,7 +1017,6 @@ function logoutUser(){
     sessionStorage.removeItem(
         "csrfToken"
     );
-
 }
 
 document.getElementById(
@@ -1039,7 +1028,6 @@ document.getElementById(
         if(event.target === this){
             closeModal();
         }
-
     }
 );
 
@@ -1052,7 +1040,6 @@ document.getElementById(
         if(event.target === this){
             closeProfitModal();
         }
-
     }
 );
 
@@ -1096,7 +1083,6 @@ window.addEventListener(
             installBadge.innerText =
                 "INSTALL";
         }
-
     }
 );
 
@@ -1128,13 +1114,11 @@ if(installAppBtn){
                         "Install prompt error:",
                         error
                     );
-
                 }
 
                 deferredInstallPrompt = null;
 
                 return;
-
             }
 
             if(
@@ -1148,7 +1132,6 @@ if(installAppBtn){
                 );
 
                 return;
-
             }
 
             alert(
@@ -1157,10 +1140,8 @@ if(installAppBtn){
                 "'Install app' ya 'Add to Home screen' " +
                 "option check karein."
             );
-
         }
     );
-
 }
 
 window.addEventListener(
@@ -1180,7 +1161,6 @@ window.addEventListener(
         if(installBadge){
             installBadge.innerText = "OPEN";
         }
-
     }
 );
 
@@ -1207,10 +1187,8 @@ if("serviceWorker" in navigator){
                         );
                     }
                 );
-
         }
     );
-
 }
 
 loadDashboardData();
@@ -1218,12 +1196,52 @@ loadDashboardData();
 setInterval(
     function(){
 
+        updateCountdownDisplays();
+
         if(getCurrentUser()){
-            loadDashboardData();
+
+            loadLiveBalance(
+                getCurrentUser()
+            );
+
+            loadActivePlans(
+                getCurrentUser()
+            );
         }
 
     },
     5000
+);
+
+setInterval(
+    function(){
+
+        if(getCurrentUser()){
+
+            let shouldRefresh = false;
+
+            activePlans.forEach(
+                function(plan){
+
+                    if(
+                        getRemainingTime(
+                            plan.nextProfitAt
+                        ) <= 1000
+                    ){
+
+                        shouldRefresh = true;
+                    }
+                }
+            );
+
+            if(shouldRefresh){
+
+                refreshAfterProfitTime();
+            }
+        }
+
+    },
+    1000
 );
 
 window.addEventListener(
@@ -1235,17 +1253,12 @@ window.addEventListener(
         }
 
         if(
-            event.key.startsWith("userBalance_") ||
-            event.key.startsWith("userActivePlans_") ||
-            event.key.startsWith("userTotalProfit_") ||
             event.key === "referrals" ||
             event.key === "aasanRozgaarUsers"
         ){
 
-            loadDashboardData();
-
+            loadReferrer();
         }
-
     }
 );
 
