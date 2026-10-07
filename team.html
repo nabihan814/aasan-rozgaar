@@ -48,8 +48,6 @@ body{
     padding:15px;
 }
 
-/* TOP BANNER */
-
 .banner{
     background:linear-gradient(135deg,#e9fff1,#d7f7e5);
     border-radius:18px;
@@ -84,8 +82,6 @@ body{
     line-height:1.55;
     font-size:14px;
 }
-
-/* BONUS CARDS */
 
 .bonus-grid{
     display:grid;
@@ -134,8 +130,6 @@ body{
     margin-top:4px;
 }
 
-/* SUMMARY */
-
 .summary{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -168,8 +162,6 @@ body{
     font-size:13px;
 }
 
-/* SECTION */
-
 .section{
     background:white;
     border-radius:17px;
@@ -188,8 +180,6 @@ body{
     margin-bottom:15px;
 }
 
-/* SATURDAY */
-
 .saturday{
     background:linear-gradient(135deg,#fffbea,#fff6cf);
     border:1px solid #f1df91;
@@ -205,8 +195,6 @@ body{
     font-weight:bold;
     margin-bottom:5px;
 }
-
-/* MEMBER */
 
 .member{
     border:1px solid #e7ece9;
@@ -292,8 +280,6 @@ body{
     color:#087f3d;
 }
 
-/* EMPTY */
-
 .empty{
     text-align:center;
     padding:32px 18px;
@@ -317,8 +303,6 @@ body{
     line-height:1.5;
 }
 
-/* NOTE */
-
 .note{
     background:#f5f9f6;
     border-left:4px solid #087f3d;
@@ -331,6 +315,22 @@ body{
 
 .footer-space{
     height:20px;
+}
+
+.loading{
+    text-align:center;
+    padding:30px 15px;
+    color:#087f3d;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.error{
+    text-align:center;
+    padding:25px 15px;
+    color:#dc2626;
+    font-size:14px;
+    line-height:1.5;
 }
 
 @media(max-width:420px){
@@ -350,9 +350,7 @@ body{
 
 <div class="container">
 
-    <!-- TOP -->
     <div class="banner">
-
         <div class="banner-icon">👥</div>
 
         <h2>My Referral Team</h2>
@@ -361,15 +359,11 @@ body{
             Yahan aapke referral link se register hone wale
             users aur unki referral details show hongi.
         </p>
-
     </div>
 
-
-    <!-- BONUS TYPES -->
     <div class="bonus-grid">
 
         <div class="bonus-card">
-
             <div class="bonus-icon">🎁</div>
 
             <div class="bonus-title">
@@ -383,12 +377,9 @@ body{
             <div class="bonus-small">
                 Level 2 — 5%
             </div>
-
         </div>
 
-
         <div class="bonus-card">
-
             <div class="bonus-icon">📈</div>
 
             <div class="bonus-title">
@@ -402,17 +393,13 @@ body{
             <div class="bonus-small">
                 Level 2 — 5%
             </div>
-
         </div>
 
     </div>
 
-
-    <!-- TEAM COUNT -->
     <div class="summary">
 
         <div class="summary-card">
-
             <div class="summary-icon">👤</div>
 
             <div
@@ -424,12 +411,9 @@ body{
             <div class="summary-label">
                 Level 1 Members
             </div>
-
         </div>
 
-
         <div class="summary-card">
-
             <div class="summary-icon">👥</div>
 
             <div
@@ -441,13 +425,10 @@ body{
             <div class="summary-label">
                 Level 2 Members
             </div>
-
         </div>
 
     </div>
 
-
-    <!-- SATURDAY RELEASE -->
     <div class="section">
 
         <div class="section-title">
@@ -469,20 +450,20 @@ body{
 
     </div>
 
-
-    <!-- TEAM -->
     <div class="section">
 
         <div class="section-title">
             👥 Team Members
         </div>
 
-        <div id="teamList"></div>
+        <div id="teamList">
+            <div class="loading">
+                Loading team...
+            </div>
+        </div>
 
     </div>
 
-
-    <!-- DETAILS -->
     <div class="section">
 
         <div class="section-title">
@@ -509,73 +490,53 @@ body{
 
     </div>
 
-
     <div class="footer-space"></div>
 
 </div>
 
-
 <script>
 
+const BACKEND_URL =
+    "https://aasan-rozgaar-backend.onrender.com";
+
 function getCurrentUser(){
-
     return localStorage.getItem("currentUser") || "";
-
 }
 
+function getAuthHeaders(){
 
-function getMyReferralId(username){
+    const token =
+        sessionStorage.getItem("sessionToken");
 
-    return localStorage.getItem(
-        "referralId_" + username
-    ) || "";
+    const headers = {
+        "Accept":"application/json"
+    };
 
-}
-
-
-function getReferrals(){
-
-    try{
-
-        const data = JSON.parse(
-            localStorage.getItem("referrals") || "[]"
-        );
-
-        return Array.isArray(data) ? data : [];
-
-    }catch(e){
-
-        return [];
-
+    if(token){
+        headers["Authorization"] =
+            "Bearer " + token;
     }
 
+    return headers;
 }
 
+function escapeHtml(value){
 
-/*
- Expected referral record:
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
 
- {
-    username:"newuser",
-    referrer:"mainuser",
-    level:1,
-    date:"...",
-    packName:"...",
-    packPrice:1000,
-    referralBonus:0,
-    dailyProfitBonus:0
- }
+async function loadTeam(){
 
-*/
-
-
-function loadTeam(){
-
-    const username = getCurrentUser();
+    const username =
+        getCurrentUser();
 
     const list =
         document.getElementById("teamList");
-
 
     if(!username){
 
@@ -586,104 +547,118 @@ function loadTeam(){
         );
 
         return;
-
     }
-
-
-    const myReferralId =
-        getMyReferralId(username);
-
-
-    const referrals =
-        getReferrals();
-
-
-    /*
-      Sirf current user's referral records.
-    */
-
-    const myUsers =
-        referrals.filter(item => {
-
-            return (
-                item.referrer === username ||
-                item.referrerUsername === username ||
-                (
-                    myReferralId &&
-                    item.referrerReferralId === myReferralId
-                )
-            );
-
-        });
-
-
-    /*
-      Level counts
-    */
-
-    const level1 =
-        myUsers.filter(
-            item => Number(item.level || 1) === 1
-        );
-
-
-    const level2 =
-        myUsers.filter(
-            item => Number(item.level || 1) === 2
-        );
-
-
-    document.getElementById(
-        "level1Count"
-    ).textContent = level1.length;
-
-
-    document.getElementById(
-        "level2Count"
-    ).textContent = level2.length;
-
-
-    if(myUsers.length === 0){
-
-        showEmpty(
-            "👥",
-            "No Team Members Yet",
-            "Jab koi new user aapke referral link se register karega, woh yahan show hoga."
-        );
-
-        return;
-
-    }
-
 
     list.innerHTML =
-        myUsers.map(
-            createMemberCard
-        ).join("");
+        '<div class="loading">Loading team...</div>';
 
+    try{
+
+        const response =
+            await fetch(
+                BACKEND_URL +
+                "/api/referral/team/" +
+                encodeURIComponent(username),
+                {
+                    method:"GET",
+                    headers:getAuthHeaders(),
+                    credentials:"include"
+                }
+            );
+
+        let result = null;
+
+        try{
+            result = await response.json();
+        }catch(error){
+            result = null;
+        }
+
+        if(
+            !response.ok ||
+            !result ||
+            !result.success
+        ){
+
+            if(response.status === 401){
+
+                showEmpty(
+                    "🔐",
+                    "Session Expired",
+                    "Please login again to view your team."
+                );
+
+                return;
+            }
+
+            throw new Error(
+                result?.message ||
+                "Unable to load team."
+            );
+        }
+
+        const team =
+            result.team || {};
+
+        const members =
+            Array.isArray(team.members)
+                ? team.members
+                : [];
+
+        document.getElementById(
+            "level1Count"
+        ).textContent =
+            Number(team.level1Count || 0);
+
+        document.getElementById(
+            "level2Count"
+        ).textContent =
+            Number(team.level2Count || 0);
+
+        if(members.length === 0){
+
+            showEmpty(
+                "👥",
+                "No Team Members Yet",
+                "Jab koi new user aapke referral link se register karega, woh yahan show hoga."
+            );
+
+            return;
+        }
+
+        list.innerHTML =
+            members
+                .map(createMemberCard)
+                .join("");
+
+    }catch(error){
+
+        console.error(
+            "Team loading error:",
+            error
+        );
+
+        list.innerHTML = `
+            <div class="error">
+                Team data load nahi ho saka.<br>
+                Please try again.
+            </div>
+        `;
+    }
 }
-
-
-/* MEMBER CARD */
 
 function createMemberCard(item){
 
     const username =
         item.username ||
-        item.user ||
         "Unknown User";
-
 
     const level =
         Number(item.level || 1);
 
-
     const date =
-        item.date ||
         item.createdAt ||
-        item.registeredAt ||
         "-";
-
 
     const packName =
         item.packName ||
@@ -691,28 +666,20 @@ function createMemberCard(item){
         item.plan ||
         "Not Purchased";
 
-
     const packPrice =
         item.packPrice ??
         item.planPrice ??
         item.price ??
         "-";
 
-
-    /*
-      Display-only fields.
-    */
-
     const referralBonus =
         item.referralBonus ??
         item.referralCommission ??
         "—";
 
-
     const dailyProfitBonus =
         item.dailyProfitBonus ??
         "—";
-
 
     return `
 
@@ -727,9 +694,7 @@ function createMemberCard(item){
                     </div>
 
                     <div class="member-name">
-                        ${escapeHtml(
-                            String(username)
-                        )}
+                        ${escapeHtml(username)}
                     </div>
 
                 </div>
@@ -740,7 +705,6 @@ function createMemberCard(item){
 
             </div>
 
-
             <div class="member-row">
 
                 <span class="member-label">
@@ -748,13 +712,10 @@ function createMemberCard(item){
                 </span>
 
                 <span class="member-value">
-                    ${escapeHtml(
-                        String(date)
-                    )}
+                    ${escapeHtml(formatDate(date))}
                 </span>
 
             </div>
-
 
             <div class="member-row">
 
@@ -763,13 +724,10 @@ function createMemberCard(item){
                 </span>
 
                 <span class="member-value">
-                    ${escapeHtml(
-                        String(packName)
-                    )}
+                    ${escapeHtml(String(packName))}
                 </span>
 
             </div>
-
 
             <div class="member-row">
 
@@ -779,12 +737,11 @@ function createMemberCard(item){
 
                 <span class="member-value">
                     ${escapeHtml(
-                        String(packPrice)
+                        formatAmount(packPrice)
                     )}
                 </span>
 
             </div>
-
 
             <div class="member-row">
 
@@ -799,7 +756,6 @@ function createMemberCard(item){
                 </span>
 
             </div>
-
 
             <div class="member-row">
 
@@ -818,11 +774,58 @@ function createMemberCard(item){
         </div>
 
     `;
-
 }
 
+function formatAmount(value){
 
-/* EMPTY STATE */
+    if(
+        value === null ||
+        value === undefined ||
+        value === "-" ||
+        value === ""
+    ){
+        return "-";
+    }
+
+    const number =
+        Number(value);
+
+    if(!Number.isFinite(number)){
+        return String(value);
+    }
+
+    return "Rs " +
+        number.toLocaleString(
+            "en-PK",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        );
+}
+
+function formatDate(value){
+
+    if(!value || value === "-"){
+        return "-";
+    }
+
+    const date =
+        new Date(value);
+
+    if(Number.isNaN(date.getTime())){
+        return String(value);
+    }
+
+    return date.toLocaleDateString(
+        "en-PK",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+}
 
 function showEmpty(
     icon,
@@ -841,35 +844,16 @@ function showEmpty(
             </div>
 
             <div class="empty-title">
-                ${title}
+                ${escapeHtml(title)}
             </div>
 
             <div class="empty-text">
-                ${text}
+                ${escapeHtml(text)}
             </div>
 
         </div>
-
     `;
-
 }
-
-
-/* SECURITY */
-
-function escapeHtml(value){
-
-    return value
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-/* BACK */
 
 function goBack(){
 
@@ -884,30 +868,8 @@ function goBack(){
 
         window.location.href =
             "./home.html";
-
     }
-
 }
-
-
-/* AUTO UPDATE */
-
-window.addEventListener(
-    "storage",
-    function(e){
-
-        if(
-            e.key === "currentUser" ||
-            e.key === "referrals"
-        ){
-
-            loadTeam();
-
-        }
-
-    }
-);
-
 
 document.addEventListener(
     "DOMContentLoaded",
