@@ -1,517 +1,546 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aasan Rozgaar - Secure Registration Portal</title>
-<style>* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
 body {
-background: linear-gradient(135deg, #f0fdf4 0%, #e2f8eb 100%);
-color: #1e293b;
-padding-bottom: 40px;
-min-height: 100vh;
+    background: linear-gradient(135deg, #f0fdf4 0%, #e2f8eb 100%);
+    color: #1e293b;
+    padding-bottom: 40px;
+    min-height: 100vh;
 }
 
 .top-header {
-background: linear-gradient(135deg, #064e3b 0%, #0b6623 50%, #15803d 100%);
-color: white;
-padding: 18px 20px;
-display: flex;
-align-items: center;
-justify-content: space-between;
-border-bottom-left-radius: 25px;
-border-bottom-right-radius: 25px;
-box-shadow: 0 6px 20px rgba(11, 102, 35, 0.25);
+    background: linear-gradient(135deg, #064e3b 0%, #0b6623 50%, #15803d 100%);
+    color: white;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 0 6px 20px rgba(11, 102, 35, 0.25);
 }
 
 .back-link {
-color: white;
-text-decoration: none;
-font-size: 18px;
-font-weight: bold;
-background: rgba(255, 255, 255, 0.15);
-width: 35px;
-height: 35px;
-display: flex;
-align-items: center;
-justify-content: center;
-border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.15);
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 
 .header-title-link {
-color: white;
-text-decoration: none;
-font-size: 18px;
-font-weight: 800;
-letter-spacing: 0.5px;
-display: flex;
-align-items: center;
-gap: 6px;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .container {
-padding: 25px 20px;
-max-width: 500px;
-margin: 0 auto;
+    padding: 25px 20px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .brand-logo-box {
-text-align: center;
-margin-bottom: 25px;
-margin-top: 10px;
+    text-align: center;
+    margin-bottom: 25px;
+    margin-top: 10px;
 }
 
 .app-avatar {
-width: 75px;
-height: 75px;
-background: linear-gradient(135deg, #0b6623, #15803d);
-color: white;
-font-size: 32px;
-font-weight: 900;
-display: flex;
-align-items: center;
-justify-content: center;
-border-radius: 22px;
-margin: 0 auto 15px auto;
-box-shadow: 0 8px 20px rgba(11, 102, 35, 0.25);
-border: 3px solid #bbf7d0;
+    width: 75px;
+    height: 75px;
+    background: linear-gradient(135deg, #0b6623, #15803d);
+    color: white;
+    font-size: 32px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 22px;
+    margin: 0 auto 15px auto;
+    box-shadow: 0 8px 20px rgba(11, 102, 35, 0.25);
+    border: 3px solid #bbf7d0;
 }
 
 .brand-logo-box h1 {
-font-size: 24px;
-color: #064e3b;
-font-weight: 900;
-margin-bottom: 4px;
+    font-size: 24px;
+    color: #064e3b;
+    font-weight: 900;
+    margin-bottom: 4px;
 }
 
 .brand-logo-box p {
-font-size: 13px;
-color: #64748b;
-font-weight: 500;
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
 }
 
 .saved-accounts-box {
-background: white;
-border: 1.5px solid #bbf7d0;
-border-radius: 18px;
-padding: 18px;
-margin-bottom: 22px;
-box-shadow: 0 6px 20px rgba(0, 100, 0, 0.05);
+    background: white;
+    border: 1.5px solid #bbf7d0;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 22px;
+    box-shadow: 0 6px 20px rgba(0, 100, 0, 0.05);
 }
 
 .saved-accounts-box h4 {
-font-size: 14px;
-color: #0b6623;
-margin-bottom: 6px;
-font-weight: 700;
+    font-size: 14px;
+    color: #0b6623;
+    margin-bottom: 6px;
+    font-weight: 700;
 }
 
 .saved-accounts-box p {
-font-size: 12px;
-color: #64748b;
-margin-bottom: 12px;
-line-height: 1.5;
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 12px;
+    line-height: 1.5;
 }
 
 .no-account-badge {
-background: #f8fafc;
-padding: 10px 12px;
-border-radius: 10px;
-font-size: 12px;
-color: #475569;
-margin-bottom: 12px;
-border: 1px solid #e2e8f0;
-text-align: center;
-font-weight: 500;
+    background: #f8fafc;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #475569;
+    margin-bottom: 12px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    font-weight: 500;
 }
 
 .btn-choose-saved {
-display: block;
-width: 100%;
-background: #f0fdf4;
-color: #0b6623;
-border: 1.5px dashed #15803d;
-padding: 12px;
-border-radius: 12px;
-font-weight: 700;
-text-align: center;
-text-decoration: none;
-font-size: 13px;
+    display: block;
+    width: 100%;
+    background: #f0fdf4;
+    color: #0b6623;
+    border: 1.5px dashed #15803d;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    font-size: 13px;
 }
 
 .register-card {
-background: white;
-padding: 22px;
-border-radius: 20px;
-box-shadow: 0 10px 25px rgba(0, 100, 0, 0.06);
-border: 1.5px solid #d4ebd9;
+    background: white;
+    padding: 22px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 100, 0, 0.06);
+    border: 1.5px solid #d4ebd9;
 }
 
 .input-group {
-position: relative;
-margin-bottom: 18px;
+    position: relative;
+    margin-bottom: 18px;
 }
 
 .input-group input {
-width: 100%;
-padding: 15px 15px 15px 48px;
-border: 1.5px solid #cbd5e1;
-border-radius: 14px;
-font-size: 14px;
-background: #f8fafc;
-outline: none;
-color: #1e293b;
-font-weight: 600;
+    width: 100%;
+    padding: 15px 15px 15px 48px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 14px;
+    font-size: 14px;
+    background: #f8fafc;
+    outline: none;
+    color: #1e293b;
+    font-weight: 600;
 }
 
 .phone-group input {
-padding-left: 80px;
+    padding-left: 80px;
 }
 
 .phone-prefix {
-position: absolute;
-left: 15px;
-top: 50%;
-transform: translateY(-50%);
-color: #0b6623;
-font-weight: 800;
-font-size: 14px;
-background: #dcfce7;
-padding: 4px 8px;
-border-radius: 8px;
-z-index: 2;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0b6623;
+    font-weight: 800;
+    font-size: 14px;
+    background: #dcfce7;
+    padding: 4px 8px;
+    border-radius: 8px;
+    z-index: 2;
 }
 
 .input-icon {
-position: absolute;
-left: 15px;
-top: 50%;
-transform: translateY(-50%);
-color: #0b6623;
-font-size: 18px;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0b6623;
+    font-size: 18px;
 }
 
 .phone-group .input-icon {
-left: 55px;
+    left: 55px;
 }
 
 .input-group input:focus {
-border-color: #0b6623;
-background: white;
-box-shadow: 0 0 0 4px rgba(11, 102, 35, 0.1);
+    border-color: #0b6623;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(11, 102, 35, 0.1);
 }
 
 .btn-register-now {
-background: linear-gradient(135deg, #0b6623, #15803d);
-color: white;
-width: 100%;
-padding: 15px;
-border: none;
-border-radius: 14px;
-font-size: 16px;
-font-weight: 800;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 10px;
-box-shadow: 0 6px 20px rgba(11, 102, 35, 0.3);
-margin-top: 10px;
+    background: linear-gradient(135deg, #0b6623, #15803d);
+    color: white;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 6px 20px rgba(11, 102, 35, 0.3);
+    margin-top: 10px;
 }
 
 .btn-register-now:disabled {
-opacity: 0.7;
-cursor: not-allowed;
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 
 .error-msg {
-color: #dc2626;
-font-size: 12px;
-margin-top: 6px;
-display: block;
-font-weight: 600;
+    color: #dc2626;
+    font-size: 12px;
+    margin-top: 6px;
+    display: block;
+    font-weight: 600;
 }
 
 .referral-info {
-display: none;
-background: #f0fdf4;
-border: 1px solid #bbf7d0;
-color: #0b6623;
-padding: 12px;
-border-radius: 12px;
-margin-bottom: 18px;
-font-size: 12px;
-line-height: 1.5;
+    display: none;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #0b6623;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    line-height: 1.5;
 }
 
 .divider-or {
-text-align: center;
-margin: 22px 0;
-position: relative;
+    text-align: center;
+    margin: 22px 0;
+    position: relative;
 }
 
 .divider-or span {
-background: white;
-padding: 0 12px;
-font-size: 12px;
-color: #64748b;
-position: relative;
-z-index: 1;
-font-weight: 700;
-letter-spacing: 1px;
+    background: white;
+    padding: 0 12px;
+    font-size: 12px;
+    color: #64748b;
+    position: relative;
+    z-index: 1;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
 .divider-or::before {
-content: "";
-position: absolute;
-top: 50%;
-left: 0;
-width: 100%;
-height: 1.5px;
-background: #e2e8f0;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: #e2e8f0;
 }
 
 .login-redirect {
-text-align: center;
-font-size: 13px;
-color: #475569;
-margin-top: 5px;
-font-weight: 500;
+    text-align: center;
+    font-size: 13px;
+    color: #475569;
+    margin-top: 5px;
+    font-weight: 500;
 }
 
 .login-redirect a {
-color: #0b6623;
-text-decoration: none;
-font-weight: 800;
+    color: #0b6623;
+    text-decoration: none;
+    font-weight: 800;
 }
 
 .footer-features {
-display: flex;
-justify-content: space-around;
-text-align: center;
-background: white;
-padding: 16px 10px;
-border-radius: 18px;
-box-shadow: 0 6px 20px rgba(0, 100, 0, 0.05);
-margin-top: 20px;
-border: 1.5px solid #d4ebd9;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    background: white;
+    padding: 16px 10px;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 100, 0, 0.05);
+    margin-top: 20px;
+    border: 1.5px solid #d4ebd9;
 }
 
 .feature-item {
-flex: 1;
-cursor: pointer;
-padding: 4px;
-text-decoration: none;
-color: inherit;
-display: block;
+    flex: 1;
+    cursor: pointer;
+    padding: 4px;
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
 .feature-icon {
-font-size: 20px;
-margin-bottom: 4px;
+    font-size: 20px;
+    margin-bottom: 4px;
 }
 
 .feature-item h5 {
-font-size: 11px;
-color: #1e293b;
-font-weight: 700;
-margin-top: 2px;
+    font-size: 11px;
+    color: #1e293b;
+    font-weight: 700;
+    margin-top: 2px;
 }
 
 .feature-item p {
-font-size: 9px;
-color: #64748b;
-font-weight: 500;
+    font-size: 9px;
+    color: #64748b;
+    font-weight: 500;
 }
-
 </style>
-</head><body><div class="top-header">
-    <a href="index.html" class="back-link">&#8592;</a><a href="index.html" class="header-title-link">
-    <span>🛡️</span>
-    Aasan Rozgaar
-</a>
+</head>
 
-<div style="width:35px;"></div>
+<body>
 
-</div><div class="container"><div class="brand-logo-box"><div class="app-avatar">
-    AR
-</div>
+<div class="top-header">
+    <a href="index.html" class="back-link">&#8592;</a>
 
-<h1>Create Account</h1>
-
-<p>
-    Join us today and start your journey
-</p>
-
-</div><div class="saved-accounts-box"><h4>
-    🔑 Saved Accounts
-</h4>
-
-<p>
-    On this browser: Accounts are saved automatically
-    after successful registration or login.
-</p>
-
-<div class="no-account-badge" id="savedAccountText">
-    No saved account yet. Fill details below.
-</div>
-
-<a href="#" class="btn-choose-saved">
-    Choose Saved Account →
-</a>
-
-</div><div class="register-card"><div id="referralInfo" class="referral-info"></div>
-
-<form id="registerForm">
-
-    <div class="input-group">
-
-        <span class="input-icon">
-            👤
-        </span>
-
-        <input
-            type="text"
-            id="username"
-            placeholder="Username"
-            required
-        >
-
-        <span
-            id="userError"
-            class="error-msg">
-        </span>
-
-    </div>
-
-    <div class="input-group phone-group">
-
-        <span class="phone-prefix">
-            +92
-        </span>
-
-        <span class="input-icon">
-            📱
-        </span>
-
-        <input
-            type="tel"
-            id="phone"
-            placeholder="3001234567"
-            maxlength="10"
-            inputmode="numeric"
-            required
-        >
-
-        <span
-            id="phoneError"
-            class="error-msg">
-        </span>
-
-    </div>
-
-    <div class="input-group">
-
-        <span class="input-icon">
-            🔒
-        </span>
-
-        <input
-            type="password"
-            id="password"
-            placeholder="Create Password"
-            minlength="6"
-            required
-        >
-
-    </div>
-
-    <button
-        type="submit"
-        id="registerButton"
-        class="btn-register-now">
-
-        Register Now
-        <span>→</span>
-
-    </button>
-
-</form>
-
-<div class="divider-or">
-
-    <span>
-        OR
-    </span>
-
-</div>
-
-<div class="login-redirect">
-
-    Already have an account?
-
-    <a href="login.html">
-        Login Now
+    <a href="index.html" class="header-title-link">
+        <span>🛡️</span>
+        Aasan Rozgaar
     </a>
 
+    <div style="width:35px;"></div>
 </div>
 
-</div><div class="footer-features"><div class="feature-item">
+<div class="container">
 
-    <div class="feature-icon">
-        🛡️
+    <div class="brand-logo-box">
+
+        <div class="app-avatar">
+            AR
+        </div>
+
+        <h1>Create Account</h1>
+
+        <p>
+            Join us today and start your journey
+        </p>
+
     </div>
 
-    <h5>
-        100% Secure
-    </h5>
+    <div class="saved-accounts-box">
 
-    <p>
-        Encrypted data
-    </p>
+        <h4>
+            🔑 Saved Accounts
+        </h4>
+
+        <p>
+            On this browser: Accounts are saved automatically
+            after successful registration or login.
+        </p>
+
+        <div class="no-account-badge" id="savedAccountText">
+            No saved account yet. Fill details below.
+        </div>
+
+        <a href="#" class="btn-choose-saved">
+            Choose Saved Account →
+        </a>
+
+    </div>
+
+    <div class="register-card">
+
+        <div id="referralInfo" class="referral-info"></div>
+
+        <form id="registerForm">
+
+            <div class="input-group">
+
+                <span class="input-icon">
+                    👤
+                </span>
+
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Username"
+                    required
+                >
+
+                <span
+                    id="userError"
+                    class="error-msg">
+                </span>
+
+            </div>
+
+            <div class="input-group phone-group">
+
+                <span class="phone-prefix">
+                    +92
+                </span>
+
+                <span class="input-icon">
+                    📱
+                </span>
+
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="3001234567"
+                    maxlength="10"
+                    inputmode="numeric"
+                    required
+                >
+
+                <span
+                    id="phoneError"
+                    class="error-msg">
+                </span>
+
+            </div>
+
+            <div class="input-group">
+
+                <span class="input-icon">
+                    🔒
+                </span>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create Password"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+            <button
+                type="submit"
+                id="registerButton"
+                class="btn-register-now">
+
+                Register Now
+                <span>→</span>
+
+            </button>
+
+        </form>
+
+        <div class="divider-or">
+
+            <span>
+                OR
+            </span>
+
+        </div>
+
+        <div class="login-redirect">
+
+            Already have an account?
+
+            <a href="login.html">
+                Login Now
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="footer-features">
+
+        <div class="feature-item">
+
+            <div class="feature-icon">
+                🛡️
+            </div>
+
+            <h5>
+                100% Secure
+            </h5>
+
+            <p>
+                Encrypted data
+            </p>
+
+        </div>
+
+        <div class="feature-item">
+
+            <div class="feature-icon">
+                ⚡
+            </div>
+
+            <h5>
+                Fast Hub
+            </h5>
+
+            <p>
+                Instant access
+            </p>
+
+        </div>
+
+        <a
+            href="tel:+447718486232"
+            class="feature-item">
+
+            <div class="feature-icon">
+                💬
+            </div>
+
+            <h5>
+                24/7 Support
+            </h5>
+
+            <p>
+                Live assistance
+            </p>
+
+        </a>
+
+    </div>
 
 </div>
 
-<div class="feature-item">
-
-    <div class="feature-icon">
-        ⚡
-    </div>
-
-    <h5>
-        Fast Hub
-    </h5>
-
-    <p>
-        Instant access
-    </p>
-
-</div>
-
-<a
-    href="tel:+447718486232"
-    class="feature-item">
-
-    <div class="feature-icon">
-        💬
-    </div>
-
-    <h5>
-        24/7 Support
-    </h5>
-
-    <p>
-        Live assistance
-    </p>
-
-</a>
-
-</div></div><script>
+<script>
 
 const BACKEND_URL =
     "https://aasan-rozgaar-backend.onrender.com";
@@ -555,7 +584,12 @@ async function findReferrerByCode(referralCode) {
                 "/api/referral/" +
                 encodeURIComponent(
                     referralCode
-                )
+                ),
+                {
+                    method: "GET",
+                    credentials: "include",
+                    cache: "no-store"
+                }
             );
 
         if (!response.ok) {
@@ -566,7 +600,7 @@ async function findReferrerByCode(referralCode) {
             await response.json();
 
         if (
-            result.success &&
+            result.success === true &&
             result.referrer
         ) {
             return result.referrer;
@@ -757,6 +791,8 @@ document
 
                         headers: {
                             "Content-Type":
+                                "application/json",
+                            "Accept":
                                 "application/json"
                         },
 
@@ -798,7 +834,7 @@ document
             if (
                 !response.ok ||
                 !result ||
-                !result.success
+                result.success !== true
             ) {
 
                 alert(
@@ -822,8 +858,18 @@ document
             ) {
 
                 sessionStorage.setItem(
+                    "userSessionToken",
+                    result.sessionToken
+                );
+
+                sessionStorage.setItem(
                     "sessionToken",
                     result.sessionToken
+                );
+
+                sessionStorage.setItem(
+                    "userCsrfToken",
+                    result.csrfToken
                 );
 
                 sessionStorage.setItem(
@@ -831,10 +877,23 @@ document
                     result.csrfToken
                 );
 
+                sessionStorage.setItem(
+                    "username",
+                    result.user?.username ||
+                    username
+                );
+
+                sessionStorage.setItem(
+                    "currentUser",
+                    result.user?.username ||
+                    username
+                );
+
             }
 
             localStorage.setItem(
                 "currentUser",
+                result.user?.username ||
                 username
             );
 
@@ -843,18 +902,29 @@ document
                 "true"
             );
 
+            localStorage.setItem(
+                "backendUser",
+                JSON.stringify(
+                    result.user || {}
+                )
+            );
+
             document.getElementById(
                 "savedAccountText"
             ).textContent =
                 "Account saved: " +
-                username;
+                (
+                    result.user?.username ||
+                    username
+                );
 
             alert(
                 "Account created successfully!"
             );
 
-            window.location.href =
-                "home.html";
+            window.location.replace(
+                "home.html"
+            );
 
         } catch (error) {
 
@@ -887,5 +957,7 @@ document.addEventListener(
     }
 );
 
-</script></body>
+</script>
+
+</body>
 </html>
