@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aasan Rozgaar - Secure Login Portal</title>
+
     <style>
         * {
             margin: 0;
@@ -173,12 +174,6 @@
             border-radius: 8px;
         }
 
-        .input-group input:focus {
-            border-color: #0b6623;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(11, 102, 35, 0.1);
-        }
-
         .input-icon {
             position: absolute;
             left: 15px;
@@ -204,20 +199,6 @@
             gap: 10px;
             box-shadow: 0 6px 20px rgba(11, 102, 35, 0.3);
             margin-top: 10px;
-        }
-
-        .btn-login-now:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .error-msg {
-            color: #dc2626;
-            font-size: 12px;
-            margin-top: 6px;
-            display: block;
-            font-weight: 600;
-            min-height: 15px;
         }
 
         .divider-or {
@@ -301,325 +282,134 @@
 
 <body>
 
-<div class="top-header">
-    <a href="index.html" class="back-link">&#8592;</a>
+    <div class="top-header">
+        <a href="index.html" class="back-link">&#8592;</a>
 
-    <a href="index.html" class="header-title-link">
-        <span>🛡️</span>
-        Aasan Rozgaar
-    </a>
+        <a href="index.html" class="header-title-link">
+            <span>🛡️</span>
+            Aasan Rozgaar
+        </a>
 
-    <div style="width:35px;"></div>
-</div>
-
-<div class="container">
-
-    <div class="brand-logo-box">
-        <div class="app-avatar">AR</div>
-
-        <h1>Login Account</h1>
-
-        <p>
-            Welcome back! Securely sign in to your dashboard
-        </p>
+        <div style="width:35px;"></div>
     </div>
 
-    <div class="saved-accounts-box">
+    <div class="container">
 
-        <h4>🔑 Account Login</h4>
+        <div class="brand-logo-box">
+            <div class="app-avatar">AR</div>
 
-        <p>
-            Your account is securely verified through the Aasan Rozgaar backend.
-        </p>
+            <h1>Login Account</h1>
 
-        <div class="no-account-badge">
-            Enter your registered phone number and password below.
+            <p>
+                Welcome back! Securely sign in to your dashboard
+            </p>
         </div>
 
-    </div>
+        <div class="saved-accounts-box">
 
-    <div class="login-card">
+            <h4>🔑 Account Login</h4>
 
-        <form id="loginForm">
+            <p>
+                Your account is securely verified through the Aasan Rozgaar backend.
+            </p>
 
-            <div class="input-group phone-group">
-
-                <span class="phone-prefix">+92</span>
-
-                <span
-                    class="input-icon"
-                    style="left:55px;"
-                >
-                    📱
-                </span>
-
-                <input
-                    type="tel"
-                    id="loginPhone"
-                    placeholder="3001234567"
-                    maxlength="10"
-                    inputmode="numeric"
-                    autocomplete="tel"
-                    required
-                >
-
+            <div class="no-account-badge">
+                Enter your registered phone number and password below.
             </div>
 
-            <div class="input-group">
+        </div>
 
-                <span class="input-icon">🔒</span>
+        <div class="login-card">
 
-                <input
-                    type="password"
-                    id="loginPass"
-                    placeholder="Enter your password"
-                    autocomplete="current-password"
-                    required
+            <form id="loginForm">
+
+                <div class="input-group phone-group">
+
+                    <span class="phone-prefix">+92</span>
+
+                    <span
+                        class="input-icon"
+                        style="left:55px;"
+                    >
+                        📱
+                    </span>
+
+                    <input
+                        type="tel"
+                        id="loginPhone"
+                        placeholder="3001234567"
+                        maxlength="10"
+                        inputmode="numeric"
+                        autocomplete="tel"
+                        required
+                    >
+
+                </div>
+
+                <div class="input-group">
+
+                    <span class="input-icon">🔒</span>
+
+                    <input
+                        type="password"
+                        id="loginPass"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn-login-now"
+                    id="loginButton"
                 >
+                    Login Now <span>&rarr;</span>
+                </button>
 
-                <span
-                    id="loginError"
-                    class="error-msg"
-                    aria-live="polite"
-                ></span>
+            </form>
 
+            <div class="divider-or">
+                <span>OR</span>
             </div>
 
-            <button
-                type="submit"
-                class="btn-login-now"
-                id="loginButton"
+            <div class="register-redirect">
+                Don't have an account?
+
+                <a href="register.html">
+                    Register Now
+                </a>
+            </div>
+
+        </div>
+
+        <div class="footer-features">
+
+            <div class="feature-item">
+                <div class="feature-icon">🛡️</div>
+                <h5>Secure</h5>
+                <p>Protected login</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <h5>Fast</h5>
+                <p>Quick access</p>
+            </div>
+
+            <div
+                class="feature-item"
+                onclick="window.open('https://api.whatsapp.com/send?phone=447718486232', '_blank')"
             >
-                Login Now <span>&rarr;</span>
-            </button>
+                <div class="feature-icon">💬</div>
+                <h5>Support</h5>
+                <p>Live assistance</p>
+            </div>
 
-        </form>
-
-        <div class="divider-or">
-            <span>OR</span>
-        </div>
-
-        <div class="register-redirect">
-            Don't have an account?
-
-            <a href="register.html">
-                Register Now
-            </a>
         </div>
 
     </div>
-
-    <div class="footer-features">
-
-        <div class="feature-item">
-            <div class="feature-icon">🛡️</div>
-            <h5>Secure</h5>
-            <p>Protected login</p>
-        </div>
-
-        <div class="feature-item">
-            <div class="feature-icon">⚡</div>
-            <h5>Fast</h5>
-            <p>Quick access</p>
-        </div>
-
-        <div
-            class="feature-item"
-            onclick="window.open('https://api.whatsapp.com/send?phone=447718486232', '_blank')"
-        >
-            <div class="feature-icon">💬</div>
-            <h5>Support</h5>
-            <p>Live assistance</p>
-        </div>
-
-    </div>
-
-</div>
-
-<script>
-const BACKEND_URL =
-    "https://aasan-rozgaar-backend.onrender.com";
-
-const loginForm =
-    document.getElementById("loginForm");
-
-const loginPhone =
-    document.getElementById("loginPhone");
-
-const loginPass =
-    document.getElementById("loginPass");
-
-const loginError =
-    document.getElementById("loginError");
-
-const loginButton =
-    document.getElementById("loginButton");
-
-loginForm.addEventListener(
-    "submit",
-    async function (event) {
-
-        event.preventDefault();
-
-        loginError.textContent = "";
-
-        const phoneInput =
-            loginPhone.value.trim();
-
-        const password =
-            loginPass.value;
-
-        if (!/^[0-9]{10}$/.test(phoneInput)) {
-
-            loginError.textContent =
-                "Please enter valid 10 digits after +92.";
-
-            return;
-        }
-
-        if (!password) {
-
-            loginError.textContent =
-                "Please enter your password.";
-
-            return;
-        }
-
-        const fullPhone =
-            "+92" + phoneInput;
-
-        loginButton.disabled = true;
-
-        loginButton.innerHTML =
-            "Logging in...";
-
-        try {
-
-            const response =
-                await fetch(
-                    BACKEND_URL + "/api/login",
-                    {
-                        method: "POST",
-
-                        credentials: "include",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json",
-
-                            "Accept":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-                            phone:
-                                fullPhone,
-
-                            password:
-                                password
-                        })
-                    }
-                );
-
-            let data = null;
-
-            try {
-                data =
-                    await response.json();
-            } catch {
-                data = null;
-            }
-
-            if (
-                !response.ok ||
-                !data ||
-                data.success !== true ||
-                !data.user ||
-                !data.sessionToken ||
-                !data.csrfToken
-            ) {
-
-                loginError.textContent =
-                    data?.message ||
-                    "Login failed. Please try again.";
-
-                return;
-            }
-
-            const username =
-                String(
-                    data.user.username
-                );
-
-            sessionStorage.setItem(
-                "sessionToken",
-                data.sessionToken
-            );
-
-            sessionStorage.setItem(
-                "userSessionToken",
-                data.sessionToken
-            );
-
-            sessionStorage.setItem(
-                "csrfToken",
-                data.csrfToken
-            );
-
-            sessionStorage.setItem(
-                "userCsrfToken",
-                data.csrfToken
-            );
-
-            sessionStorage.setItem(
-                "username",
-                username
-            );
-
-            sessionStorage.setItem(
-                "currentUser",
-                username
-            );
-
-            localStorage.setItem(
-                "currentUser",
-                username
-            );
-
-            localStorage.setItem(
-                "isLoggedIn",
-                "true"
-            );
-
-            localStorage.setItem(
-                "backendUser",
-                JSON.stringify(data.user)
-            );
-
-            window.location.replace(
-                "home.html"
-            );
-
-        } catch (error) {
-
-            console.error(
-                "Login error:",
-                error
-            );
-
-            loginError.textContent =
-                "Unable to connect to server. Please try again.";
-
-        } finally {
-
-            loginButton.disabled = false;
-
-            loginButton.innerHTML =
-                'Login Now <span>&rarr;</span>';
-        }
-    }
-);
-</script>
 
 </body>
 </html>
