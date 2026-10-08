@@ -345,10 +345,6 @@ function saveSessionData(data){
 
 async function loadLiveBalance(username){
 
-    if(!username){
-        return;
-    }
-
     const token =
         getUserSessionToken();
 
@@ -361,9 +357,7 @@ async function loadLiveBalance(username){
 
         const response =
             await fetch(
-                API_URL +
-                "/api/balance/" +
-                encodeURIComponent(username),
+                API_URL + "/api/balance/me",
                 {
                     method:"GET",
                     headers:authHeaders(false),
