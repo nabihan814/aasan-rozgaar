@@ -35,20 +35,19 @@
     }
 
     .section-title {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
     }
 
     .methods {
         display: flex;
-        gap: 10px;
-        overflow-x: auto;
-        padding-bottom: 5px;
+        gap: 15px;
+        margin-bottom: 15px;
     }
 
     .method-card {
-        min-width: 145px;
+        flex: 1;
         background: white;
         border: 2px solid #ddd;
         border-radius: 12px;
@@ -67,14 +66,21 @@
         font-size: 15px;
     }
 
-    .info-box {
-        background: #eafff3;
-        border-left: 4px solid #0b8f55;
-        padding: 14px;
-        margin: 15px 0;
+    .video-container {
+        background: white;
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+
+    .video-container video, 
+    .video-container iframe {
+        width: 100%;
+        max-height: 220px;
         border-radius: 8px;
-        line-height: 1.6;
-        word-break: break-word;
+        border: none;
     }
 
     .form-group {
@@ -85,6 +91,7 @@
         display: block;
         font-weight: bold;
         margin-bottom: 7px;
+        font-size: 14px;
     }
 
     input[type="number"],
@@ -99,26 +106,6 @@
 
     input:focus {
         border-color: #0b8f55;
-    }
-
-    .upload-box {
-        background: white;
-        border: 2px dashed #aaa;
-        border-radius: 10px;
-        padding: 18px;
-        text-align: center;
-        cursor: pointer;
-    }
-
-    .upload-box input {
-        display: none;
-    }
-
-    .file-name {
-        margin-top: 8px;
-        font-size: 13px;
-        color: #555;
-        word-break: break-word;
     }
 
     .submit-btn {
@@ -136,10 +123,7 @@
     .submit-btn:disabled {
         opacity: 0.6;
         cursor: not-allowed;
-    }
-
-    .submit-btn:active {
-        transform: scale(.98);
+        background: #999;
     }
 
     .bottom-nav {
@@ -178,18 +162,30 @@
 
 <div class="container">
 
-    <div class="section-title">
-        Active Payment Methods
+    <!-- VIDEO SECTION: Yahan aap apni video link ya file laga sakte hain jo sab users ko show hogi -->
+    <div class="video-container">
+        <div class="section-title" style="margin-bottom: 8px;">How to Deposit Tutorial</div>
+        <video controls>
+            <source src="YOUR_VIDEO_LINK_HERE.mp4" type="video/mp4">
+            Aap ka browser video tag support nahi karta.
+        </video>
     </div>
 
-    <div class="methods" id="paymentMethods"></div>
+    <div class="section-title">
+        Select Payment Method
+    </div>
 
-    <div class="info-box" id="infoBox">
-        Payment method select karein.
+    <div class="methods">
+        <div class="method-card active" id="card-jazzcash" onclick="selectMethod('JazzCash')">
+            <div class="method-name">JazzCash</div>
+        </div>
+        <div class="method-card" id="card-easypaisa" onclick="selectMethod('EasyPaisa')">
+            <div class="method-name">EasyPaisa</div>
+        </div>
     </div>
 
     <div class="form-group">
-        <label>Amount</label>
+        <label>Deposit Amount</label>
         <input
             type="number"
             id="amount"
@@ -199,31 +195,21 @@
     </div>
 
     <div class="form-group">
-        <label>TID / Transaction ID</label>
+        <label>Sender Name</label>
         <input
             type="text"
-            id="trxid"
-            placeholder="Enter Transaction ID"
+            id="senderName"
+            placeholder="Enter sender name"
         >
     </div>
 
     <div class="form-group">
-        <label>Payment Screenshot</label>
-
-        <label class="upload-box">
-            <input
-                type="file"
-                id="screenshot"
-                accept="image/*"
-                onchange="handleFileSelect(event)"
-            >
-
-            <div>📷 Select Payment Screenshot</div>
-
-            <div class="file-name" id="fileNameText">
-                No file selected
-            </div>
-        </label>
+        <label>Sender Phone Number</label>
+        <input
+            type="text"
+            id="senderNumber"
+            placeholder="Enter sender phone number"
+        >
     </div>
 
     <button
@@ -248,31 +234,30 @@
 const API_URL =
     'https://aasan-rozgaar-backend.onrender.com';
 
-let selectedMethodId = null;
-let selectedMethodName = '';
-let selectedMethodDetails = '';
-let uploadedImageBase64 = '';
-let lastMethodsJSON = '';
-let depositMethods = [];
+let selectedMethod = 'JazzCash';
 
+function selectMethod(methodName) {
+    selectedMethod = methodName;
+    
+    document.getElementById('card-jazzcash').classList.remove('active');
+    document.getElementById('card-easypaisa').classList.remove('active');
 
-// ======================================
-// USER AUTH
-// ======================================
+    if(methodName === 'JazzCash') {
+        document.getElementById('card-jazzcash').classList.add('active');
+    } else {
+        document.getElementById('card-easypaisa').classList.add('active');
+    }
+}
 
 function getCurrentUsername() {
-
     return (
         localStorage.getItem('currentUser') ||
         sessionStorage.getItem('currentUser') ||
         ''
     ).trim();
-
 }
 
-
 function getUserSessionToken() {
-
     return (
         sessionStorage.getItem('userSessionToken') ||
         sessionStorage.getItem('sessionToken') ||
@@ -280,12 +265,9 @@ function getUserSessionToken() {
         localStorage.getItem('sessionToken') ||
         ''
     ).trim();
-
 }
 
-
 function getUserCsrfToken() {
-
     return (
         sessionStorage.getItem('userCsrfToken') ||
         sessionStorage.getItem('csrfToken') ||
@@ -293,945 +275,166 @@ function getUserCsrfToken() {
         localStorage.getItem('csrfToken') ||
         ''
     ).trim();
-
 }
-
 
 function userHeaders(includeCsrf = false) {
-
-    const token =
-        getUserSessionToken();
-
-    const csrfToken =
-        getUserCsrfToken();
-
-    const headers = {
-        'Accept': 'application/json'
-    };
+    const token = getUserSessionToken();
+    const csrfToken = getUserCsrfToken();
+    const headers = { 'Accept': 'application/json' };
 
     if (token) {
-
-        headers['Authorization'] =
-            'Bearer ' + token;
-
+        headers['Authorization'] = 'Bearer ' + token;
     }
-
-    if (
-        includeCsrf &&
-        csrfToken
-    ) {
-
-        headers['X-CSRF-Token'] =
-            csrfToken;
-
+    if (includeCsrf && csrfToken) {
+        headers['X-CSRF-Token'] = csrfToken;
     }
-
     return headers;
-
 }
 
-
-// ======================================
-// INITIALIZE
-// ======================================
-
-function initUserDeposit() {
-
-    loadActiveMethods();
-
-}
-
-
-// ======================================
-// GET ACTIVE PAYMENT METHODS
-// ======================================
-
-async function getDepositTypes() {
+async function checkPendingRequests() {
+    const username = getCurrentUsername();
+    if (!username) return;
 
     try {
-
-        const response =
-            await fetch(
-                API_URL +
-                '/api/deposit-types/active',
-                {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: userHeaders()
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                'Payment methods load nahi ho rahe.'
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        if (
-            !data ||
-            !Array.isArray(
-                data.depositTypes
-            )
-        ) {
-
-            return [];
-
-        }
-
-
-        return data.depositTypes;
-
-    } catch (error) {
-
-        console.error(
-            'Payment methods error:',
-            error
-        );
-
-        return [];
-
-    }
-
-}
-
-
-// ======================================
-// SYNC PAYMENT METHODS
-// ======================================
-
-async function syncPaymentMethods() {
-
-    await loadActiveMethods();
-
-}
-
-
-// ======================================
-// LOAD ACTIVE METHODS
-// ======================================
-
-async function loadActiveMethods() {
-
-    const container =
-        document.getElementById(
-            'paymentMethods'
-        );
-
-    if (!container) return;
-
-
-    container.innerHTML = `
-        <div style="
-            background:white;
-            padding:15px;
-            border-radius:10px;
-            width:100%;
-            text-align:center;
-            color:#777;
-        ">
-            Loading payment methods...
-        </div>
-    `;
-
-
-    const methods =
-        await getDepositTypes();
-
-
-    depositMethods =
-        methods;
-
-
-    lastMethodsJSON =
-        JSON.stringify(methods);
-
-
-    const activeMethods =
-        methods.filter(function(method) {
-
-            return method.status === 'Active';
-
+        const response = await fetch(API_URL + '/api/deposits', {
+            method: 'GET',
+            headers: userHeaders()
         });
 
+        if (response.ok) {
+            const data = await response.json();
+            const requests = Array.isArray(data.deposits) ? data.deposits : [];
 
-    container.innerHTML = '';
-
-
-    if (activeMethods.length === 0) {
-
-        container.innerHTML = `
-            <div style="
-                background:white;
-                padding:15px;
-                border-radius:10px;
-                width:100%;
-                text-align:center;
-                color:#777;
-            ">
-                No active payment method available.
-            </div>
-        `;
-
-        selectedMethodId = null;
-        selectedMethodName = '';
-        selectedMethodDetails = '';
-
-        updateInfoBox();
-
-        return;
-
-    }
-
-
-    activeMethods.forEach(function(method) {
-
-        const card =
-            document.createElement('div');
-
-
-        card.className =
-            'method-card';
-
-
-        if (
-            String(method.id) ===
-            String(selectedMethodId)
-        ) {
-
-            card.classList.add(
-                'active'
+            const hasActiveRequest = requests.some(req => 
+                String(req.username || '').toLowerCase() === username.toLowerCase() &&
+                (req.status === 'Pending' || req.status === 'Inprocess')
             );
 
-        }
-
-
-        card.innerHTML = `
-            <div class="method-name">
-                ${escapeHTML(
-                    method.name ||
-                    'Payment Method'
-                )}
-            </div>
-        `;
-
-
-        card.onclick = function() {
-
-            selectMethodById(
-                method.id
-            );
-
-        };
-
-
-        container.appendChild(card);
-
-    });
-
-
-    if (
-        selectedMethodId &&
-        activeMethods.some(function(method) {
-
-            return (
-                String(method.id) ===
-                String(selectedMethodId)
-            );
-
-        })
-    ) {
-
-        selectMethodById(
-            selectedMethodId
-        );
-
-    } else {
-
-        selectMethodById(
-            activeMethods[0].id
-        );
-
-    }
-
-}
-
-
-// ======================================
-// SELECT PAYMENT METHOD
-// ======================================
-
-function selectMethodById(id) {
-
-    const method =
-        depositMethods.find(function(item) {
-
-            return (
-                String(item.id) ===
-                String(id) &&
-                item.status === 'Active'
-            );
-
-        });
-
-
-    if (!method) return;
-
-
-    selectedMethodId =
-        method.id;
-
-
-    selectedMethodName =
-        method.name || '';
-
-
-    selectedMethodDetails =
-        method.details || '';
-
-
-    const cards =
-        document.querySelectorAll(
-            '.method-card'
-        );
-
-
-    cards.forEach(function(card) {
-
-        card.classList.remove(
-            'active'
-        );
-
-
-        const title =
-            card.querySelector(
-                '.method-name'
-            );
-
-
-        if (
-            title &&
-            title.innerText.trim() ===
-            selectedMethodName.trim()
-        ) {
-
-            card.classList.add(
-                'active'
-            );
-
-        }
-
-    });
-
-
-    updateInfoBox();
-
-}
-
-
-// ======================================
-// UPDATE INFO BOX
-// ======================================
-
-function updateInfoBox() {
-
-    const infoBox =
-        document.getElementById(
-            'infoBox'
-        );
-
-
-    if (!selectedMethodName) {
-
-        infoBox.innerHTML =
-            'Payment method select karein.';
-
-        return;
-
-    }
-
-
-    infoBox.innerHTML = `
-        <strong>
-            ${escapeHTML(
-                selectedMethodName
-            )}
-        </strong>
-        <br>
-        ${escapeHTML(
-            selectedMethodDetails
-        ).replace(/\n/g, '<br>')}
-    `;
-
-}
-
-
-// ======================================
-// SCREENSHOT SELECT
-// ======================================
-
-function handleFileSelect(event) {
-
-    const file =
-        event.target.files[0];
-
-
-    if (!file) return;
-
-
-    if (
-        !file.type.startsWith(
-            'image/'
-        )
-    ) {
-
-        alert(
-            'Sirf image screenshot upload karein.'
-        );
-
-        event.target.value = '';
-
-        uploadedImageBase64 = '';
-
-        document.getElementById(
-            'fileNameText'
-        ).innerText =
-            'No file selected';
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        'fileNameText'
-    ).innerText =
-        file.name +
-        ' — Processing...';
-
-
-    uploadedImageBase64 = '';
-
-
-    compressImage(
-        file,
-        function(result) {
-
-            if (!result) {
-
-                alert(
-                    'Screenshot process nahi ho saka. Dobara try karein.'
-                );
-
-                document.getElementById(
-                    'fileNameText'
-                ).innerText =
-                    'No file selected';
-
-                return;
-
+            const submitButton = document.getElementById('submitButton');
+            if (hasActiveRequest) {
+                submitButton.disabled = true;
+                submitButton.innerText = 'Request Already Pending...';
+            } else {
+                submitButton.disabled = false;
+                submitButton.innerText = 'Submit Deposit Request';
             }
-
-
-            uploadedImageBase64 =
-                result;
-
-
-            document.getElementById(
-                'fileNameText'
-            ).innerText =
-                file.name +
-                ' — Ready';
-
         }
-    );
-
+    } catch (error) {
+        console.error('Check pending error:', error);
+    }
 }
-
-
-// ======================================
-// COMPRESS IMAGE
-// ======================================
-
-function compressImage(
-    file,
-    callback
-) {
-
-    const reader =
-        new FileReader();
-
-
-    reader.onload =
-        function(e) {
-
-            const img =
-                new Image();
-
-
-            img.onload =
-                function() {
-
-                    let width =
-                        img.width;
-
-                    let height =
-                        img.height;
-
-
-                    const maxWidth =
-                        1200;
-
-                    const maxHeight =
-                        1600;
-
-
-                    if (
-                        width >
-                        maxWidth
-                    ) {
-
-                        const ratio =
-                            maxWidth /
-                            width;
-
-                        width =
-                            maxWidth;
-
-                        height =
-                            Math.round(
-                                height *
-                                ratio
-                            );
-
-                    }
-
-
-                    if (
-                        height >
-                        maxHeight
-                    ) {
-
-                        const ratio =
-                            maxHeight /
-                            height;
-
-                        height =
-                            maxHeight;
-
-                        width =
-                            Math.round(
-                                width *
-                                ratio
-                            );
-
-                    }
-
-
-                    const canvas =
-                        document.createElement(
-                            'canvas'
-                        );
-
-
-                    canvas.width =
-                        width;
-
-                    canvas.height =
-                        height;
-
-
-                    const ctx =
-                        canvas.getContext(
-                            '2d'
-                        );
-
-
-                    ctx.drawImage(
-                        img,
-                        0,
-                        0,
-                        width,
-                        height
-                    );
-
-
-                    let quality =
-                        0.75;
-
-                    let result =
-                        '';
-
-
-                    while (
-                        quality >=
-                        0.30
-                    ) {
-
-                        result =
-                            canvas.toDataURL(
-                                'image/jpeg',
-                                quality
-                            );
-
-
-                        if (
-                            result.length <=
-                            700000
-                        ) {
-
-                            break;
-
-                        }
-
-
-                        quality -=
-                            0.05;
-
-                    }
-
-
-                    callback(
-                        result
-                    );
-
-                };
-
-
-            img.onerror =
-                function() {
-
-                    callback(null);
-
-                };
-
-
-            img.src =
-                e.target.result;
-
-        };
-
-
-    reader.onerror =
-        function() {
-
-            callback(null);
-
-        };
-
-
-    reader.readAsDataURL(
-        file
-    );
-
-}
-
-
-// ======================================
-// SUBMIT DEPOSIT
-// ======================================
 
 async function submitDepositRequest() {
-
-    const username =
-        getCurrentUsername();
-
+    const username = getCurrentUsername();
 
     if (!username) {
-
-        alert(
-            'Pehle login karein.'
-        );
-
+        alert('Pehle login karein.');
         return;
-
     }
 
-
-    const sessionToken =
-        getUserSessionToken();
-
-
-    const csrfToken =
-        getUserCsrfToken();
-
+    const sessionToken = getUserSessionToken();
+    const csrfToken = getUserCsrfToken();
 
     if (!sessionToken || !csrfToken) {
-
-        alert(
-            'Login session expire ho gaya hai. Please dobara login karein.'
-        );
-
+        alert('Login session expire ho gaya hai. Please dobara login karein.');
         return;
-
     }
 
+    const amountInput = document.getElementById('amount').value.trim();
+    const senderName = document.getElementById('senderName').value.trim();
+    const senderNumber = document.getElementById('senderNumber').value.trim();
+    const amount = parseFloat(amountInput);
 
-    if (!selectedMethodId) {
-
-        alert(
-            'Payment method select karein.'
-        );
-
+    if (!amountInput || isNaN(amount) || amount <= 0) {
+        alert('Valid amount enter karein.');
         return;
-
     }
 
-
-    const amountInput =
-        document.getElementById(
-            'amount'
-        ).value.trim();
-
-
-    const trxid =
-        document.getElementById(
-            'trxid'
-        ).value.trim();
-
-
-    const amount =
-        parseFloat(
-            amountInput
-        );
-
-
-    if (
-        !amountInput ||
-        isNaN(amount) ||
-        amount <= 0
-    ) {
-
-        alert(
-            'Valid amount enter karein.'
-        );
-
+    if (!senderName) {
+        alert('Sender name enter karein.');
         return;
-
     }
 
-
-    if (!trxid) {
-
-        alert(
-            'Transaction ID enter karein.'
-        );
-
+    if (!senderNumber) {
+        alert('Sender phone number enter karein.');
         return;
-
     }
 
-
-    if (!uploadedImageBase64) {
-
-        alert(
-            'Payment screenshot upload karein.'
-        );
-
-        return;
-
-    }
-
-
-    const submitButton =
-        document.getElementById(
-            'submitButton'
-        );
-
-
-    submitButton.disabled =
-        true;
-
-
-    submitButton.innerText =
-        'Submitting...';
-
+    const submitButton = document.getElementById('submitButton');
+    submitButton.disabled = true;
+    submitButton.innerText = 'Submitting...';
 
     try {
-
-        const response =
-            await fetch(
-                API_URL +
-                '/api/deposits',
-                {
-
-                    method: 'POST',
-
-                    credentials: 'include',
-
-                    headers:
-                        {
-                            ...userHeaders(true),
-
-                            'Content-Type':
-                                'application/json'
-                        },
-
-                    body:
-                        JSON.stringify({
-
-                            username:
-                                username,
-
-                            amount:
-                                amount,
-
-                            method:
-                                selectedMethodName,
-
-                            transactionId:
-                                trxid,
-
-                            screenshot:
-                                uploadedImageBase64
-
-                        })
-
-                }
-            );
-
+        const response = await fetch(
+            API_URL + '/api/deposits',
+            {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    ...userHeaders(true),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    amount: amount,
+                    method: selectedMethod,
+                    transactionId: senderNumber,
+                    details: 'Sender: ' + senderName,
+                    screenshot: ""
+                })
+            }
+        );
 
         let data = null;
-
-
         try {
-
-            data =
-                await response.json();
-
+            data = await response.json();
         } catch (e) {
-
             data = null;
-
         }
 
-
-        if (
-            response.status === 401 ||
-            response.status === 403
-        ) {
-
-            alert(
-                data?.message ||
-                'Login session expire ho gaya hai. Please dobara login karein.'
-            );
-
+        if (response.status === 401 || response.status === 403) {
+            alert(data?.message || 'Login session expire ho gaya hai. Please dobara login karein.');
             return;
-
         }
-
 
         if (!response.ok) {
-
-            throw new Error(
-                data?.message ||
-                'Deposit request submit nahi ho saki.'
-            );
-
+            throw new Error(data?.message || 'Deposit request submit nahi ho saki.');
         }
 
+        alert('Deposit request successfully submit ho gayi. Admin approval ka wait karein.');
 
-        alert(
-            'Deposit request successfully submit ho gayi. Admin approval ka wait karein.'
-        );
+        document.getElementById('amount').value = '';
+        document.getElementById('senderName').value = '';
+        document.getElementById('senderNumber').value = '';
 
-
-        document.getElementById(
-            'amount'
-        ).value = '';
-
-
-        document.getElementById(
-            'trxid'
-        ).value = '';
-
-
-        document.getElementById(
-            'screenshot'
-        ).value = '';
-
-
-        document.getElementById(
-            'fileNameText'
-        ).innerText =
-            'No file selected';
-
-
-        uploadedImageBase64 = '';
-
+        checkPendingRequests();
 
     } catch (error) {
-
-        console.error(
-            'Deposit error:',
-            error
-        );
-
-
-        alert(
-            error.message ||
-            'Deposit request submit nahi ho saki. Dobara try karein.'
-        );
-
-    } finally {
-
-        submitButton.disabled =
-            false;
-
-
-        submitButton.innerText =
-            'Submit Deposit Request';
-
+        console.error('Deposit error:', error);
+        alert(error.message || 'Deposit request submit nahi ho saki. Dobara try karein.');
+        submitButton.disabled = false;
+        submitButton.innerText = 'Submit Deposit Request';
     }
-
 }
 
-
-// ======================================
-// ESCAPE HTML
-// ======================================
-
-function escapeHTML(value) {
-
-    return String(value || '')
-        .replace(
-            /&/g,
-            '&amp;'
-        )
-        .replace(
-            /</g,
-            '&lt;'
-        )
-        .replace(
-            />/g,
-            '&gt;'
-        )
-        .replace(
-            /"/g,
-            '&quot;'
-        )
-        .replace(
-            /'/g,
-            '&#039;'
-        );
-
-}
-
-
-// ======================================
-// START
-// ======================================
-
-initUserDeposit();
+checkPendingRequests();
+setInterval(checkPendingRequests, 5000);
 
 </script>
 
 </body>
 </html>
+
+    <!-- Deposit Guide Box (Urdu) -->
+    <div style="background: #ffffff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 15px; margin-top: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); text-direction: rtl; text-align: right;">
+        <div style="font-weight: bold; font-size: 15px; color: #0b8f55; margin-bottom: 8px;">
+            رقم جمع کروانے کا طریقہ:
+        </div>
+        <ol style="padding-right: 18px; padding-left: 0; font-size: 13px; color: #555; line-height: 1.6;">
+            <li>اوپر اپنا اکاؤنٹ سلیکٹ کریں جہاں سے پیسے سینڈ کرنا چاہتے ہیں۔</li>
+            <li>اپنی اماؤنٹ لکھیں جو ڈلوانا چاہتے ہیں۔</li>
+            <li>اپنا ایزی پیسہ یا جائز کیش کا نام لکھیں۔</li>
+            <li>اکاؤنٹ نمبر لکھیں۔</li>
+            <li>اور سبمٹ کر دیں، آپ کو ریکویسٹ بھیجی جائے گی آپ کے ایزی پیسہ یا جائز کیش میں، آپ اسےm اپروولز میں جاکر اپروو کر دیں۔</li>
+        </ol>
+    </div>
