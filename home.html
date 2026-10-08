@@ -357,7 +357,7 @@ async function loadLiveBalance(username){
 
         const response =
             await fetch(
-                API_URL + "/api/balance/me",
+                API_URL + "/api/balance/" + encodeURIComponent(username),
                 {
                     method:"GET",
                     headers:authHeaders(false),
