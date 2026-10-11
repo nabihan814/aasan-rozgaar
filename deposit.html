@@ -6,435 +6,460 @@
 <title>Deposit Funds - Aasan Rozgaar</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
-
-    body {
-        background: #f5f7f9;
-        color: #222;
-        padding-bottom: 80px;
-    }
-
-    .top-banner {
-        background: #0b8f55;
-        color: white;
-        padding: 18px;
-        text-align: center;
-        font-size: 22px;
-        font-weight: bold;
-    }
-
-    .container {
-        width: 94%;
-        max-width: 600px;
-        margin: 18px auto;
-    }
-
-    .section-title {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 8px;
-    }
-
-    .methods {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 15px;
-    }
-
-    .method-card {
-        flex: 1;
-        background: white;
-        border: 2px solid #ddd;
-        border-radius: 12px;
-        padding: 14px;
-        cursor: pointer;
-        text-align: center;
-    }
-
-    .method-card.active {
-        border-color: #0b8f55;
-        background: #edfff6;
-    }
-
-    .method-name {
-        font-weight: bold;
-        font-size: 15px;
-    }
-
-    .video-container {
-        background: white;
-        border-radius: 10px;
-        padding: 12px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        text-align: center;
-    }
-
-    .video-container video, 
-    .video-container iframe {
-        width: 100%;
-        max-height: 220px;
-        border-radius: 8px;
-        border: none;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 7px;
-        font-size: 14px;
-    }
-
-    input[type="number"],
-    input[type="text"] {
-        width: 100%;
-        padding: 13px;
-        border: 1px solid #ccc;
-        border-radius: 9px;
-        outline: none;
-        font-size: 15px;
-    }
-
-    input:focus {
-        border-color: #0b8f55;
-    }
-
-    .submit-btn {
-        width: 100%;
-        padding: 15px;
-        border: none;
-        border-radius: 10px;
-        background: #0b8f55;
-        color: white;
-        font-size: 17px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .submit-btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        background: #999;
-    }
-
-    .bottom-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 65px;
-        background: white;
-        border-top: 1px solid #ddd;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        z-index: 100;
-    }
-
-    .bottom-nav a {
-        text-decoration: none;
-        color: #555;
-        font-size: 13px;
-        text-align: center;
-    }
-
-    .bottom-nav a.active {
-        color: #0b8f55;
-        font-weight: bold;
-    }
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f5f7f9;color:#222;padding-bottom:80px}
+.top-banner{background:#0b8f55;color:white;padding:18px;text-align:center;font-size:22px;font-weight:bold}
+.container{width:94%;max-width:600px;margin:18px auto}
+.section-title{font-size:16px;font-weight:bold;margin-bottom:8px}
+.methods{display:flex;gap:15px;margin-bottom:15px}
+.method-card{flex:1;background:white;border:2px solid #ddd;border-radius:12px;padding:14px;cursor:pointer;text-align:center}
+.method-card.active{border-color:#0b8f55;background:#edfff6}
+.method-card:focus{outline:2px solid #0b8f55}
+.method-name{font-weight:bold;font-size:15px}
+.video-container{background:white;border-radius:10px;padding:12px;margin-bottom:20px;box-shadow:0 2px 5px rgba(0,0,0,.05);text-align:center}
+.video-container video{width:100%;max-height:220px;border-radius:8px}
+.form-group{margin-bottom:15px}
+label{display:block;font-weight:bold;margin-bottom:7px;font-size:14px}
+input[type="number"],input[type="text"],input[type="tel"]{width:100%;padding:13px;border:1px solid #ccc;border-radius:9px;outline:none;font-size:15px}
+input:focus{border-color:#0b8f55}
+input:disabled{background:#f0f0f0;color:#555}
+.submit-btn{width:100%;padding:15px;border:none;border-radius:10px;background:#0b8f55;color:white;font-size:17px;font-weight:bold;cursor:pointer}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;background:#999}
+.notice{display:none;padding:12px;margin:12px 0;border-radius:9px;font-size:14px;line-height:1.5}
+.notice.info{display:block;background:#fff7e6;color:#805500;border:1px solid #f0d49a}
+.notice.success{display:block;background:#e8f8ef;color:#087f4d;border:1px solid #b9e8ce}
+.notice.error{display:block;background:#ffeaea;color:#b42318;border:1px solid #f1b7b7}
+.guide{background:white;border:1px solid #e0e0e0;border-radius:10px;padding:15px;margin-top:20px;box-shadow:0 2px 5px rgba(0,0,0,.02);direction:rtl;text-align:right}
+.guide-title{font-weight:bold;font-size:15px;color:#0b8f55;margin-bottom:8px}
+.guide ol{padding-right:20px;font-size:13px;color:#555;line-height:1.8}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:65px;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;align-items:center;z-index:100}
+.bottom-nav a{text-decoration:none;color:#555;font-size:13px;text-align:center}
+.bottom-nav a.active{color:#0b8f55;font-weight:bold}
 </style>
 </head>
 
 <body>
 
-<div class="top-banner">
-    Deposit Funds
-</div>
+<div class="top-banner">Deposit Funds</div>
 
 <div class="container">
 
-    <!-- VIDEO SECTION: Yahan aap apni video link ya file laga sakte hain jo sab users ko show hogi -->
-    <div class="video-container">
-        <div class="section-title" style="margin-bottom: 8px;">How to Deposit Tutorial</div>
-        <video controls>
-            <source src="YOUR_VIDEO_LINK_HERE.mp4" type="video/mp4">
-            Aap ka browser video tag support nahi karta.
-        </video>
-    </div>
+  <div class="video-container">
+    <div class="section-title" style="margin-bottom:8px">How to Deposit Tutorial</div>
+    <video controls>
+      <source src="YOUR_VIDEO_LINK_HERE.mp4" type="video/mp4">
+      Your browser does not support video playback.
+    </video>
+  </div>
 
-    <div class="section-title">
-        Select Payment Method
-    </div>
+  <div class="section-title">Select Payment Method</div>
 
-    <div class="methods">
-        <div class="method-card active" id="card-jazzcash" onclick="selectMethod('JazzCash')">
-            <div class="method-name">JazzCash</div>
-        </div>
-        <div class="method-card" id="card-easypaisa" onclick="selectMethod('EasyPaisa')">
-            <div class="method-name">EasyPaisa</div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Deposit Amount</label>
-        <input
-            type="number"
-            id="amount"
-            placeholder="Enter amount"
-            min="1"
-        >
-    </div>
-
-    <div class="form-group">
-        <label>Sender Name</label>
-        <input
-            type="text"
-            id="senderName"
-            placeholder="Enter sender name"
-        >
-    </div>
-
-    <div class="form-group">
-        <label>Sender Phone Number</label>
-        <input
-            type="text"
-            id="senderNumber"
-            placeholder="Enter sender phone number"
-        >
-    </div>
-
-    <button
-        class="submit-btn"
-        id="submitButton"
-        onclick="submitDepositRequest()"
-    >
-        Submit Deposit Request
+  <div class="methods">
+    <button type="button" class="method-card active" id="card-jazzcash"
+      onclick="selectMethod('JazzCash')">
+      <div class="method-name">JazzCash</div>
     </button>
+
+    <button type="button" class="method-card" id="card-easypaisa"
+      onclick="selectMethod('EasyPaisa')">
+      <div class="method-name">EasyPaisa</div>
+    </button>
+  </div>
+
+  <div class="form-group">
+    <label for="amount">Deposit Amount (PKR)</label>
+    <input type="number" id="amount" placeholder="Enter amount" min="1" step="0.01">
+  </div>
+
+  <div class="form-group">
+    <label for="senderName">Sender Name</label>
+    <input type="text" id="senderName" placeholder="Enter sender name" autocomplete="name">
+  </div>
+
+  <div class="form-group">
+    <label for="senderNumber">Sender Phone Number</label>
+    <input type="tel" id="senderNumber" placeholder="03XXXXXXXXX" inputmode="tel">
+  </div>
+
+  <div class="form-group">
+    <label for="transactionId">Transaction ID / TID</label>
+    <input type="text" id="transactionId" placeholder="Enter payment transaction ID" autocomplete="off">
+  </div>
+
+  <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+  <button type="button" class="submit-btn" id="submitButton"
+    onclick="submitDepositRequest()">
+    Submit Deposit Request
+  </button>
+
+  <div class="guide">
+    <div class="guide-title">رقم جمع کروانے کا طریقہ:</div>
+    <ol>
+      <li>وہ ادائیگی کا طریقہ منتخب کریں جس سے آپ نے رقم بھیجی ہے۔</li>
+      <li>جمع کروائی گئی رقم درج کریں۔</li>
+      <li>بھیجنے والے کا نام اور فون نمبر درج کریں۔</li>
+      <li>ادائیگی کی رسید پر موجود Transaction ID / TID درج کریں۔</li>
+      <li>درخواست جمع کروائیں اور ایڈمن کی منظوری کا انتظار کریں۔</li>
+      <li>صرف حقیقی ادائیگی کے بعد درست ٹرانزیکشن تفصیلات درج کریں۔</li>
+    </ol>
+  </div>
 
 </div>
 
 <div class="bottom-nav">
-    <a href="home.html">Home</a>
-    <a href="plans.html">Plans</a>
-    <a href="deposit.html" class="active">Deposit</a>
-    <a href="withdraw.html">Withdraw</a>
+  <a href="home.html">Home</a>
+  <a href="plans.html">Plans</a>
+  <a href="deposit.html" class="active">Deposit</a>
+  <a href="withdraw.html">Withdraw</a>
 </div>
 
 <script>
+"use strict";
 
-const API_URL =
-    'https://aasan-rozgaar-backend.onrender.com';
+const API_URL = "https://aasan-rozgaar-backend.onrender.com";
 
-let selectedMethod = 'JazzCash';
+let selectedMethod = "JazzCash";
+let isSubmitting = false;
 
-function selectMethod(methodName) {
-    selectedMethod = methodName;
-    
-    document.getElementById('card-jazzcash').classList.remove('active');
-    document.getElementById('card-easypaisa').classList.remove('active');
-
-    if(methodName === 'JazzCash') {
-        document.getElementById('card-jazzcash').classList.add('active');
-    } else {
-        document.getElementById('card-easypaisa').classList.add('active');
-    }
+function getCurrentUsername(){
+  return (
+    localStorage.getItem("currentUser") ||
+    sessionStorage.getItem("currentUser") ||
+    ""
+  ).trim();
 }
 
-function getCurrentUsername() {
-    return (
-        localStorage.getItem('currentUser') ||
-        sessionStorage.getItem('currentUser') ||
-        ''
-    ).trim();
+function getSessionToken(){
+  return (
+    sessionStorage.getItem("userSessionToken") ||
+    sessionStorage.getItem("sessionToken") ||
+    localStorage.getItem("userSessionToken") ||
+    localStorage.getItem("sessionToken") ||
+    ""
+  ).trim();
 }
 
-function getUserSessionToken() {
-    return (
-        sessionStorage.getItem('userSessionToken') ||
-        sessionStorage.getItem('sessionToken') ||
-        localStorage.getItem('userSessionToken') ||
-        localStorage.getItem('sessionToken') ||
-        ''
-    ).trim();
+function getCsrfToken(){
+  return (
+    sessionStorage.getItem("userCsrfToken") ||
+    sessionStorage.getItem("csrfToken") ||
+    localStorage.getItem("userCsrfToken") ||
+    localStorage.getItem("csrfToken") ||
+    ""
+  ).trim();
 }
 
-function getUserCsrfToken() {
-    return (
-        sessionStorage.getItem('userCsrfToken') ||
-        sessionStorage.getItem('csrfToken') ||
-        localStorage.getItem('userCsrfToken') ||
-        localStorage.getItem('csrfToken') ||
-        ''
-    ).trim();
+function authHeaders(includeCsrf = false){
+  const headers = { "Accept": "application/json" };
+  const token = getSessionToken();
+  const csrf = getCsrfToken();
+
+  if(token){
+    headers["Authorization"] = "Bearer " + token;
+  }
+
+  if(includeCsrf && csrf){
+    headers["X-CSRF-Token"] = csrf;
+  }
+
+  return headers;
 }
 
-function userHeaders(includeCsrf = false) {
-    const token = getUserSessionToken();
-    const csrfToken = getUserCsrfToken();
-    const headers = { 'Accept': 'application/json' };
+function selectMethod(method){
+  if(isSubmitting) return;
 
-    if (token) {
-        headers['Authorization'] = 'Bearer ' + token;
-    }
-    if (includeCsrf && csrfToken) {
-        headers['X-CSRF-Token'] = csrfToken;
-    }
-    return headers;
+  selectedMethod = method;
+
+  document.getElementById("card-jazzcash").classList.toggle(
+    "active", method === "JazzCash"
+  );
+
+  document.getElementById("card-easypaisa").classList.toggle(
+    "active", method === "EasyPaisa"
+  );
 }
 
-async function checkPendingRequests() {
-    const username = getCurrentUsername();
-    if (!username) return;
-
-    try {
-        const response = await fetch(API_URL + '/api/deposits', {
-            method: 'GET',
-            headers: userHeaders()
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            const requests = Array.isArray(data.deposits) ? data.deposits : [];
-
-            const hasActiveRequest = requests.some(req => 
-                String(req.username || '').toLowerCase() === username.toLowerCase() &&
-                (req.status === 'Pending' || req.status === 'Inprocess')
-            );
-
-            const submitButton = document.getElementById('submitButton');
-            if (hasActiveRequest) {
-                submitButton.disabled = true;
-                submitButton.innerText = 'Request Already Pending...';
-            } else {
-                submitButton.disabled = false;
-                submitButton.innerText = 'Submit Deposit Request';
-            }
-        }
-    } catch (error) {
-        console.error('Check pending error:', error);
-    }
+function pendingStorageKey(username){
+  return "pending_deposit_request_" + username;
 }
 
-async function submitDepositRequest() {
-    const username = getCurrentUsername();
-
-    if (!username) {
-        alert('Pehle login karein.');
-        return;
-    }
-
-    const sessionToken = getUserSessionToken();
-    const csrfToken = getUserCsrfToken();
-
-    if (!sessionToken || !csrfToken) {
-        alert('Login session expire ho gaya hai. Please dobara login karein.');
-        return;
-    }
-
-    const amountInput = document.getElementById('amount').value.trim();
-    const senderName = document.getElementById('senderName').value.trim();
-    const senderNumber = document.getElementById('senderNumber').value.trim();
-    const amount = parseFloat(amountInput);
-
-    if (!amountInput || isNaN(amount) || amount <= 0) {
-        alert('Valid amount enter karein.');
-        return;
-    }
-
-    if (!senderName) {
-        alert('Sender name enter karein.');
-        return;
-    }
-
-    if (!senderNumber) {
-        alert('Sender phone number enter karein.');
-        return;
-    }
-
-    const submitButton = document.getElementById('submitButton');
-    submitButton.disabled = true;
-    submitButton.innerText = 'Submitting...';
-
-    try {
-        const response = await fetch(
-            API_URL + '/api/deposits',
-            {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    ...userHeaders(true),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: username,
-                    amount: amount,
-                    method: selectedMethod,
-                    transactionId: senderNumber,
-                    details: 'Sender: ' + senderName,
-                    screenshot: ""
-                })
-            }
-        );
-
-        let data = null;
-        try {
-            data = await response.json();
-        } catch (e) {
-            data = null;
-        }
-
-        if (response.status === 401 || response.status === 403) {
-            alert(data?.message || 'Login session expire ho gaya hai. Please dobara login karein.');
-            return;
-        }
-
-        if (!response.ok) {
-            throw new Error(data?.message || 'Deposit request submit nahi ho saki.');
-        }
-
-        alert('Deposit request successfully submit ho gayi. Admin approval ka wait karein.');
-
-        document.getElementById('amount').value = '';
-        document.getElementById('senderName').value = '';
-        document.getElementById('senderNumber').value = '';
-
-        checkPendingRequests();
-
-    } catch (error) {
-        console.error('Deposit error:', error);
-        alert(error.message || 'Deposit request submit nahi ho saki. Dobara try karein.');
-        submitButton.disabled = false;
-        submitButton.innerText = 'Submit Deposit Request';
-    }
+function getPendingRequest(username){
+  try{
+    const saved = localStorage.getItem(pendingStorageKey(username));
+    return saved ? JSON.parse(saved) : null;
+  }catch(error){
+    return null;
+  }
 }
 
-checkPendingRequests();
-setInterval(checkPendingRequests, 5000);
+function savePendingRequest(username, request){
+  localStorage.setItem(pendingStorageKey(username), JSON.stringify(request));
+}
 
+function clearPendingRequest(username){
+  localStorage.removeItem(pendingStorageKey(username));
+}
+
+function makeIdempotencyKey(){
+  if(window.crypto && typeof window.crypto.randomUUID === "function"){
+    return window.crypto.randomUUID();
+  }
+
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c){
+    const r = Math.random() * 16 | 0;
+    const v = c === "x" ? r : (r & 3 | 8);
+    return v.toString(16);
+  });
+}
+
+function showNotice(message, type){
+  const notice = document.getElementById("notice");
+  notice.textContent = message;
+  notice.className = "notice " + type;
+}
+
+function lockForm(locked){
+  document.getElementById("amount").disabled = locked;
+  document.getElementById("senderName").disabled = locked;
+  document.getElementById("senderNumber").disabled = locked;
+  document.getElementById("transactionId").disabled = locked;
+  document.getElementById("card-jazzcash").disabled = locked;
+  document.getElementById("card-easypaisa").disabled = locked;
+
+  document.getElementById("submitButton").textContent =
+    locked ? "Retry Pending Request" : "Submit Deposit Request";
+}
+
+function restorePendingRequest(){
+  const username = getCurrentUsername();
+  if(!username) return;
+
+  const pending = getPendingRequest(username);
+
+  if(!pending || !pending.idempotencyKey || !pending.payload){
+    return;
+  }
+
+  selectedMethod = pending.payload.method;
+  document.getElementById("amount").value = pending.payload.amount;
+  document.getElementById("senderName").value = pending.payload.senderName;
+  document.getElementById("senderNumber").value = pending.payload.senderNumber;
+  document.getElementById("transactionId").value = pending.payload.transactionId;
+
+  document.getElementById("card-jazzcash").classList.toggle(
+    "active", selectedMethod === "JazzCash"
+  );
+  document.getElementById("card-easypaisa").classList.toggle(
+    "active", selectedMethod === "EasyPaisa"
+  );
+
+  lockForm(true);
+
+  showNotice(
+    "Pichli request ka result confirm nahi hua. Wahi request safely retry karne ke liye button dabayein. Details change na karein.",
+    "info"
+  );
+}
+
+function getFormPayload(){
+  const amountText = document.getElementById("amount").value.trim();
+  const amount = Number(amountText);
+  const senderName = document.getElementById("senderName").value.trim();
+  const senderNumber = document.getElementById("senderNumber").value.trim();
+  const transactionId = document.getElementById("transactionId").value.trim();
+
+  if(!amountText || !Number.isFinite(amount) || amount <= 0){
+    showNotice("Valid deposit amount enter karein.", "error");
+    return null;
+  }
+
+  if(!senderName){
+    showNotice("Sender name enter karein.", "error");
+    return null;
+  }
+
+  if(!senderNumber){
+    showNotice("Sender phone number enter karein.", "error");
+    return null;
+  }
+
+  if(!transactionId){
+    showNotice("Payment receipt wala Transaction ID / TID enter karein.", "error");
+    return null;
+  }
+
+  if(!["JazzCash", "EasyPaisa"].includes(selectedMethod)){
+    showNotice("Valid payment method select karein.", "error");
+    return null;
+  }
+
+  return {
+    amount,
+    method: selectedMethod,
+    senderName,
+    senderNumber,
+    transactionId
+  };
+}
+
+async function submitDepositRequest(){
+  if(isSubmitting) return;
+
+  const username = getCurrentUsername();
+
+  if(!username){
+    showNotice("Pehle login karein.", "error");
+    return;
+  }
+
+  if(!getSessionToken() || !getCsrfToken()){
+    showNotice("Login session expire ho gaya hai. Dobara login karein.", "error");
+    return;
+  }
+
+  let pending = getPendingRequest(username);
+  let payload;
+  let idempotencyKey;
+
+  if(pending && pending.idempotencyKey && pending.payload){
+    /*
+      Retry exactly the same payload with exactly the same key.
+    */
+    payload = pending.payload;
+    idempotencyKey = pending.idempotencyKey;
+  }else{
+    payload = getFormPayload();
+    if(!payload) return;
+
+    idempotencyKey = makeIdempotencyKey();
+
+    pending = {
+      idempotencyKey,
+      payload,
+      createdAt: Date.now()
+    };
+
+    /*
+      Save the key before sending the request.
+    */
+    try{
+      savePendingRequest(username, pending);
+    }catch(error){
+      showNotice(
+        "Request ko device par save nahi kar sake. Storage check karke dobara try karein.",
+        "error"
+      );
+      return;
+    }
+  }
+
+  isSubmitting = true;
+  lockForm(true);
+
+  const button = document.getElementById("submitButton");
+  button.disabled = true;
+  button.textContent = "Submitting...";
+
+  try{
+    const response = await fetch(API_URL + "/api/deposits", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        ...authHeaders(true),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        amount: payload.amount,
+        method: payload.method,
+        transactionId: payload.transactionId,
+        screenshot: "",
+        idempotencyKey: idempotencyKey
+      })
+    });
+
+    let data = {};
+    try{
+      data = await response.json();
+    }catch(error){
+      data = {};
+    }
+
+    if(data.csrfToken){
+      sessionStorage.setItem("userCsrfToken", data.csrfToken);
+      sessionStorage.setItem("csrfToken", data.csrfToken);
+    }
+
+    if(data.sessionToken){
+      sessionStorage.setItem("userSessionToken", data.sessionToken);
+      sessionStorage.setItem("sessionToken", data.sessionToken);
+    }
+
+    if(!response.ok){
+      /*
+        A 5xx response may leave the result uncertain, so keep the key.
+        A 4xx response is treated as a rejection; the user may correct
+        the form and create a new request.
+      */
+      if(response.status < 500){
+        clearPendingRequest(username);
+        lockForm(false);
+      }
+
+      throw new Error(
+        data.message ||
+        (response.status >= 500
+          ? "Server error. Request result uncertain hai; retry kar sakte hain."
+          : "Deposit request reject ho gayi.")
+      );
+    }
+
+    clearPendingRequest(username);
+    lockForm(false);
+
+    document.getElementById("amount").value = "";
+    document.getElementById("senderName").value = "";
+    document.getElementById("senderNumber").value = "";
+    document.getElementById("transactionId").value = "";
+
+    showNotice(
+      data.duplicate
+        ? "Yeh request pehle hi receive ho chuki hai. Nayi request nahi banayi gayi."
+        : "Deposit request submit ho gayi. Admin approval ka wait karein.",
+      "success"
+    );
+
+  }catch(error){
+    const stillPending = getPendingRequest(username);
+
+    if(stillPending && stillPending.idempotencyKey){
+      lockForm(true);
+      showNotice(
+        "Request ka result confirm nahi ho saka. Details aur key save hain. Wahi request retry karne ke liye button dabayein.",
+        "error"
+      );
+    }else{
+      lockForm(false);
+      showNotice(error.message || "Deposit request submit nahi ho saki.", "error");
+    }
+
+  }finally{
+    isSubmitting = false;
+    button.disabled = false;
+
+    const stillPending = getPendingRequest(username);
+
+    button.textContent =
+      stillPending && stillPending.idempotencyKey
+        ? "Retry Pending Request"
+        : "Submit Deposit Request";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+  restorePendingRequest();
+});
 </script>
 
 </body>
 </html>
-
-    <!-- Deposit Guide Box (Urdu) -->
-    <div style="background: #ffffff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 15px; margin-top: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); text-direction: rtl; text-align: right;">
-        <div style="font-weight: bold; font-size: 15px; color: #0b8f55; margin-bottom: 8px;">
-            رقم جمع کروانے کا طریقہ:
-        </div>
-        <ol style="padding-right: 18px; padding-left: 0; font-size: 13px; color: #555; line-height: 1.6;">
-            <li>اوپر اپنا اکاؤنٹ سلیکٹ کریں جہاں سے پیسے سینڈ کرنا چاہتے ہیں۔</li>
-            <li>اپنی اماؤنٹ لکھیں جو ڈلوانا چاہتے ہیں۔</li>
-            <li>اپنا ایزی پیسہ یا جائز کیش کا نام لکھیں۔</li>
-            <li>اکاؤنٹ نمبر لکھیں۔</li>
-            <li>اور سبمٹ کر دیں، آپ کو ریکویسٹ بھیجی جائے گی آپ کے ایزی پیسہ یا جائز کیش میں، آپ اسےm اپروولز میں جاکر اپروو کر دیں۔</li>
-        </ol>
-    </div>
