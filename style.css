@@ -1,0 +1,341 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #07111f;
+    --card: #101e30;
+    --green: #32f5a0;
+    --blue: #43baff;
+    --purple: #a875ff;
+    --text: #ffffff;
+    --muted: #9aabc0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(ellipse at 10% 10%, #123b45 0%, transparent 38%),
+        radial-gradient(ellipse at 90% 35%, #272052 0%, transparent 35%),
+        var(--bg);
+    padding-bottom: 115px;
+}
+
+button,
+a {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.topbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(7, 17, 31, 0.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.back-btn {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 9px 11px;
+    border: 1px solid #283b50;
+    border-radius: 12px;
+}
+
+.brand {
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.brand span {
+    color: var(--green);
+}
+
+.settings-btn {
+    width: 39px;
+    height: 39px;
+    border-radius: 13px;
+    color: white;
+    background: #182a40;
+    border: 1px solid #34455a;
+    font-size: 21px;
+}
+
+.main-content {
+    width: 100%;
+    max-width: 540px;
+    padding: 18px;
+    margin: 0 auto;
+}
+
+.welcome-card {
+    position: relative;
+    overflow: hidden;
+    padding: 28px 20px;
+    border-radius: 25px;
+    border: 1px solid rgba(67, 186, 255, 0.25);
+    background: linear-gradient(
+        140deg,
+        rgba(27, 76, 94, 0.9),
+        rgba(30, 26, 67, 0.95)
+    );
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-card::after {
+    content: "";
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    right: -65px;
+    top: -65px;
+    border-radius: 50%;
+    background: rgba(50, 245, 160, 0.12);
+    filter: blur(2px);
+}
+
+.game-icon {
+    width: 62px;
+    height: 62px;
+    display: grid;
+    place-items: center;
+    border-radius: 20px;
+    background: rgba(50, 245, 160, 0.13);
+    border: 1px solid rgba(50, 245, 160, 0.3);
+    font-size: 32px;
+    margin-bottom: 22px;
+}
+
+.small-title {
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.welcome-card h1 {
+    font-size: clamp(27px, 7vw, 37px);
+    line-height: 1.17;
+    letter-spacing: -1px;
+}
+
+.welcome-card h1 span {
+    color: var(--green);
+}
+
+.subtitle {
+    margin-top: 13px;
+    font-size: 13px;
+    color: #b5c7d9;
+}
+
+.account-card {
+    margin-top: 18px;
+    padding: 20px;
+    border-radius: 23px;
+    background: rgba(16, 30, 48, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.account-info {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--green), var(--blue));
+    color: #07111f;
+    font-weight: 900;
+    font-size: 17px;
+}
+
+.label {
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+}
+
+.account-info h2 {
+    font-size: 17px;
+    overflow-wrap: anywhere;
+}
+
+.balance-box {
+    margin-top: 22px;
+    padding: 18px;
+    border-radius: 17px;
+    background: linear-gradient(
+        110deg,
+        rgba(50, 245, 160, 0.12),
+        rgba(67, 186, 255, 0.08)
+    );
+    border: 1px solid rgba(50, 245, 160, 0.19);
+}
+
+.balance-box h2 {
+    color: var(--green);
+    font-size: 29px;
+    overflow-wrap: anywhere;
+}
+
+.status-message {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+    margin-top: 13px;
+}
+
+.games-section {
+    margin-top: 30px;
+}
+
+.games-section > h2 {
+    font-size: 23px;
+    margin-bottom: 17px;
+}
+
+.game-preview {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 17px 14px;
+    border-radius: 20px;
+    background: rgba(16, 30, 48, 0.92);
+    border: 1px solid rgba(168, 117, 255, 0.25);
+}
+
+.preview-icon {
+    min-width: 49px;
+    height: 49px;
+    display: grid;
+    place-items: center;
+    background: rgba(168, 117, 255, 0.15);
+    border-radius: 15px;
+    font-size: 25px;
+}
+
+.game-preview h3 {
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.game-preview p {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.coming-soon {
+    margin-left: auto;
+    padding: 6px 8px;
+    border-radius: 8px;
+    color: #d7c1ff;
+    background: rgba(168, 117, 255, 0.13);
+    font-size: 9px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.settings-panel {
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px solid #34455a;
+    border-radius: 18px;
+    background: var(--card);
+}
+
+.settings-panel h3 {
+    margin-bottom: 10px;
+}
+
+.settings-panel p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.close-btn {
+    margin-top: 15px;
+    padding: 10px 17px;
+    color: white;
+    background: #263a51;
+    border: none;
+    border-radius: 10px;
+}
+
+.bottom-area {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 14px 20px 12px;
+    text-align: center;
+    background: rgba(7, 17, 31, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    z-index: 20;
+}
+
+.games-btn {
+    width: 100%;
+    max-width: 500px;
+    min-height: 53px;
+    border: none;
+    border-radius: 16px;
+    color: #06151a;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    background: linear-gradient(100deg, var(--green), var(--blue));
+    box-shadow: 0 7px 25px rgba(50, 245, 160, 0.18);
+    transition: transform 0.15s ease;
+}
+
+.games-btn:active {
+    transform: scale(0.98);
+}
+
+.bottom-area > p {
+    color: #71869d;
+    font-size: 9px;
+    letter-spacing: 2px;
+    margin-top: 9px;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (min-width: 600px) {
+    .main-content {
+        padding-top: 28px;
+    }
+
+    .welcome-card {
+        padding: 35px;
+    }
+}
