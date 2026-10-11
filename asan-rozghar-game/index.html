@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07111f">
+    <title>Asan Rozghar Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <header class="topbar">
+        <a href="../home.html" class="back-btn">← Back</a>
+        <div class="brand">AR <span>GAMES</span></div>
+        <button id="settingsBtn" class="settings-btn" aria-label="Settings">
+            ⚙
+        </button>
+    </header>
+
+    <main class="main-content">
+        <section class="welcome-card">
+            <div class="game-icon">🎮</div>
+            <p class="small-title">WELCOME TO</p>
+            <h1>ASAN ROZGHAR<br><span>GAMES</span></h1>
+            <p class="subtitle">Your gaming space starts here.</p>
+        </section>
+
+        <section class="account-card">
+            <div class="account-info">
+                <div class="avatar">AR</div>
+                <div>
+                    <p class="label">PLAYER</p>
+                    <h2 id="username">Checking login...</h2>
+                </div>
+            </div>
+
+            <div class="balance-box">
+                <p class="label">YOUR BALANCE</p>
+                <h2 id="balance">Rs --</h2>
+            </div>
+
+            <p id="statusMessage" class="status-message">
+                Connecting securely to your account...
+            </p>
+        </section>
+
+        <section class="games-section">
+            <p class="small-title">YOUR PLAYGROUND</p>
+            <h2>Ready to Play?</h2>
+
+            <div class="game-preview">
+                <div class="preview-icon">🕹️</div>
+                <div>
+                    <h3>AR Mini Games</h3>
+                    <p>Game area is being prepared.</p>
+                </div>
+                <span class="coming-soon">SOON</span>
+            </div>
+        </section>
+
+        <section id="settingsPanel" class="settings-panel" hidden>
+            <h3>Settings</h3>
+            <p>Music and other options will be added later.</p>
+            <button id="closeSettings" class="close-btn">Close</button>
+        </section>
+    </main>
+
+    <footer class="bottom-area">
+        <button id="gamesBtn" class="games-btn">
+            🎮 &nbsp; GAMES
+        </button>
+        <p>ASAN ROZGHAR GAMES</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
